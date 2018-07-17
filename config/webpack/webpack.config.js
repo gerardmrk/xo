@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const OfflinePlugin = require("offline-plugin");
 const CleanCSSPlugin = require("less-plugin-clean-css");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const LodashWebpackPlugin = require("lodash-webpack-plugin");
 // const ClosureWebpackPlugin = require("closure-webpack-plugin");
@@ -14,6 +15,7 @@ const SubresourceIntegrityPlugin = require("webpack-subresource-integrity");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const RemoveServiceWorkerPlugin = require("webpack-remove-serviceworker-plugin");
+const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 
 const ConfigBuilder = require("./builder");
 const { DEV, PRO } = ConfigBuilder.Modes;
@@ -332,6 +334,19 @@ conf.addPlugin(PRO, () => {
   return new webpack.HashedModuleIdsPlugin();
 });
 
+// -- CopyWebpackPlugin
+// --
+// This plugin copies over normalize.css into our build directory, then subsequently
+// referenced from the root HTML file via HtmlWebpackIncludeAssetsPlugin.
+conf.addPlugin(undefined, CLIENT, ({ paths }) => {
+  return new CopyWebpackPlugin([
+    {
+      from: "node_modules/normalize.css/normalize.css",
+      to: `${paths.outputDir}/client/styles/normalize.css`
+    }
+  ]);
+});
+
 // -- MiniCssExtractPlugin (production only)
 // -- https://github.com/webpack-contrib/mini-css-extract-plugin
 // This plugin is responsible for extracting all processed CSS rules into a separate
@@ -340,17 +355,6 @@ conf.addPlugin(PRO, CLIENT, () => {
   return new MiniCssExtractPlugin({
     filename: "styles/[name].[chunkhash].css",
     chunkFilename: "styles/[id].[chunkhash].css"
-  });
-});
-
-// -- SubresourceIntegrityPlugin (production only)
-// -- https://github.com/waysact/webpack-subresource-integrity
-// This plugin works in conjunction with HtmlWebpackPlugin and utilizes browser's
-// SRI features, which ensures assets aren't tempered with inflight.
-conf.addPlugin(PRO, CLIENT, () => {
-  return new SubresourceIntegrityPlugin({
-    enabled: true,
-    hashFuncNames: ["sha256", "sha512"]
   });
 });
 
@@ -363,6 +367,28 @@ conf.addPlugin(undefined, CLIENT, ({ paths }) => {
   return new HtmlWebpackPlugin({
     filename: "index.html",
     template: paths.rootHTMLTemplate
+  });
+});
+
+// -- HtmlWebpackIncludeAssetsPlugin
+// -- https://github.com/jharris4/html-webpack-include-assets-plugin
+// This plugin works in conjunction with HtmlWebpackPlugin and includes references
+// to resources not under webpack control, but included with CopyWebpackPlugin
+conf.addPlugin(undefined, CLIENT, () => {
+  return new HtmlWebpackIncludeAssetsPlugin({
+    append: false,
+    assets: []
+  });
+});
+
+// -- SubresourceIntegrityPlugin (production only)
+// -- https://github.com/waysact/webpack-subresource-integrity
+// This plugin works in conjunction with HtmlWebpackPlugin and utilizes browser's
+// SRI features, which ensures assets aren't tempered with inflight.
+conf.addPlugin(PRO, CLIENT, () => {
+  return new SubresourceIntegrityPlugin({
+    enabled: true,
+    hashFuncNames: ["sha256", "sha512"]
   });
 });
 

@@ -9,10 +9,10 @@ defaultLanguage = "en"
 supportedLanguages = ["en", "zh", "es", "de", "hi", "ar"]
 
 [services.auth]
-domain = "sleepless.au.auth0.com"
-clientID = "SslpqUK0i363RbIiOeY0HxS9qzsGzbGI"
-redirectUri = "http://localhost:3000"
-audience = "https://sleepless.au.auth0.com/userinfo"
+domain = ""
+clientID = ""
+redirectUri = ""
+audience = ""
 responseType = "token id_token"
 scope = "openid"
 
