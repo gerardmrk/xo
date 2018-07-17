@@ -5,12 +5,7 @@
  *
  */
 import { MiddlewareAPI } from "redux";
-import {
-  StoreState,
-  StoreAction,
-  StoreDispatcher,
-  StoreMiddleware
-} from "@client/store";
+import { StoreState, StoreAction, StoreDispatcher, StoreMiddleware } from "@client/store";
 import { GlobalMessage } from "@client/store/global-message/models";
 import * as globalLoaderActions from "@client/store/global-loader/actions";
 import * as globalMessageActions from "@client/store/global-message/actions";

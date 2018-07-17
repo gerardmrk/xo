@@ -15,7 +15,7 @@ const paths = {
   translationsDir: `${_configDir}/i18n/translations`,
   rootHTMLTemplate: `${_rootDir}/src/client/index.html`,
   themeConfig: `${_rootDir}/src/client/views/theme/theme.config`,
-  asyncLoadableModuleStats: `${_rootDir}/dist/client/async-loadable-modules.json`
+  asyncModuleStats: `${_rootDir}/dist/client/async-modules.json`
 };
 
 module.exports = paths;

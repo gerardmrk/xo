@@ -7,6 +7,7 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 const LodashWebpackPlugin = require("lodash-webpack-plugin");
 // const ClosureWebpackPlugin = require("closure-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const { ReactLoadablePlugin } = require("react-loadable/webpack");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
@@ -305,7 +306,7 @@ conf.addPlugin(DEV, CLIENT, () => {
 // React components into a JSON file, which can then be consumed server side.
 conf.addPlugin(PRO, CLIENT, ({ paths }) => {
   return new ReactLoadablePlugin({
-    filename: paths.asyncLoadableModuleStats
+    filename: paths.asyncModuleStats
   });
 });
 
@@ -367,6 +368,35 @@ conf.addPlugin(undefined, CLIENT, ({ paths }) => {
   return new HtmlWebpackPlugin({
     filename: "index.html",
     template: paths.rootHTMLTemplate
+  });
+});
+
+// -- FaviconsWebpackPlugin
+// -- https://github.com/jantimon/favicons-webpack-plugin
+// This plugin generates 30+ different icons for different devices from a default logo.png.
+// For optimal results, its recommended to use 500x500 PNG image for the logo.
+conf.addPlugin(PRO, CLIENT, ({ paths, projectSettings }) => {
+  return new FaviconsWebpackPlugin({
+    logo: `${paths.clientSource}/logo.png`,
+    prefix: `icons-[hash]/`,
+    emitStats: true,
+    statsFilename: `iconstats-[hash].json`,
+    persistentCache: true,
+    inject: true,
+    background: "#fff",
+    title: projectSettings.app.name,
+    icons: {
+      android: true,
+      appleIcon: true,
+      appleStartup: true,
+      coast: false,
+      favicons: true,
+      firefox: true,
+      opengraph: true,
+      twitter: true,
+      yandex: false,
+      windows: true
+    }
   });
 });
 
