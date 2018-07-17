@@ -18,7 +18,8 @@ const baseConfig = ({ paths, buildSettings, devMode, clientBuild, enableSourceMa
     ? {
         path: `${paths.outputDir}/client`,
         filename: devMode ? "scripts/[name].js" : "scripts/[name].[chunkhash].js",
-        publicPath: devMode ? "/" : "/assets/"
+        publicPath: devMode ? "/" : "/assets/",
+        crossOriginLoading: "anonymous"
       }
     : {
         path: `${paths.outputDir}/renderer`,

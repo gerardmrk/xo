@@ -1,6 +1,7 @@
 [app]
 name = "in4s"
 browsers = ["> 10%", "not ie < 11"]
+sourceMapsRemoteURL = ""
 
 
 [intl]

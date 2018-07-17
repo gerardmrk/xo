@@ -24,9 +24,7 @@ import BuildSettingsProvider from "@client/views/hocs/BuildSettingsProvider";
     const initialState: StoreState = window["_INITIAL_STATE_"] || {}; // tslint:disable-line
 
     // Initialize the app store with the API instance.
-    const store: Store = initStore(
-      new API(AUTH_SERVICE_CONF, USER_SERVICE_CONF)
-    )(initialState);
+    const store: Store = initStore(new API(AUTH_SERVICE_CONF, USER_SERVICE_CONF))(initialState);
 
     // Ensure all required components that are marked async are already preloaded.
     await AsyncLoader.preloadReady();

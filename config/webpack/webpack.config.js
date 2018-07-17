@@ -10,6 +10,7 @@ const { ReactLoadablePlugin } = require("react-loadable/webpack");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 // const PrepackWebpackPlugin = require("prepack-webpack-plugin").default;
+const SubresourceIntegrityPlugin = require("webpack-subresource-integrity");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const RemoveServiceWorkerPlugin = require("webpack-remove-serviceworker-plugin");
@@ -80,8 +81,8 @@ conf.addModuleRule(({ paths, clientBuild, projectSettings }) => ({
   ]
 }));
 
-// [MODULES] *.scss
-// [LOADERS] sass-loader -> css-loader -> (style-loader | MiniCssExtractPlugin.loader)
+// [MODULES] *.less
+// [LOADERS] less-loader -> css-loader -> (style-loader | MiniCssExtractPlugin.loader)
 conf.addModuleRule(({ devMode, clientBuild, enableSourceMapsInProd }) => ({
   test: /\.less$/,
   exclude: [/node_modules/],
@@ -277,25 +278,15 @@ conf.addPlugin(() => {
   return new CaseSensitivePathsPlugin();
 });
 
-// -- webpack.IgnorePlugin
-// -- https://webpack.js.org/plugins/ignore-plugin
-// This plugin is used to disable mod parsing and generation for react-intl locales
-// as including it in the bundle will dramatically increase the bundle size.
+// -- webpack.ContextReplacementPlugin
+// -- https://webpack.js.org/plugins/context-replacement-plugin/
+// This plugin is used to prevent the entirety of react-intl lib's locales from
+// being included into the client bundle as it would dramatically increase the size.
 conf.addPlugin(undefined, CLIENT, ({ projectSettings }) => {
-  // return new webpack.IgnorePlugin(/(react-)?intl\/locale-data/);
   return new webpack.ContextReplacementPlugin(
     /react-intl[/\\]locale-data$/,
     new RegExp(projectSettings.intl.supportedLanguages.join("|"))
   );
-});
-
-// -- webpack.IgnorePlugin
-// -- https://webpack.js.org/plugins/ignore-plugin
-// Refer to the one above. Moment.js is not being used at the time of writing,
-// but this is included anyways to avoid running into issues later if moment.js
-// is later included. NOTE: prefer date-fns over moment.js for performance reasons.
-conf.addPlugin(undefined, CLIENT, () => {
-  return new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/);
 });
 
 // -- webpack.HotModuleReplacementPlugin (development mode only)
@@ -341,7 +332,7 @@ conf.addPlugin(PRO, () => {
   return new webpack.HashedModuleIdsPlugin();
 });
 
-// -- MiniCssExtractPlugin (production mode only)
+// -- MiniCssExtractPlugin (production only)
 // -- https://github.com/webpack-contrib/mini-css-extract-plugin
 // This plugin is responsible for extracting all processed CSS rules into a separate
 // CSS file and referenced from the root HTML file via link tag(s).
@@ -349,6 +340,17 @@ conf.addPlugin(PRO, CLIENT, () => {
   return new MiniCssExtractPlugin({
     filename: "styles/[name].[chunkhash].css",
     chunkFilename: "styles/[id].[chunkhash].css"
+  });
+});
+
+// -- SubresourceIntegrityPlugin (production only)
+// -- https://github.com/waysact/webpack-subresource-integrity
+// This plugin works in conjunction with HtmlWebpackPlugin and utilizes browser's
+// SRI features, which ensures assets aren't tempered with inflight.
+conf.addPlugin(PRO, CLIENT, () => {
+  return new SubresourceIntegrityPlugin({
+    enabled: true,
+    hashFuncNames: ["sha256", "sha512"]
   });
 });
 
@@ -410,7 +412,7 @@ conf.addPlugin(PRO, undefined, ({ paths, buildSettings }) => {
   return new BundleAnalyzerPlugin({
     analyzerMode: "static",
     openAnalyzer: !process.env.CI,
-    reportFilename: `${paths.outputDir}/${buildSettings.source}-stats.html`
+    reportFilename: `${paths.outputDir}/${buildSettings.source}-bundle-stats.html`
   });
 });
 

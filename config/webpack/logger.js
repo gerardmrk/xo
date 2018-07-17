@@ -6,10 +6,10 @@ const ADDED = "✅ ";
 const loggerOptions = {
   scope: "wpk",
   types: {
-    setting: { label: "opt", badge: "i", color: "blue" },
-    plugin: { label: "plugin", badge: "p", color: "yellow" },
-    moduleRule: { label: "rule", badge: "r", color: "magenta" },
-    moduleLoader: { label: "|---", badge: "l", color: "magenta" }
+    setting: { label: "option", badge: "⚙️", color: "blue" },
+    plugin: { label: "plugin", badge: "🔌", color: "yellow" },
+    moduleRule: { label: "rule", badge: "📍", color: "magenta" },
+    moduleLoader: { label: " |   ", badge: "↪️", color: "magenta" }
   }
 };
 
@@ -19,9 +19,7 @@ class Logger {
     this._source = source;
 
     const globalLogger = new Signale(loggerOptions);
-    this._logger = globalLogger.scope(
-      `${this._mode.substring(0, 3)}:${this._source}`
-    );
+    this._logger = globalLogger.scope(`${this._mode.substring(0, 3)}:${this._source}`);
   }
 
   logSettings(settings) {

@@ -5,10 +5,11 @@
 # testing
 /coverage
 
-# production
-/build
-dist/client
-dist/renderer
+dist/*
+!dist/client
+!dist/renderer
+dist/client/*
+dist/renderer/*
 
 # misc
 .DS_Store
