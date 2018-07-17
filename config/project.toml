@@ -1,0 +1,19 @@
+[app]
+name = "in4s"
+browsers = ["> 10%", "not ie < 11"]
+
+
+[intl]
+defaultLanguage = "en"
+supportedLanguages = ["en", "zh", "es", "de", "hi", "ar"]
+
+[services.auth]
+domain = "sleepless.au.auth0.com"
+clientID = "SslpqUK0i363RbIiOeY0HxS9qzsGzbGI"
+redirectUri = "http://localhost:3000"
+audience = "https://sleepless.au.auth0.com/userinfo"
+responseType = "token id_token"
+scope = "openid"
+
+[services.user]
+name = "dsd"

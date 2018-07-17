@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "build/dist",
+    "module": "esnext",
+    "target": "es5",
+    "lib": ["es6", "dom", "scripthost"],
+    "sourceMap": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": false,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "paths": {
+      "@translations/*": ["config/i18n/translations/*"],
+      "@client/*": [
+        "src/client/*",
+        "src/client/*/index.ts",
+        "src/client/*/index.tsx",
+        "src/client/*/index.js",
+        "src/client/*/index.jsx",
+        "src/client/*/index.json"
+      ],
+      "@renderer/*": [
+        "src/renderer/*",
+        "src/renderer/*/index.ts",
+        "src/renderer/*/index.tsx",
+        "src/renderer/*/index.js",
+        "src/renderer/*/index.jsx",
+        "src/renderer/*/index.json"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts"
+  ]
+}

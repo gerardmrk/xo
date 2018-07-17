@@ -1,0 +1,68 @@
+{
+  "sections": {
+    "login": "登录",
+    "register": "寄存器",
+    "settings": "配置",
+    "reset_password": "重置你的密码",
+    "forgot_password": "重置你的密码"
+  },
+
+  "route_links": {
+    "login": "登录",
+    "dashboard": "仪表板",
+    "account": "帐户",
+    "profile": "个性",
+    "register": "寄存器",
+    "reset_password": "重置你的密码",
+    "forgot_password": "忘记密码了吗?",
+    "dont_have_an_account": "没有账号？",
+    "already_have_an_account": "已经有账号？"
+  },
+
+  "progress": {
+    "loading": "加载",
+    "logging_in": "登录中...",
+    "logging_out": "退出..."
+  },
+
+  "actions": {
+    "submit": "提交",
+    "login_submit": "登录",
+    "logout_submit": "登出",
+    "register_submit": "寄存器",
+    "dismiss": "屏除"
+  },
+
+  "form_fields": {
+    "common": {
+      "email": "电邮",
+      "username": "用户名",
+      "password": "密码"
+    },
+
+    "login": {
+      "username_or_email": "用户名 / 电邮",
+      "remember_me": "记住我24小时"
+    },
+
+    "register": {
+      "reenter_password": "请重新输入密码",
+      "agree_to_terms_and_conditions": "我同意这条款和条件"
+    },
+
+    "forgot_password": {
+      "enter_your_email_here": "在此输入您的电子邮件地址"
+    },
+
+    "reset_password": {
+      "enter_new_password": "Enter your new password here",
+      "reenter_new_password": "请重新输入密码"
+    }
+  },
+
+  "error_msgs": {
+    "400": "400 错误的请求",
+    "404": "404 未找到",
+    "500": "500 服务器错误"
+  }
+}

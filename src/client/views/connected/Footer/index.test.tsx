@@ -1,0 +1,21 @@
+// tslint:disable:no-relative-imports typedef
+import * as React from "react";
+import { ShallowWrapper } from "enzyme";
+
+import Footer from "@client/views/connected/Footer";
+import { intl, shallowWithIntl } from "@client/utils/test-helpers";
+
+describe("<Footer />", () => {
+  const props = {
+    intl
+  };
+
+  let component: ShallowWrapper;
+  beforeEach(() => {
+    component = shallowWithIntl(<Footer {...props} />);
+  });
+
+  it("renders OK", () => {
+    expect(component.exists()).toBe(true);
+  });
+});

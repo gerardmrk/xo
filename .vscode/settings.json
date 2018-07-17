@@ -1,0 +1,76 @@
+{
+  "editor.tabSize": 2,
+  "npm.packageManager": "yarn",
+  "eslint.enable": true,
+  "eslint.options": {
+    "configFile": "config/syntax/.eslintrc"
+  },
+  "eslint.packageManager": "yarn",
+  "tslint.enable": true,
+  "tslint.packageManager": "yarn",
+  "tslint.configFile": "config/syntax/tslint.json",
+  "prettier.printWidth": 100,
+  "[json]": {
+    "editor.tabSize": 2
+  },
+  "[javascript]": {
+    "editor.tabSize": 2
+  },
+  "[typescript]": {
+    "editor.tabSize": 2
+  },
+  "vsicons.associations.files": [
+    {
+      "icon": "bazel",
+      "format": "svg",
+      "extensions": [".bazelrc"]
+    }
+  ],
+  "vsicons.associations.folders": [
+    {
+      "icon": "db",
+      "format": "svg",
+      "extensions": [".state"]
+    },
+    {
+      "icon": "git",
+      "format": "svg",
+      "extensions": ["hooks", ".hooks", "githooks", ".githooks"]
+    },
+    {
+      "icon": "log",
+      "format": "svg",
+      "extensions": [".log", "logs", ".logs"]
+    },
+    {
+      "icon": "dist",
+      "format": "svg",
+      "extensions": [".dist", "build", ".build", "builds", ".builds"]
+    },
+    {
+      "icon": "temp",
+      "format": "svg",
+      "extensions": [".cache", "caches", ".caches"]
+    },
+    {
+      "icon": "docker",
+      "format": "svg",
+      "extensions": ["iac", ".iac", "infrastructure", ".infrastructure"]
+    },
+    {
+      "icon": "app",
+      "format": "svg",
+      "extensions": ["apps"]
+    },
+    {
+      "icon": "package",
+      "format": "svg",
+      "extensions": ["pkgs"]
+    },
+    {
+      "icon": "server",
+      "format": "svg",
+      "extensions": ["svcs"]
+    }
+  ]
+}
