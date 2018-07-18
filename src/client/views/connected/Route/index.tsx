@@ -46,14 +46,14 @@ export class Route extends React.Component<Props, State> {
   // tslint:enable
 
   public render(): JSX.Element | JSX.Element[] | null {
-    const { path, exact, strict } = this.props;
+    const { path, exact, strict, seo } = this.props;
 
     if (this.props.guarded && !this.props.isLoggedIn) {
       return <Redirect to={this.targetRoute} />;
     }
 
     return [
-      <SeoElements key={1} routePath={path} />,
+      <SeoElements key={1} routePath={path} {...seo} />,
       <BaseRoute key={2} path={path} exact={exact} strict={strict} render={this.renderRoute} />
     ];
   }

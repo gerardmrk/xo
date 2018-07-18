@@ -1,6 +1,8 @@
 // OMG REACT-LOADABLE DOESN'T WORK WITH WEBPACK4
 // SOMEONE KILL ME I SPENT SO MUCH TIME ON THIS
 // https://stackoverflow.com/questions/49288130/webpack-4-react-loadable-is-not-spliting-vendor-base-on-chucking-point
+// https://github.com/jamiebuilds/react-loadable/pull/110
+// theres a fork. will try it
 import * as React from "react";
 import { Helmet, HelmetDatum } from "react-helmet";
 import * as Loadable from "react-loadable";
