@@ -2,6 +2,13 @@
 
 Helping out a friend setup something non-trivial
 
+## This is not boilerplate gospel, but if you're curious:
+
+```shell
+yarn install && yarn start
+```
+then open `localhost:4200`
+
 ## TODOS
 
 - [ ] Complete configurations for private source maps.

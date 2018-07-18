@@ -60,12 +60,12 @@ export const routes: RouteProps[] = [
     })
   },
   {
-    path: "/blank",
+    path: "/message",
     exact: true,
     guarded: false,
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/blank" */ "@client/views/routes/Blank")).default
+      loader: async () => (await import(/* webpackChunkName: "routes/message" */ "@client/views/routes/Message")).default
     })
   },
   {

@@ -3,10 +3,10 @@ import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 import { MemoryRouter as Router } from "react-router-dom";
 
-import { ForgotPassword } from "@client/views/routes/ForgotPassword";
+import { Message } from "@client/views/routes/Message";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
 
-describe("<ForgotPassword />", () => {
+describe("<Message />", () => {
   const props = {
     intl,
     isLoggedIn: false,
@@ -14,13 +14,11 @@ describe("<ForgotPassword />", () => {
     guarded: true
   };
 
-  const handleOnRequestPasswordReset = (usernameOrEmail: string) => {};
-
   let component: ShallowWrapper;
   beforeEach(() => {
     component = shallowWithIntl(
       <Router>
-        <ForgotPassword {...props} requestPasswordReset={handleOnRequestPasswordReset} />
+        <Message {...props} />
       </Router>
     );
   });
