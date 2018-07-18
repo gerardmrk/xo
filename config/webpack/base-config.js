@@ -23,7 +23,7 @@ const baseConfig = ({ paths, buildSettings, devMode, clientBuild, enableSourceMa
       }
     : {
         path: `${paths.outputDir}/renderer`,
-        filename: "index.js",
+        filename: "[name].js",
         libraryTarget: "commonjs"
       },
 
