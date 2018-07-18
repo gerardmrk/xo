@@ -33,6 +33,7 @@
     ],
     "missing-jsdoc": false,
     "mocha-no-side-effect-code": [true, { "ignore": "it\\.skip.*" }],
+    "newline-before-return": false,
     "no-console": { "severity": "warning" },
     "no-default-export": false,
     "no-empty": false,
