@@ -1,10 +1,13 @@
-// tslint:disable:typedef
+// tslint:disable:typedef promise-function-async
 import * as Loadable from "react-loadable";
 import { RouteProps as BaseRouteProps } from "react-router-dom";
+
+import { SeoProps } from "@client/views/components/SeoElements";
 import RouteLoaderUI from "@client/views/components/RouteLoaderUI";
 
 export interface RouteProps extends BaseRouteProps {
   readonly guarded: boolean;
+  readonly seo?: SeoProps;
   readonly routes?: RouteProps[];
 }
 
@@ -12,15 +15,15 @@ export const DEFAULT_AUTH_PATH: string = "/login";
 export const DEFAULT_PUBLIC_PATH: string = "/";
 export const DEFAULT_PRIVATE_PATH: string = "/dashboard";
 
-// prettier-ignore
 export const routes: RouteProps[] = [
   {
     path: DEFAULT_PUBLIC_PATH,
     exact: true,
     guarded: false,
+    seo: { title: "App" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/landing" */ "@client/views/routes/Landing")).default
+      loader: () => import(/* webpackChunkName: "routes/landing" */ "@client/views/routes/Landing") // prettier-ignore
     })
   },
   {
@@ -29,25 +32,25 @@ export const routes: RouteProps[] = [
     guarded: false,
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/login" */ "@client/views/routes/Login")).default
+      loader: () => import(/* webpackChunkName: "routes/login" */ "@client/views/routes/Login") // prettier-ignore
     })
   },
   {
-    path: '/forgot-password',
+    path: "/forgot-password",
     exact: true,
     guarded: false,
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/forgotpassword" */ "@client/views/routes/ForgotPassword")).default
+      loader: () => import(/* webpackChunkName: "routes/forgotpassword" */ "@client/views/routes/ForgotPassword") // prettier-ignore
     })
   },
   {
-    path: '/reset-password',
+    path: "/reset-password",
     exact: true,
     guarded: false,
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/resetpassword" */ "@client/views/routes/ResetPassword")).default
+      loader: () => import(/* webpackChunkName: "routes/resetpassword" */ "@client/views/routes/ResetPassword") // prettier-ignore
     })
   },
   {
@@ -56,7 +59,7 @@ export const routes: RouteProps[] = [
     guarded: false,
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/register" */ "@client/views/routes/Register")).default
+      loader: () => import(/* webpackChunkName: "routes/register" */ "@client/views/routes/Register") // prettier-ignore
     })
   },
   {
@@ -65,7 +68,7 @@ export const routes: RouteProps[] = [
     guarded: false,
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/message" */ "@client/views/routes/Message")).default
+      loader: () => import(/* webpackChunkName: "routes/message" */ "@client/views/routes/Message") // prettier-ignore
     })
   },
   {
@@ -74,7 +77,7 @@ export const routes: RouteProps[] = [
     guarded: false,
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/verification" */ "@client/views/routes/Verification")).default
+      loader: () => import(/* webpackChunkName: "routes/verification" */ "@client/views/routes/Verification") // prettier-ignore
     })
   },
   {
@@ -83,7 +86,7 @@ export const routes: RouteProps[] = [
     guarded: true,
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/dashboard" */ "@client/views/routes/Dashboard")).default
+      loader: () => import(/* webpackChunkName: "routes/dashboard" */ "@client/views/routes/Dashboard") // prettier-ignore
     })
   },
   {
@@ -92,7 +95,7 @@ export const routes: RouteProps[] = [
     guarded: true,
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/profile" */ "@client/views/routes/Profile")).default
+      loader: () => import(/* webpackChunkName: "routes/profile" */ "@client/views/routes/Profile") // prettier-ignore
     })
   },
   {
@@ -101,14 +104,14 @@ export const routes: RouteProps[] = [
     guarded: true,
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/account" */ "@client/views/routes/Account")).default
+      loader: () => import(/* webpackChunkName: "routes/account" */ "@client/views/routes/Account") // prettier-ignore
     })
   },
   {
     guarded: false,
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: async () => (await import(/* webpackChunkName: "routes/notfound" */ "@client/views/routes/NotFound")).default
+      loader: () => import(/* webpackChunkName: "routes/notfound" */ "@client/views/routes/NotFound") // prettier-ignore
     })
   }
 ];

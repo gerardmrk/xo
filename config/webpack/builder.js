@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const fs = require("fs");
 const toml = require("toml");
+const dotenv = require("dotenv");
 
 const paths = require("./paths");
 const Logger = require("./logger");
@@ -27,12 +28,20 @@ class ConfigBuilder {
   }
 
   build(buildSettings) {
+    // load environment variables
+    dotenv.config({ path: `${paths.rootDir}/.env` });
+    if (process.env.APP_STAGE === undefined) {
+      console.error("APP_STAGE env var must be set");
+      process.exit(1);
+    }
+
     ConfigBuilder.ParseAndValidateSettings(buildSettings);
 
     const accessibles = {
       paths,
       projectSettings,
       buildSettings,
+      appStage: process.env.APP_STAGE,
       // set convenience flags
       devMode: buildSettings.mode === ConfigBuilder.Modes.DEV,
       clientBuild: buildSettings.source === ConfigBuilder.Sources.CLIENT,

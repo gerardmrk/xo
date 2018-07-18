@@ -135,20 +135,36 @@ conf.addModuleRule(({ devMode, clientBuild, enableSourceMapsInProd }) => ({
 conf.addModuleRule(({ devMode, clientBuild }) => ({
   test: /\.jpe?g$|\.gif$|\.ico$|\.png$|\.svg$/,
   exclude: [/node_modules/],
-  use: [
-    devMode && {
-      loader: "file-loader",
-      options: { name: "images/[name].[ext]", emitFile: clientBuild }
+  oneOf: [
+    {
+      resourceQuery: /noembed/, // asset.(*)\?noembed :: disable inlining for images with this query
+      use: [
+        {
+          loader: "file-loader",
+          options: {
+            emitFile: clientBuild,
+            name: devMode ? "images/[name].[ext]" : "images/[name].[ext]?[hash]"
+          }
+        }
+      ]
     },
-    !devMode && {
-      loader: "url-loader",
-      options: {
-        name: "images/[name].[ext]?[hash]",
-        limit: 10000,
-        emitFile: clientBuild
-      }
+    {
+      use: [
+        devMode && {
+          loader: "file-loader",
+          options: { name: "images/[name].[ext]", emitFile: clientBuild }
+        },
+        !devMode && {
+          loader: "url-loader",
+          options: {
+            name: "images/[name].[ext]?[hash]",
+            limit: 10000,
+            emitFile: clientBuild
+          }
+        }
+      ].filter(x => !!x)
     }
-  ].filter(x => !!x)
+  ]
 }));
 
 // [MODULES] *.woff, *.woff2
@@ -242,9 +258,9 @@ conf.addPlugin(({ devMode, projectSettings, ...other }) => {
 // This plugin provides similar functionality to the plugin above: it maps actual
 // environment variables from your system which is then accessible from your code,
 // e.g. for entry `DEBUG`, the env can be accessed like so: `process.env.DEBUG`
-conf.addPlugin(() => {
+conf.addPlugin(({ appStage }) => {
   return new webpack.EnvironmentPlugin({
-    APP_STAGE: process.env.APP_STAGE || "development"
+    APP_STAGE: appStage
   });
 });
 
@@ -285,7 +301,7 @@ conf.addPlugin(() => {
 // -- https://webpack.js.org/plugins/context-replacement-plugin/
 // This plugin is used to prevent the entirety of react-intl lib's locales from
 // being included into the client bundle as it would dramatically increase the size.
-conf.addPlugin(undefined, CLIENT, ({ projectSettings }) => {
+conf.addPlugin(({ projectSettings }) => {
   return new webpack.ContextReplacementPlugin(
     /react-intl[/\\]locale-data$/,
     new RegExp(projectSettings.intl.supportedLanguages.join("|"))

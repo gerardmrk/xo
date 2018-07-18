@@ -1,18 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { LocationDescriptorObject } from "history";
-import {
-  Route as BaseRoute,
-  Redirect,
-  RouteComponentProps
-} from "react-router-dom";
+import { Route as BaseRoute, Redirect, RouteComponentProps } from "react-router-dom";
 
-import {
-  RouteProps,
-  DEFAULT_PRIVATE_PATH,
-  DEFAULT_AUTH_PATH
-} from "@client/views/routes";
 import { StoreState } from "@client/store";
+import SeoElements from "@client/views/components/SeoElements";
+import { RouteProps, DEFAULT_PRIVATE_PATH, DEFAULT_AUTH_PATH } from "@client/views/routes";
 
 export interface LocalProps extends RouteProps {}
 
@@ -52,21 +45,17 @@ export class Route extends React.Component<Props, State> {
   };
   // tslint:enable
 
-  public render(): JSX.Element | null {
+  public render(): JSX.Element | JSX.Element[] | null {
     const { path, exact, strict } = this.props;
 
     if (this.props.guarded && !this.props.isLoggedIn) {
       return <Redirect to={this.targetRoute} />;
     }
 
-    return (
-      <BaseRoute
-        path={path}
-        exact={exact}
-        strict={strict}
-        render={this.renderRoute}
-      />
-    );
+    return [
+      <SeoElements key={1} routePath={path} />,
+      <BaseRoute key={2} path={path} exact={exact} strict={strict} render={this.renderRoute} />
+    ];
   }
 }
 

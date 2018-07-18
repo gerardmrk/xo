@@ -36,8 +36,9 @@ class Logger {
   logModuleRule(targetMode, targetSource, rule) {
     const prefix = this._getPrefix(targetMode, targetSource);
     this._logger.moduleRule(`${prefix} ${rule.test}`);
-    for (let i = rule.use.length - 1; i >= 0; i--) {
-      this.logModuleLoader(rule.use[i]);
+    const loaders = rule.use || rule.oneOf[rule.oneOf.length - 1].use;
+    for (let i = loaders.length - 1; i >= 0; i--) {
+      this.logModuleLoader(loaders[i]);
     }
   }
 

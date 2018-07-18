@@ -1,7 +1,12 @@
 [app]
-name = "in4s"
+name = "xo"
 description = "slide on your block like danny glover with a lethal weapon"
 browsers = ["> 10%", "not ie < 11"]
+
+[app.urls]
+development = "localhost:4200" # change this to '0.0.0.0:4200' for external access
+staging = "uat.app.xo.com" # set this to your actual UAT URL
+production = "app.xo.com" # set this to your actual production URL
 
 
 [intl]

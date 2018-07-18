@@ -11,6 +11,11 @@ declare const INJECTED_APP_SETTINGS: {
   readonly name: string;
   readonly description: string;
   readonly browsers: string[];
+  readonly urls: {
+    readonly development: string;
+    readonly staging: string;
+    readonly production: string;
+  };
 };
 
 declare const INJECTED_INTL_SETTINGS: {

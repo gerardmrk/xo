@@ -1,13 +1,10 @@
 /**
  * The root app component
+ *
  */
 import * as React from "react";
 import { hot } from "react-hot-loader";
-import {
-  Switch as RouteSwitcher,
-  RouteComponentProps,
-  withRouter
-} from "react-router-dom";
+import { Switch as RouteSwitcher, RouteComponentProps, withRouter } from "react-router-dom";
 import styles from "@client/views/App.less";
 import routes, { RouteProps } from "@client/views/routes";
 import Route from "@client/views/connected/Route";
@@ -35,11 +32,13 @@ export class App extends React.PureComponent<Props, State> {
         <GlobalMessageOverlay />
 
         <Header />
+
         <main className={styles.container}>
           <RouteSwitcher>
             {routes.map((r: RouteProps, i: number) => <Route key={i} {...r} />)}
           </RouteSwitcher>
         </main>
+
         <Footer />
       </div>
     );

@@ -1,27 +1,48 @@
 import * as React from "react";
 import { Helmet } from "react-helmet";
 
-import appLogo from "@client/logo.png";
+import appLogo from "@client/logo.png?noembed";
 import withAppSettings, { InjectedAppSettingsProps } from "@client/views/hocs/withAppSettings";
+import withBuildSettings, {
+  InjectedBuildSettingsProps
+} from "@client/views/hocs/withBuildSettings";
 
-export interface LocalProps extends InjectedAppSettingsProps {
-  readonly title: string;
+export interface SeoProps {
+  readonly routePath?: string;
+  readonly title?: string;
   readonly description?: string;
-  readonly routeLink: string;
   readonly routeType?: string;
   readonly imageURL?: string;
   readonly imageAlt?: string;
   readonly twitterCardType?: "summary" | "summary_large_image" | "app" | "player";
 }
 
+export interface LocalProps
+  extends SeoProps,
+    InjectedAppSettingsProps,
+    InjectedBuildSettingsProps {}
+
 export type Props = LocalProps;
 
 export type State = {};
 
 export class SeoElements extends React.PureComponent<Props, State> {
+  private titleTemplate: string;
+  private pageLink: string | undefined;
+
+  public constructor(props: Props) {
+    super(props);
+
+    const { routePath, appSettings } = props;
+
+    this.titleTemplate = `${appSettings.name} | %s`;
+    this.pageLink = routePath
+      ? `${appSettings.urls[process.env.APP_STAGE as string]}${routePath}`
+      : undefined;
+  }
+
   public render(): JSX.Element | null {
     const {
-      routeLink,
       routeType = "website",
       imageAlt = "website logo",
       twitterCardType = "summary",
@@ -30,19 +51,19 @@ export class SeoElements extends React.PureComponent<Props, State> {
 
     // not exactly sane defaults, but with a bundle size this big it's never
     // going to be fully SEO optimized anyways.
-    const pageOrAppTitle = this.props.title || appSettings.name;
-    const pageOrAppDescription = this.props.description || appSettings.description;
-    const pageImageOrAppLogo = this.props.imageURL || appLogo;
+    const pageOrAppTitle: string = this.props.title || appSettings.name;
+    const pageOrAppDescription: string = this.props.description || appSettings.description;
+    const pageImageOrAppLogo: string = this.props.imageURL || appLogo;
 
     return (
-      <Helmet>
+      <Helmet titleTemplate={this.titleTemplate}>
         {/* html5 */}
-        <link rel="canonical" href={routeLink} />
+        {!!this.pageLink && <link rel="canonical" href={this.pageLink} />}
         <title>{pageOrAppTitle}</title>
         <meta name="description" content={pageOrAppDescription} />
         {/* opengraph */}
         <meta name="og:site_name" content={appSettings.name} />
-        <meta name="og:url" content={routeLink} />
+        {!!this.pageLink && <meta name="og:url" content={this.pageLink} />}
         <meta name="og:type" content={routeType} />
         <meta name="og:title" content={pageOrAppTitle} />
         <meta name="og:description" content={pageOrAppDescription} />
@@ -50,7 +71,7 @@ export class SeoElements extends React.PureComponent<Props, State> {
         <meta name="og:image:alt" content={imageAlt} />
         {/* twitter */}
         <meta name="twitter:card" content={twitterCardType} />
-        <meta name="twitter:url" content={routeLink} />
+        {!!this.pageLink && <meta name="twitter:url" content={this.pageLink} />}
         <meta name="twitter:title" content={pageOrAppTitle} />
         <meta name="twitter:description" content={pageOrAppDescription} />
         <meta name="twitter:image" content={pageImageOrAppLogo} />
@@ -64,4 +85,4 @@ export class SeoElements extends React.PureComponent<Props, State> {
   }
 }
 
-export default withAppSettings<LocalProps>(SeoElements);
+export default withBuildSettings(withAppSettings<LocalProps>(SeoElements));
