@@ -11,17 +11,18 @@ import { globalLoaderMiddleware, globalMessageMiddleware } from "@client/store/m
 
 type Dispatch = BaseDispatch<StoreAction>;
 type AsyncDispatch = ThunkDispatch<StoreState, API, StoreAction>;
+type StorePartial = (initialState: StoreState) => Store;
+type StoreInitializer = (api: API) => StorePartial;
+
 export type Store = BaseStore<StoreState, StoreAction>;
 export type StoreState = StateType<typeof rootReducer>;
 export type StoreAction = RootAction;
 export type StoreAsyncAction = ThunkAction<Promise<void>, StoreState, API, StoreAction>;
 export type StoreMiddleware = Middleware<void, StoreState, StoreDispatcher>;
 export type StoreDispatcher = Dispatch & AsyncDispatch;
-export type StoreInitializer = (api: API) => (initialState: StoreState) => Store;
 
 // prettier-ignore
-// tslint:disable-next-line: typedef
-export const initStore: StoreInitializer = (api: API) => (initialState: StoreState): Store => {
+export const initStore: StoreInitializer = (api: API): StorePartial => (initialState: StoreState): Store => {
   return <Store>(createStore(
     rootReducer,
     initialState,
