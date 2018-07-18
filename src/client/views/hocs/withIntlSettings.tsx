@@ -2,16 +2,14 @@
 import * as React from "react";
 import { Subtract } from "utility-types";
 
-import IntlContext, {
-  IntlSettings
-} from "@client/contexts/IntlSettingsContext";
+import IntlContext, { IntlSettings } from "@client/contexts/IntlSettingsContext";
 
 export interface InjectedIntlSettingsProps {
   intlSettings: IntlSettings;
 }
 
 // prettier-ignore
-export const injectIntlSettings = <WrappedProps extends InjectedIntlSettingsProps>(WrappedComponent: React.ComponentType<WrappedProps>) => {
+export const withIntlSettings = <WrappedProps extends InjectedIntlSettingsProps>(WrappedComponent: React.ComponentType<WrappedProps>) => {
   type HocProps = Subtract<WrappedProps, InjectedIntlSettingsProps> & {};
 
   type HocState = {};
@@ -36,4 +34,4 @@ export const injectIntlSettings = <WrappedProps extends InjectedIntlSettingsProp
   };
 };
 
-export default injectIntlSettings;
+export default withIntlSettings;

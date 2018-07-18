@@ -2,16 +2,14 @@
 import * as React from "react";
 import { Subtract } from "utility-types";
 
-import AppSetingsContext, {
-  AppSettings
-} from "@client/contexts/AppSettingsContext";
+import AppSetingsContext, { AppSettings } from "@client/contexts/AppSettingsContext";
 
 export interface InjectedAppSettingsProps {
   appSettings: AppSettings;
 }
 
 // prettier-ignore
-export const injectAppSettings = <WrappedProps extends InjectedAppSettingsProps>(WrappedComponent: React.ComponentType<WrappedProps>) => {
+export const withAppSettings = <WrappedProps extends InjectedAppSettingsProps>(WrappedComponent: React.ComponentType<WrappedProps>) => {
   type HocProps = Subtract<WrappedProps, InjectedAppSettingsProps> & {};
 
   type HocState = {};
@@ -36,4 +34,4 @@ export const injectAppSettings = <WrappedProps extends InjectedAppSettingsProps>
   };
 };
 
-export default injectAppSettings;
+export default withAppSettings;
