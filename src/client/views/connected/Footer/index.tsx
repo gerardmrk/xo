@@ -3,8 +3,8 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 import { Header, Select, Container, DropdownOnSearchChangeData } from "semantic-ui-react";
 
 import styles from "./styles.less";
-import injectAppSettings, { InjectedAppSettingsProps } from "@client/views/hocs/injectAppSettings";
-import injectIntlSettings, { InjectedIntlSettingsProps } from "@client/views/hocs/injectIntlSettings"; // prettier-ignore
+import withAppSettings, { InjectedAppSettingsProps } from "@client/views/hocs/withAppSettings";
+import withIntlSettings, { InjectedIntlSettingsProps } from "@client/views/hocs/withIntlSettings"; // prettier-ignore
 
 export interface LocalProps {}
 
@@ -59,4 +59,4 @@ export class Footer extends React.PureComponent<Props, State> {
   }
 }
 
-export default injectAppSettings(injectIntlSettings(injectIntl(Footer)));
+export default withAppSettings(withIntlSettings(injectIntl(Footer)));
