@@ -9,6 +9,7 @@ declare type INJECTED_RENDERER_SCENARIO = "prefetch" | "server" | "embedded";
 
 declare const INJECTED_APP_SETTINGS: {
   readonly name: string;
+  readonly description: string;
   readonly browsers: string[];
 };
 
