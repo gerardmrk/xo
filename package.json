@@ -12,6 +12,7 @@
     "start:dev": "cross-env NODE_ENV=development ./node_modules/.bin/webpack-dev-server --config config/webpack/webpack.config.js  --env.mode=development --env.source=client --env.prodSourceMaps=disable",
     "build:client": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --config config/webpack/webpack.config.js --env.mode=production --env.source=client --env.prodSourceMaps=disable",
     "build:renderer": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --config config/webpack/webpack.config.js --env.mode=production --env.source=renderer --env.prodSourceMaps=disable",
+    "test:withcov": "cross-env NODE_ENV=test jest --coverage",
     "i18n:sync": "node ./scripts/update-translations.js"
   },
   "dependencies": {
@@ -58,6 +59,7 @@
     "autoprefixer": "^8.6.5",
     "babel-eslint": "^8.2.6",
     "babel-loader": "8.0.0-beta.4",
+    "babel-plugin-dynamic-import-node": "^2.0.0",
     "babel-plugin-lodash": "^3.3.4",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "clean-webpack-plugin": "^0.1.19",
@@ -79,6 +81,7 @@
     "html-webpack-include-assets-plugin": "^1.0.4",
     "html-webpack-inline-source-plugin": "^0.0.10",
     "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^23.4.1",
     "jest-environment-enzyme": "^6.0.2",
     "jest-enzyme": "^6.0.2",

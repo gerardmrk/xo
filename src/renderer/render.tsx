@@ -49,18 +49,14 @@ export const render = async ({ url }: RendererParams): Promise<RendererResponse>
 
     // tslint:disable
     const modulesToPreload: string[] = [];
-    // const captureModuleName = (moduleName: string): void => {
-    // modulesToPreload.push(moduleName);
-    // };
+    const captureModules = (moduleName: string): void => {
+      modulesToPreload.push(moduleName);
+    };
 
     const routerContext = {};
 
     resp.renderedBody = ReactDOMServer.renderToString(
-      <Loadable.Capture
-        report={(moduleName: string): void => {
-          modulesToPreload.push(moduleName);
-        }}
-      >
+      <Loadable.Capture report={captureModules}>
         <BuildSettingsProvider settings={INJECTED_BUILD_SETTINGS}>
           <AppSettingsProvider settings={INJECTED_APP_SETTINGS}>
             <IntlSettingsProvider settings={INJECTED_INTL_SETTINGS}>
@@ -76,6 +72,7 @@ export const render = async ({ url }: RendererParams): Promise<RendererResponse>
         </BuildSettingsProvider>
       </Loadable.Capture>
     );
+    console.log(modulesToPreload);
 
     // react-loadable's types are not exported properly
     resp.renderedTail = getBundles(asyncModuleStats as any, modulesToPreload)

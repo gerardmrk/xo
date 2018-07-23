@@ -76,6 +76,7 @@ conf.addModuleRule(({ paths, clientBuild, projectSettings }) => ({
           ["lodash", { id: "lodash-compat" }],
           "@babel/plugin-syntax-dynamic-import",
           "@babel/plugin-transform-runtime",
+          !clientBuild && "dynamic-import-node",
           "react-loadable/babel",
           clientBuild && "react-hot-loader/babel"
         ].filter(x => !!x)
@@ -483,14 +484,14 @@ conf.addPlugin(undefined, CLIENT, ({ devMode }) => {
 conf.addPlugin(PRO, undefined, ({ paths, buildSettings }) => {
   return new BundleAnalyzerPlugin({
     analyzerMode: "static",
-    openAnalyzer: !process.env.CI,
+    openAnalyzer: false,
     reportFilename: `${paths.outputDir}/${buildSettings.source}-bundle-stats.html`
   });
 });
 
 /// #####################################################################################################################
 //
-//    *** PLUGINS ***
+//    *** ENTRYPOINT ***
 //
 // #####################################################################################################################
 
