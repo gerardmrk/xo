@@ -1,26 +1,19 @@
 // tslint:disable:no-relative-imports typedef
 import * as React from "react";
 import { ShallowWrapper } from "enzyme";
-import { MemoryRouter as Router } from "react-router-dom";
 
-import { UnknownErr } from "@client/views/routes/UnknownErr";
+import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
 
-describe("<UnknownErr />", () => {
+describe("<AuthRoutesContainer />", () => {
   const props = {
     intl,
-    isLoggedIn: false,
-    isAuthenticating: false,
-    guarded: true
+    title: "ohno"
   };
 
   let component: ShallowWrapper;
   beforeEach(() => {
-    component = shallowWithIntl(
-      <Router>
-        <UnknownErr {...props} />
-      </Router>
-    );
+    component = shallowWithIntl(<AuthRoutesContainer {...props} />);
   });
 
   it("renders OK", () => {

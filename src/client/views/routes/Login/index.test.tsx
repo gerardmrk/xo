@@ -26,7 +26,8 @@ describe("<Login />", () => {
   });
 
   it("renders OK", () => {
-    expect(component.exists()).toBe(true);
+    expect(component).toExist();
+    expect(component).not.toBeEmptyRender();
   });
 
   it.skip("sets focus on the username field on mount", () => {});

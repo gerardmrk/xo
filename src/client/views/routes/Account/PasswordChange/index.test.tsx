@@ -25,6 +25,7 @@ describe("<PasswordChange />", () => {
   });
 
   it("renders OK", () => {
-    expect(component.exists()).toBe(true);
+    expect(component).toExist();
+    expect(component).not.toBeEmptyRender();
   });
 });

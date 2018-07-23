@@ -17,10 +17,7 @@ export type State = {
   agreeToTOS: boolean;
 };
 
-export class Register extends React.Component<
-  Props & InjectedIntlProps,
-  State
-> {
+export class Register extends React.Component<Props & InjectedIntlProps, State> {
   public constructor(props: Props & InjectedIntlProps) {
     super(props);
     this.state = {
@@ -32,36 +29,32 @@ export class Register extends React.Component<
     };
   }
 
-  // prettier-ignore
   private onUsernameChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
     this.setState({ username: e.currentTarget.value });
-  }
+  };
 
-  // prettier-ignore
   private onEmailChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
     this.setState({ email: e.currentTarget.value });
-  }
+  };
 
-  // prettier-ignore
   private onPasswordChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
     this.setState({ password: e.currentTarget.value });
-  }
+  };
 
-  // prettier-ignore
   private onPasswordRepeatChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
     this.setState({ passwordRepeat: e.currentTarget.value });
-  }
+  };
 
-  // prettier-ignore
   private onAgreeToTOSChange = (): void => {
     this.setState({ agreeToTOS: !this.state.agreeToTOS });
-  }
+  };
 
   private onFormSubmit = (e: React.SyntheticEvent): void => {};
 
   public render(): JSX.Element | null {
-    // prettier-ignore
-    const { intl: { messages } } = this.props;
+    const {
+      intl: { messages }
+    } = this.props;
 
     return (
       <AuthRoutesContainer title={"sections.register"}>
@@ -123,9 +116,7 @@ export class Register extends React.Component<
               required={true}
               checked={this.state.agreeToTOS}
               onChange={this.onAgreeToTOSChange}
-              label={
-                messages["form_fields.register.agree_to_terms_and_conditions"]
-              }
+              label={messages["form_fields.register.agree_to_terms_and_conditions"]}
             />
           </Form.Group>
 
@@ -134,11 +125,7 @@ export class Register extends React.Component<
           </Form.Group>
 
           <Form.Group>
-            <Form.Button
-              primary={true}
-              fluid={true}
-              onClick={this.onFormSubmit}
-            >
+            <Form.Button primary={true} fluid={true} onClick={this.onFormSubmit}>
               {messages["actions.register_submit"]}
             </Form.Button>
           </Form.Group>
