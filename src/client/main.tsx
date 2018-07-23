@@ -3,7 +3,7 @@
  */
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as AsyncLoader from "react-loadable";
+import * as AsyncLoader from "@7rulnik/react-loadable";
 import { Provider as StoreProvider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import * as OfflinePluginRuntime from "offline-plugin/runtime";

@@ -8,7 +8,7 @@ const LodashWebpackPlugin = require("lodash-webpack-plugin");
 // const ClosureWebpackPlugin = require("closure-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
-const { ReactLoadablePlugin } = require("react-loadable/webpack");
+const { ReactLoadablePlugin } = require("@7rulnik/react-loadable/webpack");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 // const PrepackWebpackPlugin = require("prepack-webpack-plugin").default;
@@ -76,9 +76,9 @@ conf.addModuleRule(({ paths, clientBuild, projectSettings }) => ({
           ["lodash", { id: "lodash-compat" }],
           "@babel/plugin-syntax-dynamic-import",
           "@babel/plugin-transform-runtime",
-          !clientBuild && "dynamic-import-node",
-          "react-loadable/babel",
-          clientBuild && "react-hot-loader/babel"
+          clientBuild && "react-hot-loader/babel",
+          "@7rulnik/react-loadable/babel",
+          !clientBuild && "dynamic-import-node"
         ].filter(x => !!x)
       }
     }

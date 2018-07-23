@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@7rulnik/react-loadable@^5.3.4":
+  version "5.3.4"
+  resolved "https://registry.yarnpkg.com/@7rulnik/react-loadable/-/react-loadable-5.3.4.tgz#a93c1830276bf2fec808d14c3e72faeafe5aa0c4"
+  dependencies:
+    prop-types "^15.5.0"
+
 "@babel/code-frame@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.44.tgz#2a02643368de80916162be70865c97774f3adbd9"
@@ -6841,12 +6847,6 @@ react-is@^16.4.1:
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
-
-react-loadable@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/react-loadable/-/react-loadable-5.4.0.tgz#3b6b7d51121a7868fd155be848a36e02084742c9"
-  dependencies:
-    prop-types "^15.5.0"
 
 react-reconciler@^0.7.0:
   version "0.7.0"

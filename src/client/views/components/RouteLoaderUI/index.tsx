@@ -1,12 +1,14 @@
 // tslint:disable:no-string-literal
 import * as React from "react";
 import { Loader } from "semantic-ui-react";
-import { LoadingComponentProps } from "react-loadable";
+import { LoadingComponentProps } from "@7rulnik/react-loadable";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 
-export interface Props extends LoadingComponentProps, InjectedIntlProps {}
+export interface Props extends LoadingComponentProps, InjectedIntlProps {
+  pastDelay: boolean;
+}
 
 export type State = {};
 
