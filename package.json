@@ -16,6 +16,7 @@
     "i18n:sync": "node ./scripts/update-translations.js"
   },
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "normalize.css": "^8.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
