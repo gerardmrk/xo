@@ -15,15 +15,14 @@ import IntlProvider from "@client/views/hocs/IntlProvider";
 import AppSettingsProvider from "@client/views/hocs/AppSettingsProvider";
 import IntlSettingsProvider from "@client/views/hocs/IntlSettingsProvider";
 import BuildSettingsProvider from "@client/views/hocs/BuildSettingsProvider";
-import asyncModuleStats from "../../dist/client/async-modules.json";
 
 // REQUEST PARAMS
-export type RendererParams = {
+export type Params = {
   url: string;
 };
 
 // RESPONSE PAYLOAD
-export type RendererResponse = {
+export type Response = {
   renderedHead: string;
   renderedBody: string;
   renderedTail: string;
@@ -31,8 +30,8 @@ export type RendererResponse = {
 };
 
 // RENDERER
-export const render = async ({ url }: RendererParams): Promise<RendererResponse> => {
-  const resp: RendererResponse = {
+export default (manifest: Manifest): RenderFn => async ({ url }: Params): Promise<Response> => {
+  const resp: Response = {
     renderedHead: "",
     renderedBody: "",
     renderedTail: ""
@@ -44,7 +43,6 @@ export const render = async ({ url }: RendererParams): Promise<RendererResponse>
     // Initialize store
     const store: Store = initStore(new API(AUTH_SERVICE_CONF, USER_SERVICE_CONF))({} as StoreState); // tslint:disable-line
 
-    // tslint:disable
     const modulesToPreload: string[] = [];
     const captureModules = (moduleName: string): void => {
       modulesToPreload.push(moduleName);
@@ -69,14 +67,18 @@ export const render = async ({ url }: RendererParams): Promise<RendererResponse>
         </BuildSettingsProvider>
       </Loadable.Capture>
     );
-    console.log(modulesToPreload);
 
-    // react-loadable's types are not exported properly
-    resp.renderedTail = getBundles(asyncModuleStats as any, modulesToPreload)
-      .map(bundle => `<script src="${bundle.file}"></script>`)
+    console.log(modulesToPreload); // tslint:disable-line
+
+    // extract all bundle URIs
+    resp.renderedTail = getBundles(manifest, modulesToPreload)
+      .map((bundle: Bundle) => {
+        console.log(bundle);
+        return `<script src="${bundle.file}"></script>`;
+      })
       .reduce((elmStrA: string, elmStrB: string): string => `${elmStrA}${elmStrB}`, "");
-    // tslint:enable
 
+    // extract the route's rendered elements for <Head />
     resp.renderedHead = Object.values(Helmet.renderStatic())
       .map((elm: HelmetDatum): string => elm.toString())
       .reduce((elmStrA: string, elmStrB: string): string => `${elmStrA}${elmStrB}`, "");
@@ -86,3 +88,15 @@ export const render = async ({ url }: RendererParams): Promise<RendererResponse>
 
   return resp;
 };
+
+interface Bundle {
+  id: number;
+  name: string;
+  file: string;
+}
+
+interface Manifest {
+  [moduleId: string]: Bundle[];
+}
+
+type RenderFn = (params: Params) => Promise<Response>;

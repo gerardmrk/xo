@@ -1,7 +1,7 @@
-import { render } from "@renderer/render";
+import renderer from "@renderer/renderer";
 
 // check how this is being exposed
-export { render };
+export { renderer };
 
 // REMINDER FOR TOMORROW
 //
