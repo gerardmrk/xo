@@ -1,5 +1,5 @@
 // tslint:disable:typedef promise-function-async
-import * as Loadable from "@7rulnik/react-loadable";
+import * as Loadable from "react-loadable";
 import { RouteProps as BaseRouteProps } from "react-router-dom";
 
 import { SeoProps } from "@client/views/components/SeoElements";
@@ -23,7 +23,8 @@ export const routes: RouteProps[] = [
     seo: { title: "App" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: () => import("@client/views/routes/Landing") // prettier-ignore
+      modules: ["routes/landing"],
+      loader: () => import(/* webpackChunkName: "routes/landing" */ "@client/views/routes/Landing") // prettier-ignore
     })
   },
   {
@@ -33,7 +34,8 @@ export const routes: RouteProps[] = [
     seo: { title: "Login" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: () => import("@client/views/routes/Login") // prettier-ignore
+      modules: ["routes/login"],
+      loader: () => import(/* webpackChunkName: "routes/login" */ "@client/views/routes/Login") // prettier-ignore
     })
   },
   {
@@ -43,7 +45,8 @@ export const routes: RouteProps[] = [
     seo: { title: "Reset Password" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: () => import("@client/views/routes/ForgotPassword") // prettier-ignore
+      modules: ["routes/forgotpassword"],
+      loader: () => import(/* webpackChunkName: "routes/forgotpassword" */ "@client/views/routes/ForgotPassword") // prettier-ignore
     })
   },
   {
@@ -53,7 +56,8 @@ export const routes: RouteProps[] = [
     seo: { title: "Reset Password" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: () => import("@client/views/routes/ResetPassword") // prettier-ignore
+      modules: ["routes/resetpassword"],
+      loader: () => import(/* webpackChunkName: "routes/resetpassword" */ "@client/views/routes/ResetPassword") // prettier-ignore
     })
   },
   {
@@ -63,7 +67,8 @@ export const routes: RouteProps[] = [
     seo: { title: "Register" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: () => import("@client/views/routes/Register") // prettier-ignore
+      modules: ["routes/register"],
+      loader: () => import(/* webpackChunkName: "routes/register" */ "@client/views/routes/Register") // prettier-ignore
     })
   },
   {
@@ -73,7 +78,8 @@ export const routes: RouteProps[] = [
     seo: { title: "-" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: () => import("@client/views/routes/Message") // prettier-ignore
+      modules: ["routes/message"],
+      loader: () => import(/* webpackChunkName: "routes/message" */ "@client/views/routes/Message") // prettier-ignore
     })
   },
   {
@@ -83,7 +89,8 @@ export const routes: RouteProps[] = [
     seo: { title: "Verification" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: () => import("@client/views/routes/Verification") // prettier-ignore
+      modules: ["routes/verification"],
+      loader: () => import(/* webpackChunkName: "routes/verification" */ "@client/views/routes/Verification") // prettier-ignore
     })
   },
   {
@@ -93,7 +100,8 @@ export const routes: RouteProps[] = [
     seo: { title: "Dashboard" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: () => import("@client/views/routes/Dashboard") // prettier-ignore
+      modules: ["routes/dashboard"],
+      loader: () => import(/* webpackChunkName: "routes/dashboard" */ "@client/views/routes/Dashboard") // prettier-ignore
     })
   },
   {
@@ -103,7 +111,8 @@ export const routes: RouteProps[] = [
     seo: { title: "Profile Settings" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: () => import("@client/views/routes/Profile") // prettier-ignore
+      modules: ["routes/profile"],
+      loader: () => import(/* webpackChunkName: "routes/profile" */ "@client/views/routes/Profile") // prettier-ignore
     })
   },
   {
@@ -113,7 +122,8 @@ export const routes: RouteProps[] = [
     seo: { title: "Account Settings" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: () => import("@client/views/routes/Account") // prettier-ignore
+      modules: ["routes/account"],
+      loader: () => import(/* webpackChunkName: "routes/account" */ "@client/views/routes/Account") // prettier-ignore
     })
   },
   {
@@ -121,7 +131,8 @@ export const routes: RouteProps[] = [
     seo: { title: "404" },
     component: Loadable({
       loading: RouteLoaderUI,
-      loader: () => import("@client/views/routes/NotFound") // prettier-ignore
+      modules: ["routes/notfound"],
+      loader: () => import(/* webpackChunkName: "routes/notfound" */ "@client/views/routes/NotFound") // prettier-ignore
     })
   }
 ];

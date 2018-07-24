@@ -1,7 +1,7 @@
 // tslint:disable:no-string-literal
 import * as React from "react";
 import { Loader } from "semantic-ui-react";
-import { LoadingComponentProps } from "@7rulnik/react-loadable";
+import { LoadingComponentProps } from "react-loadable";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";

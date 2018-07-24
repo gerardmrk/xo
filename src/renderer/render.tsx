@@ -2,9 +2,9 @@
 // https://github.com/jamiebuilds/react-loadable/pull/110
 import * as React from "react";
 import { Helmet, HelmetDatum } from "react-helmet";
-import * as Loadable from "@7rulnik/react-loadable";
+import * as Loadable from "react-loadable";
 import * as ReactDOMServer from "react-dom/server";
-import { getBundles } from "@7rulnik/react-loadable/webpack";
+import { getBundles } from "react-loadable/webpack";
 import { Provider as StoreProvider } from "react-redux";
 import { StaticRouter as Router } from "react-router-dom";
 

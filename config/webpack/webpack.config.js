@@ -8,7 +8,7 @@ const LodashWebpackPlugin = require("lodash-webpack-plugin");
 // const ClosureWebpackPlugin = require("closure-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
-const { ReactLoadablePlugin } = require("@7rulnik/react-loadable/webpack");
+const { ReactLoadablePlugin } = require("react-loadable/webpack");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 // const PrepackWebpackPlugin = require("prepack-webpack-plugin").default;
@@ -20,7 +20,7 @@ const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plug
 
 const ConfigBuilder = require("./builder");
 const { DEV, PRO } = ConfigBuilder.Modes;
-const { CLIENT } = ConfigBuilder.Sources;
+const { CLIENT, RENDERER } = ConfigBuilder.Sources;
 
 const conf = new ConfigBuilder();
 
@@ -77,8 +77,7 @@ conf.addModuleRule(({ paths, clientBuild, projectSettings }) => ({
           "@babel/plugin-syntax-dynamic-import",
           "@babel/plugin-transform-runtime",
           clientBuild && "react-hot-loader/babel",
-          "@7rulnik/react-loadable/babel",
-          !clientBuild && "dynamic-import-node"
+          "react-loadable/babel"
         ].filter(x => !!x)
       }
     }
@@ -278,6 +277,18 @@ conf.addPlugin(PRO, ({ paths, buildSettings: { source } }) => {
       exclude: ["index.html", "sw.js", "report.html"]
     }
   );
+});
+
+// -- webpack.BannerPlugin
+// -- https://webpack.js.org/plugins/banner-plugin/
+// This plugin adds a top-level import statement to the compiled renderer bundle
+// and the subsequent install() invocation to enable sourcemaps on the server side.
+conf.addPlugin(PRO, RENDERER, () => {
+  return new webpack.BannerPlugin({
+    raw: true,
+    entryOnly: false,
+    banner: 'require("source-map-support").install();'
+  });
 });
 
 // -- ForkTsCheckerWebpackPlugin

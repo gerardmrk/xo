@@ -8,7 +8,13 @@ const baseConfig = ({ paths, buildSettings, devMode, clientBuild, enableSourceMa
 
   target: clientBuild ? "web" : "node",
 
-  devtool: devMode ? "cheap-module-eval-source-map" : enableSourceMapsInProd ? "source-map" : false,
+  devtool: devMode
+    ? "cheap-module-eval-source-map"
+    : enableSourceMapsInProd
+      ? "source-map"
+      : !clientBuild
+        ? "source-map"
+        : false,
 
   entry: clientBuild
     ? { app: [`${paths.clientSource}/main.tsx`] }
@@ -27,7 +33,13 @@ const baseConfig = ({ paths, buildSettings, devMode, clientBuild, enableSourceMa
         libraryTarget: "commonjs"
       },
 
-  externals: clientBuild ? undefined : [webpackNodeExternals()],
+  externals: clientBuild
+    ? undefined
+    : [
+        webpackNodeExternals({
+          whitelist: ["react-loadable", "is-webpack-bundle", "webpack-require-weak"]
+        })
+      ],
 
   optimization: {
     minimizer: [
