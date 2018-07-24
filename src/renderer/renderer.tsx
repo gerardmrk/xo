@@ -30,7 +30,10 @@ export type Response = {
 };
 
 // RENDERER
-export default (manifest: Manifest): RenderFn => async ({ url }: Params): Promise<Response> => {
+// tslint:disable-next-line
+export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => async ({
+  url
+}: Params): Promise<Response> => {
   const resp: Response = {
     renderedHead: "",
     renderedBody: "",
@@ -38,20 +41,19 @@ export default (manifest: Manifest): RenderFn => async ({ url }: Params): Promis
   };
 
   try {
-    await Loadable.preloadAll();
-
     // Initialize store
-    const store: Store = initStore(new API(AUTH_SERVICE_CONF, USER_SERVICE_CONF))({} as StoreState); // tslint:disable-line
+    // tslint:disable-next-line
+    const store: Store = initStore(new API(AUTH_SERVICE_CONF, USER_SERVICE_CONF))({} as StoreState);
 
-    const modulesToPreload: string[] = [];
+    const renderedModules: string[] = [];
     const captureModules = (moduleName: string): void => {
-      modulesToPreload.push(moduleName);
+      renderedModules.push(moduleName);
     };
 
     const routerContext = {};
 
     resp.renderedBody = ReactDOMServer.renderToString(
-      <Loadable.Capture report={captureModules}>
+      <AsyncModuleLoader.Capture report={captureModules}>
         <BuildSettingsProvider settings={INJECTED_BUILD_SETTINGS}>
           <AppSettingsProvider settings={INJECTED_APP_SETTINGS}>
             <IntlSettingsProvider settings={INJECTED_INTL_SETTINGS}>
@@ -65,16 +67,17 @@ export default (manifest: Manifest): RenderFn => async ({ url }: Params): Promis
             </IntlSettingsProvider>
           </AppSettingsProvider>
         </BuildSettingsProvider>
-      </Loadable.Capture>
+      </AsyncModuleLoader.Capture>
     );
 
-    console.log(modulesToPreload); // tslint:disable-line
+    console.log(renderedModules); // tslint:disable-line
 
     // extract all bundle URIs
-    resp.renderedTail = getBundles(manifest, modulesToPreload)
+    resp.renderedTail = getBundles(manifest, renderedModules)
       .map((bundle: Bundle) => {
+        // tslint:disable-next-line
         console.log(bundle);
-        return `<script src="${bundle.file}"></script>`;
+        return `<script src="${bundle ? bundle.file : ""}"></script>`;
       })
       .reduce((elmStrA: string, elmStrB: string): string => `${elmStrA}${elmStrB}`, "");
 
@@ -98,5 +101,3 @@ interface Bundle {
 interface Manifest {
   [moduleId: string]: Bundle[];
 }
-
-type RenderFn = (params: Params) => Promise<Response>;

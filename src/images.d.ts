@@ -7,8 +7,8 @@ declare module "*.ico" {
   export default blobOrResourcePath;
 }
 declare module "*.ico?noembed" {
-  const blobOrResourcePath: string;
-  export default blobOrResourcePath;
+  const resourcePath: string;
+  export default resourcePath;
 }
 
 declare module "*.svg" {
@@ -16,8 +16,8 @@ declare module "*.svg" {
   export default blobOrResourcePath;
 }
 declare module "*.svg?noembed" {
-  const blobOrResourcePath: string;
-  export default blobOrResourcePath;
+  const resourcePath: string;
+  export default resourcePath;
 }
 
 declare module "*.jpg" {
@@ -25,8 +25,8 @@ declare module "*.jpg" {
   export default blobOrResourcePath;
 }
 declare module "*.jpg?noembed" {
-  const blobOrResourcePath: string;
-  export default blobOrResourcePath;
+  const resourcePath: string;
+  export default resourcePath;
 }
 
 declare module "*.jpeg" {
@@ -34,8 +34,8 @@ declare module "*.jpeg" {
   export default blobOrResourcePath;
 }
 declare module "*.jpeg?noembed" {
-  const blobOrResourcePath: string;
-  export default blobOrResourcePath;
+  const resourcePath: string;
+  export default resourcePath;
 }
 
 declare module "*.png" {
@@ -43,8 +43,8 @@ declare module "*.png" {
   export default blobOrResourcePath;
 }
 declare module "*.png?noembed" {
-  const blobOrResourcePath: string;
-  export default blobOrResourcePath;
+  const resourcePath: string;
+  export default resourcePath;
 }
 
 declare module "*.gif" {
@@ -52,8 +52,8 @@ declare module "*.gif" {
   export default blobOrResourcePath;
 }
 declare module "*.gif?noembed" {
-  const blobOrResourcePath: string;
-  export default blobOrResourcePath;
+  const resourcePath: string;
+  export default resourcePath;
 }
 
 declare module "*.tiff" {
@@ -61,8 +61,8 @@ declare module "*.tiff" {
   export default blobOrResourcePath;
 }
 declare module "*.tiff?noembed" {
-  const blobOrResourcePath: string;
-  export default blobOrResourcePath;
+  const resourcePath: string;
+  export default resourcePath;
 }
 
 declare module "*.bmp" {
@@ -70,6 +70,6 @@ declare module "*.bmp" {
   export default blobOrResourcePath;
 }
 declare module "*.bmp?noembed" {
-  const blobOrResourcePath: string;
-  export default blobOrResourcePath;
+  const resourcePath: string;
+  export default resourcePath;
 }

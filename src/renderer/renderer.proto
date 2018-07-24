@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+message RendererParams {
+  string url = 1;
+}
+
+message RendererResponse {
+  string head_elements = 1;
+  string body_content = 2;
+  string critical_styles = 3;
+  string rendered_modules = 4;
+}
