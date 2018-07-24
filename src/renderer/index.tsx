@@ -1,13 +1,30 @@
+import * as net from "net";
+import * as protobuf from "protobufjs";
 import renderer from "@renderer/renderer";
+import * as Loadable from "react-loadable";
 
-// check how this is being exposed
 export { renderer };
 
-// REMINDER FOR TOMORROW
-//
-// eliminate all posibilities:
-// - its possible promises aren't being transformed properly to require calls
-// for Node. use airbnb's babel plugin to take care of that.
-// - possible that react-loadable does not account for manually assigned chunk names.
-// remove and see what happens.
-// - all else fails, try the fork mentioned in the pull request.
+const listenOnUnixSocket = async (sockAddr: string): Promise<void> => {
+  await Loadable.preloadAll();
+  const render = renderer(Loadable);
+
+  const server = net.createServer();
+  const handleConnection = connectionHandler(render);
+
+  server.on("connection", handleConnection);
+
+  server.listen(sockAddr);
+};
+
+const connectionHandler = (render: ReturnType<typeof renderer>): HandleConnFn => (
+  client: net.Socket
+): void => {
+  client.on("data", () => {
+    // 1. decode the proto message
+    // 2. render the content based on the URL
+    // 3. check for errors
+  });
+};
+
+type HandleConnFn = (client: net.Socket) => void;
