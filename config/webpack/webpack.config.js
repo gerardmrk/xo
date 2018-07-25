@@ -44,6 +44,7 @@ const conf = new ConfigBuilder();
 
 // [MODULES] *.ts, *.tsx
 // [LOADERS] ts-loader
+// prettier-ignore
 conf.addModuleRule(({ paths, clientBuild, projectSettings }) => ({
   test: /\.tsx?$/,
   exclude: [/node_modules/],
@@ -58,17 +59,12 @@ conf.addModuleRule(({ paths, clientBuild, projectSettings }) => ({
         babelrc: false,
         cacheDirectory: `${paths.rootDir}/.cache`,
         presets: [
-          [
-            "@babel/preset-env",
-            {
+          ["@babel/preset-env", {
               modules: false,
               loose: true,
               useBuiltIns: "usage",
-              targets: clientBuild
-                ? { browsers: projectSettings.app.browsers }
-                : { node: "current" }
-            }
-          ],
+              targets: clientBuild ? { browsers: projectSettings.app.browsers } : { node: "current" }
+          }],
           "@babel/preset-react",
           "@babel/preset-typescript"
         ],
@@ -132,21 +128,20 @@ conf.addModuleRule(({ devMode, clientBuild, enableSourceMapsInProd }) => ({
 
 // [MODULES] *.png, *.jpg, *.jpeg, *.gif, *.ico, *.svg
 // [LOADERS] (url-loader | file-loader)
+// prettier-ignore
 conf.addModuleRule(({ devMode, clientBuild }) => ({
   test: /\.jpe?g$|\.gif$|\.ico$|\.png$|\.svg$/,
   exclude: [/node_modules/],
   oneOf: [
     {
       resourceQuery: /noembed/, // asset.(*)\?noembed :: disable inlining for images with this query
-      use: [
-        {
+      use: [{
           loader: "file-loader",
           options: {
             emitFile: clientBuild,
             name: devMode ? "images/[name].[ext]" : "images/[name].[ext]?[hash]"
           }
-        }
-      ]
+      }]
     },
     {
       use: [
@@ -191,32 +186,30 @@ conf.addModuleRule(({ devMode, clientBuild }) => ({
 
 // [MODULES] *.ttf*, *.eot*
 // [LOADERS] file-loader
+// prettier-ignore
 conf.addModuleRule(({ clientBuild }) => ({
   test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
   exclude: [/node_modules/],
-  use: [
-    {
-      loader: "file-loader",
-      options: { name: "fonts/[name].[ext]", emitFile: clientBuild }
-    }
-  ]
+  use: [{
+    loader: "file-loader",
+    options: { name: "fonts/[name].[ext]", emitFile: clientBuild }
+  }]
 }));
 
 // [MODULES] *.otf*
 // [LOADERS] file-loader
+// prettier-ignore
 conf.addModuleRule(({ clientBuild }) => ({
   test: /\.otf(\?.*)?$/,
   exclude: [/node_modules/],
-  use: [
-    {
-      loader: "file-loader",
-      options: {
-        name: "fonts/[name].[ext]",
-        mimetype: "application/font-otf",
-        emitFile: clientBuild
-      }
+  use: [{
+    loader: "file-loader",
+    options: {
+      name: "fonts/[name].[ext]",
+      mimetype: "application/font-otf",
+      emitFile: clientBuild
     }
-  ]
+  }]
 }));
 
 // #####################################################################################################################
