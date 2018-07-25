@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"sync/atomic"
 	"time"
 )
@@ -47,7 +48,7 @@ func main() {
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  15 * time.Second,
 		ErrorLog:     logger,
-		Handler:      tracingMiddleware(nextRequestID)(loggingMiddleware(logger)(router)),
+		Handler:      tracingMiddleware(nextRequestID)(loggingMiddleware(logger)(assetsMiddleware()(router))),
 	}
 
 	done := make(chan bool)
@@ -113,7 +114,14 @@ func healthz() http.Handler {
 func assetsMiddleware() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// check gzip
+			if !strings.HasPrefix(r.URL.Path, "/assets/") {
+				next.ServeHTTP(w, r)
+			}
+
+			// check if file has a gzipped counterpart and serve it
+			if _, err := os.Stat(r.URL.Path); os.IsNotExist(err) {
+
+			}
 		})
 	}
 }

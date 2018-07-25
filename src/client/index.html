@@ -4,8 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <%= htmlWebpackPlugin.options.vars.seosPlaceholder %>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" rel="stylesheet">
     <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css" rel="stylesheet">
+
+    <%= htmlWebpackPlugin.options.vars.criticalCSSPlaceholder %>
+
     <style>
         * {
             box-sizing: border-box;
@@ -24,7 +30,11 @@
     <noscript>
         You need to enable JavaScript to run this app.
     </noscript>
-    <div id="app-mount-point"></div>
+    <div id="app-mount-point"><%= htmlWebpackPlugin.options.vars.appPlaceholder %></div>
+    <%= htmlWebpackPlugin.options.vars.preloadablesPlaceholder %>
+    <script>
+        window._INITIAL_STATE_ = <%= htmlWebpackPlugin.options.vars.initialStatePlaceholder %>;
+    </script>
 </body>
 
 </html>

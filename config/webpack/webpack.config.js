@@ -388,7 +388,27 @@ conf.addPlugin(PRO, CLIENT, () => {
 conf.addPlugin(undefined, CLIENT, ({ paths }) => {
   return new HtmlWebpackPlugin({
     filename: "index.html",
-    template: paths.rootHTMLTemplate
+    template: paths.rootHTMLTemplate,
+    vars: {
+      seosPlaceholder: "",
+      criticalCSSPlaceholder: "",
+      appPlaceholder: "",
+      preloadablesPlaceholder: "",
+      initialStatePlaceholder: "undefined"
+    }
+  });
+});
+conf.addPlugin(PRO, CLIENT, ({ paths }) => {
+  return new HtmlWebpackPlugin({
+    filename: "index.gohtml",
+    template: paths.rootHTMLTemplate,
+    vars: {
+      seosPlaceholder: "{{.SeoElements}}",
+      criticalCSSPlaceholder: "{{.CriticalCSS}}",
+      appPlaceholder: "{{.App}}",
+      preloadablesPlaceholder: "{{.Preloadables}}",
+      initialStatePlaceholder: "{{.InitialState}}"
+    }
   });
 });
 
@@ -451,7 +471,6 @@ conf.addPlugin(PRO, CLIENT, () => {
     asset: "[path].gz[query]",
     algorithm: "gzip",
     test: new RegExp("\\.(js|css)$"),
-    threshold: 10240,
     minRatio: 0.8
   });
 });
@@ -489,6 +508,8 @@ conf.addPlugin(PRO, undefined, ({ paths, buildSettings }) => {
   return new BundleAnalyzerPlugin({
     analyzerMode: "static",
     openAnalyzer: false,
+    generateStatsFile: true,
+    statsFilename: `${paths.outputDir}/${buildSettings.source}-bundle-stats.json`,
     reportFilename: `${paths.outputDir}/${buildSettings.source}-bundle-stats.html`
   });
 });

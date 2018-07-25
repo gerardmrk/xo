@@ -10,6 +10,7 @@
   "tslint.packageManager": "yarn",
   "tslint.configFile": "config/syntax/tslint.json",
   "prettier.printWidth": 100,
+  "[go]": {},
   "[json]": {
     "editor.tabSize": 2
   },
@@ -18,6 +19,9 @@
   },
   "[typescript]": {
     "editor.tabSize": 2
+  },
+  "[html]": {
+    "editor.formatOnSave": false
   },
   "vsicons.associations.files": [
     {
