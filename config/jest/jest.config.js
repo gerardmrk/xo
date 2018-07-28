@@ -1,4 +1,5 @@
 module.exports = {
+  rootDir: "./../../",
   roots: ["<rootDir>/src"],
   setupTestFrameworkScriptFile: "jest-enzyme",
   testEnvironment: "enzyme",

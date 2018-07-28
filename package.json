@@ -6,13 +6,13 @@
   "author": "Gerard Chin <gerardchin91@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test jest --config=./config/jest/jest.config.js",
     "start": "yarn run start:dev",
     "build": "yarn run build:client",
     "start:dev": "cross-env NODE_ENV=development ./node_modules/.bin/webpack-dev-server --config config/webpack/webpack.config.js  --env.mode=development --env.source=client --env.prodSourceMaps=disable",
     "build:client": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --config config/webpack/webpack.config.js --env.mode=production --env.source=client --env.prodSourceMaps=disable",
     "build:renderer": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --config config/webpack/webpack.config.js --env.mode=production --env.source=renderer --env.prodSourceMaps=disable",
-    "test:withcov": "cross-env NODE_ENV=test jest --coverage",
+    "test:withcov": "cross-env NODE_ENV=test jest --config=./config/jest/jest.config.js --coverage",
     "i18n:sync": "node ./scripts/update-translations.js",
     "proto:gen": "./node_modules/.bin/pbjs -t static-module -w commonjs -o ./src/renderer/proto/js/index.js ./src/renderer/renderer.proto",
     "proto:types": "./node_modules/.bin/pbts -o ./src/renderer/proto/js/index.ts ./src/renderer/renderer.proto"

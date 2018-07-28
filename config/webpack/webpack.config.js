@@ -490,7 +490,7 @@ conf.addPlugin(undefined, CLIENT, ({ devMode }) => {
     caches: "all",
     appShell: "/",
     responseStrategy: devMode ? "network-first" : "cache-first",
-    excludes: ["**/*.map"],
+    excludes: ["**/*.map", "index.gohtml"],
     AppCache: false,
     ServiceWorker: {
       events: true,

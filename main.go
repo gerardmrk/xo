@@ -16,7 +16,8 @@ import (
 type key int
 
 const (
-	requestIDKey key = 0
+	requestIDKey     key    = 0
+	assetsPathPrefix string = "/assets/"
 )
 
 var (
@@ -35,7 +36,6 @@ func main() {
 
 	router := http.NewServeMux()
 	router.Handle("/", serveApp())
-	router.Handle("/assets/", serveAssets(assetsDirectory))
 	router.Handle("/healthz", healthz())
 
 	nextRequestID := func() string {
@@ -48,7 +48,7 @@ func main() {
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  15 * time.Second,
 		ErrorLog:     logger,
-		Handler:      tracingMiddleware(nextRequestID)(loggingMiddleware(logger)(assetsMiddleware()(router))),
+		Handler:      tracingMiddleware(nextRequestID)(loggingMiddleware(logger)(assetsMiddleware(assetsDirectory)(router))),
 	}
 
 	done := make(chan bool)
@@ -91,16 +91,6 @@ func serveApp() http.Handler {
 	})
 }
 
-func serveAssets(assetsDir string) http.Handler {
-	return http.StripPrefix("/assets/", http.FileServer(http.Dir(assetsDir)))
-}
-
-func serveSourceMaps() http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Encoding", "gzip")
-	})
-}
-
 func healthz() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if atomic.LoadInt32(&healthy) == 1 {
@@ -108,20 +98,30 @@ func healthz() http.Handler {
 			return
 		}
 		w.WriteHeader(http.StatusServiceUnavailable)
+		return
 	})
 }
 
-func assetsMiddleware() func(http.Handler) http.Handler {
+func assetsMiddleware(assetsDir string) func(http.Handler) http.Handler {
+	fileServer := http.StripPrefix(assetsPathPrefix, http.FileServer(http.Dir(assetsDir)))
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if !strings.HasPrefix(r.URL.Path, "/assets/") {
+			if !strings.HasPrefix(r.URL.Path, assetsPathPrefix) {
 				next.ServeHTTP(w, r)
+				return
 			}
+
+			assetPath := fmt.Sprintf("%s/%s", assetsDir, string(r.URL.Path[8:]))
+			gzippedAssetPath := fmt.Sprintf("%s.gz", assetPath)
 
 			// check if file has a gzipped counterpart and serve it
-			if _, err := os.Stat(r.URL.Path); os.IsNotExist(err) {
-
+			if _, err := os.Stat(gzippedAssetPath); os.IsNotExist(err) {
+				fileServer.ServeHTTP(w, r)
+				return
 			}
+			fmt.Printf("GZIPPED == %s\n", gzippedAssetPath)
+			w.Header().Set("Content-Encoding", "gzip")
+			http.ServeFile(w, r, gzippedAssetPath)
 		})
 	}
 }
