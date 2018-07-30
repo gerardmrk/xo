@@ -1,38 +1,45 @@
 import * as React from "react";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
 import { Form } from "semantic-ui-react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 // import styles from "./styles.less";
+import { StoreState, StoreDispatcher } from "@client/store";
+import { resetPassword } from "@client/store/user/async-actions";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 
-export interface Props {}
+export interface LocalProps {}
+
+export interface StoreProps {}
+
+export interface DispatchProps {
+  resetPassword(newPassword: string): void;
+}
+
+export type Props = LocalProps & StoreProps & DispatchProps;
 
 export type State = {
   password: string;
   passwordRepeat: string;
 };
 
-export class ResetPassword extends React.Component<
-  Props & InjectedIntlProps,
-  State
-> {
+export class ResetPassword extends React.Component<Props & InjectedIntlProps, State> {
   public state = {
     password: "",
     passwordRepeat: ""
   };
 
-  // prettier-ignore
   private onPasswordChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
     this.setState({ password: e.currentTarget.value });
   };
 
-  // prettier-ignore
   private onPasswordRepeatChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
     this.setState({ passwordRepeat: e.currentTarget.value });
   };
 
-  private onFormSubmit = (e: React.SyntheticEvent): void => {};
+  private onFormSubmit = (e: React.SyntheticEvent): void => {
+    this.props.resetPassword(this.state.password);
+  };
 
   public render(): JSX.Element | null {
     const {
@@ -60,9 +67,7 @@ export class ResetPassword extends React.Component<
               required={true}
               value={this.state.passwordRepeat}
               onChange={this.onPasswordRepeatChange}
-              label={
-                messages["form_fields.reset_password.reenter_new_password"]
-              }
+              label={messages["form_fields.reset_password.reenter_new_password"]}
             />
           </Form.Group>
         </Form>
@@ -77,4 +82,17 @@ export class ResetPassword extends React.Component<
   }
 }
 
-export default injectIntl<Props>(ResetPassword);
+const mapStateToProps = ({ session }: StoreState): StoreProps => ({});
+
+const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
+  resetPassword: (newPassword: string): void => {
+    dispatch(resetPassword(newPassword));
+  }
+});
+
+export default injectIntl<LocalProps>(
+  connect<StoreProps, DispatchProps, LocalProps>(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ResetPassword)
+);

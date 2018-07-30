@@ -45,13 +45,13 @@ export const register = (): StoreAsyncAction => async (dispatch: StoreDispatcher
 };
 
 // prettier-ignore
-export const changePassword = (): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const changePassword = (oldPassword: string, newPassword: string): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
   dispatch(actions.changePasswordPending({
       showLoader: true
   }));
 
   try {
-    await api.user.changePassword();
+    await api.user.changePassword(oldPassword, newPassword);
     
     dispatch(actions.changePasswordSuccess({
       showLoader: false
@@ -81,13 +81,13 @@ export const requestPasswordReset = (usernameOrEmail: string, callback: (success
 };
 
 // prettier-ignore
-export const resetPassword = (): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const resetPassword = (newPassword: string): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
   dispatch(actions.resetPasswordPending({
       showLoader: true
   }));
 
   try {
-    await api.user.resetPassword();
+    await api.user.resetPassword(newPassword);
     
     dispatch(actions.resetPasswordSuccess({
       showLoader: false
@@ -98,3 +98,23 @@ export const resetPassword = (): StoreAsyncAction => async (dispatch: StoreDispa
     }));
   }
 };
+
+// prettier-ignore
+export const verifyToken = (token: string, tokenScope: string, callback: (err?: Error) => void): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+  dispatch(actions.verifyTokenPending({
+    showLoader: true
+  }))
+
+  try {
+    await api.user.verifyToken(token, tokenScope);
+    dispatch(actions.verifyTokenSuccess(token, {
+      showLoader: false
+    }));
+    callback();
+  } catch (error) {
+    dispatch(actions.verifyTokenFailure(<Error>error, {
+      showLoader: false
+    }));
+    callback(error);
+  }
+}

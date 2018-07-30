@@ -3,13 +3,14 @@
   "npm.packageManager": "yarn",
   "eslint.enable": true,
   "eslint.options": {
-    "configFile": "config/syntax/.eslintrc"
+    "configFile": "app/webapp/config/syntax/.eslintrc"
   },
   "eslint.packageManager": "yarn",
   "tslint.enable": true,
   "tslint.packageManager": "yarn",
-  "tslint.configFile": "config/syntax/tslint.json",
+  "tslint.configFile": "app/webapp/config/syntax/tslint.json",
   "prettier.printWidth": 100,
+  "go.lintTool": "gometalinter",
   "[go]": {},
   "[json]": {
     "editor.tabSize": 2

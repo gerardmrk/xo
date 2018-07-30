@@ -36,17 +36,22 @@ class UserAPI {
     };
   }
 
-  public async changePassword(): Promise<void> {
+  public async changePassword(oldPassword: string, newPassword: string): Promise<void> {
     await sleep(2000);
     return;
   }
 
-  public async resetPassword(): Promise<void> {
+  public async resetPassword(newPassword: string): Promise<void> {
     await sleep(2000);
     return;
   }
 
   public async requestPasswordReset(usernameOrEmail: string): Promise<void> {
+    await sleep(2000);
+    return;
+  }
+
+  public async verifyToken(token: string, scope: string): Promise<void> {
     await sleep(2000);
     return;
   }

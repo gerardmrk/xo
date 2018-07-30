@@ -92,3 +92,20 @@ export const resetPasswordFailure = createAction(
   "user.resetPasswordFailure",
   resolve => (error: Error, flags: StoreMiddlewareFlags) => resolve(error, flags)
 );
+
+// verifyToken
+
+export const verifyTokenPending = createAction(
+  "user.verifyTokenPending",
+  resolve => (flags: StoreMiddlewareFlags) => resolve(undefined, flags)
+);
+
+export const verifyTokenSuccess = createAction(
+  "user.verifyTokenSuccess",
+  resolve => (token: string, flags: StoreMiddlewareFlags) => resolve(token, flags)
+);
+
+export const verifyTokenFailure = createAction(
+  "user.verifyTokenFailure",
+  resolve => (error: Error, flags: StoreMiddlewareFlags) => resolve(error, flags)
+);

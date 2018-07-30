@@ -3,24 +3,21 @@ import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 import { MemoryRouter as Router } from "react-router-dom";
 
-import { Verification } from "@client/views/routes/Verification";
-import { intl, shallowWithIntl } from "@client/utils/test-helpers";
+// import { Verification } from "@client/views/routes/Verification";
+import { shallowWithIntl } from "@client/utils/test-helpers";
 
 describe("<Verification />", () => {
-  const props = {
-    intl,
-    isLoggedIn: false,
-    isAuthenticating: false,
-    guarded: true
-  };
+  // const props = {
+  //   intl,
+  //   guarded: true,
+  //   match: undefined,
+  //   location: undefined,
+  //   history: {}
+  // };
 
   let component: ShallowWrapper;
   beforeEach(() => {
-    component = shallowWithIntl(
-      <Router>
-        <Verification {...props} />
-      </Router>
-    );
+    component = shallowWithIntl(<Router />);
   });
 
   it("renders OK", () => {

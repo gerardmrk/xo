@@ -8,17 +8,16 @@ import { intl, shallowWithIntl } from "@client/utils/test-helpers";
 
 describe("<ResetPassword />", () => {
   const props = {
-    intl,
-    isLoggedIn: false,
-    isAuthenticating: false,
-    guarded: true
+    intl
   };
+
+  const handleResetPasswordMock = (newPassword: string) => {};
 
   let component: ShallowWrapper;
   beforeEach(() => {
     component = shallowWithIntl(
       <Router>
-        <ResetPassword {...props} />
+        <ResetPassword {...props} resetPassword={handleResetPasswordMock} />
       </Router>
     );
   });

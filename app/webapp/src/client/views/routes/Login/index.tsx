@@ -53,20 +53,17 @@ export class Login extends React.Component<Props, State> {
     }
   }
 
-  // prettier-ignore
   private onUsernameOrEmailChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
     this.setState({ usernameOrEmail: e.currentTarget.value });
   };
 
-  // prettier-ignore
   private onPasswordChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
     this.setState({ password: e.currentTarget.value });
   };
 
-  // prettier-ignore
   private onRememberChange = (e: React.SyntheticEvent): void => {
-    this.setState({ remember: !this.state.remember })
-  }
+    this.setState({ remember: !this.state.remember });
+  };
 
   private onFormSubmit = (): void => {
     this.props.login(this.state.usernameOrEmail, this.state.password, this.state.remember);
@@ -149,7 +146,6 @@ const mapStateToProps = ({ session }: StoreState): StoreProps => ({
   isAuthenticating: session.authenticating
 });
 
-// prettier-ignore
 const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
   login: (usernameOrEmail: string, password: string, remember: boolean): void => {
     dispatch(login(usernameOrEmail, password, remember));
