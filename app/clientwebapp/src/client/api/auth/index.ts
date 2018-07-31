@@ -3,10 +3,11 @@
  */
 import sleep from "@client/utils/sleep";
 import { AuthTokens } from "@client/store/session/models";
+import { AbstractAuthAPI } from "@client/api/auth/type";
 
 export interface Config {}
 
-class AuthAPI {
+class AuthAPI implements AbstractAuthAPI {
   public constructor(config: Config) {}
 
   public async authenticate(

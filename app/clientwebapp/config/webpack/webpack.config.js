@@ -509,8 +509,8 @@ conf.addPlugin(PRO, undefined, ({ paths, buildSettings }) => {
     analyzerMode: "static",
     openAnalyzer: false,
     generateStatsFile: true,
-    statsFilename: `${paths.outputDir}/${buildSettings.source}-bundle-stats.json`,
-    reportFilename: `${paths.outputDir}/${buildSettings.source}-bundle-stats.html`
+    statsFilename: `${paths.outputDir}/${buildSettings.source}/bundlestats.json`,
+    reportFilename: `${paths.outputDir}/${buildSettings.source}/bundlestats.html`
   });
 });
 

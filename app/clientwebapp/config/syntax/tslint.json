@@ -47,6 +47,7 @@
     "no-unsafe-any": { "severity": "warning" },
     "ordered-imports": false,
     "object-literal-sort-keys": false,
+    "one-variable-per-declaration": false,
     "strict-boolean-expressions": false,
     "typedef": {
       "severity": "warning",

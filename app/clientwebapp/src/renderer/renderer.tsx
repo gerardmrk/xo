@@ -42,8 +42,9 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
 
   try {
     // Initialize store
-    // tslint:disable-next-line
-    const store: Store = initStore(new API(AUTH_SERVICE_CONF, USER_SERVICE_CONF))({} as StoreState);
+    const store: Store = initStore(
+      await API.BUILD({ stub: true, authConf: AUTH_SERVICE_CONF, userConf: USER_SERVICE_CONF })
+    )({} as StoreState); // tslint:disable-line
 
     const renderedModules: string[] = [];
     const captureModules = (moduleName: string): void => {

@@ -2,8 +2,4 @@
 /coverage
 
 dist/*
-!dist/client
-!dist/renderer
-dist/client/*
-dist/renderer/*
 .cache/
