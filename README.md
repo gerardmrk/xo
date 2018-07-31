@@ -11,8 +11,10 @@ This does not follow standard React-Redux-TypeScript conventions for various rea
 ## Setup
 
 ```shell
-git clone && \
-  cd app/webappyarn install && yarn start
+git clone git@github.com:gerardmrk/xo.git && \
+  cd xo/app/clientwebapp && \
+  yarn install && \
+  yarn start
 ```
 
 then open `localhost:4200`
