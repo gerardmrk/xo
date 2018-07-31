@@ -101,10 +101,10 @@ class UserAPI {
 
   /**
    * Authenticated endpoint for changing the user's password.
-   * @param oldPassword the current password of the user
+   * @param currentPassword the current password of the user
    * @param newPassword the new password as entered by the user
    */
-  public async changePassword(oldPassword: string, newPassword: string): Promise<void> {
+  public async changePassword(currentPassword: string, newPassword: string): Promise<void> {
     await sleep(2000);
     return;
   }
