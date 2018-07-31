@@ -2,6 +2,8 @@
  * user state models
  */
 
+export type VerificationScope = "email" | "passwordreset";
+
 export interface AccountSettings {
   username: string;
   email: string;
@@ -28,4 +30,12 @@ export interface AppPreferences {
 export type UserSettings = {
   accountSettings: AccountSettings;
   profileSettings: ProfileSettings;
+  appPreferences: AppPreferences;
 };
+
+export interface RegistrationPayload {
+  username: string;
+  email: string;
+  password: string;
+  agreedToTOS: boolean;
+}

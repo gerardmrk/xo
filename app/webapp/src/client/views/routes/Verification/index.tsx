@@ -5,17 +5,16 @@ import { Redirect, RouteComponentProps } from "react-router-dom";
 
 import styles from "./styles.less";
 import { StoreState, StoreDispatcher } from "@client/store";
-import { verifyToken } from "@client/store/user/async-actions";
+import { verifyCode } from "@client/store/user/async-actions";
 import queryParamsToObj from "@client/utils/query-params-to-obj";
+import { VerificationScope } from "@client/store/user/models";
 
-export type VerificationContext = "email" | "passwordreset";
-
-export interface LocalProps extends RouteComponentProps<{ ctx: VerificationContext }> {}
+export interface LocalProps extends RouteComponentProps<{ scope: VerificationScope }> {}
 
 export interface StoreProps {}
 
 export interface DispatchProps {
-  verifyToken(code: string, context: VerificationContext, cb: (err?: Error) => void): void;
+  verifyCode(code: string, scope: VerificationScope, cb: (err?: Error) => void): void;
 }
 
 export type Props = LocalProps & StoreProps & DispatchProps;
@@ -34,10 +33,10 @@ export class Verification extends React.Component<Props, State> {
   public componentDidMount(): void {
     // prettier-ignore
     this.setState({ verifying: true }, (): void => {
-      this.props.verifyToken(
+      this.props.verifyCode(
         queryParamsToObj(this.props.location.search).code,
-        this.props.match.params.ctx,
-        (error?: Error) => this.setState({ error, verifying: false })
+        this.props.match.params.scope,
+        (error?: Error) => { this.setState({ error, verifying: false }) }
       );
     });
   }
@@ -67,8 +66,8 @@ export class Verification extends React.Component<Props, State> {
 const mapStateToProps = (state: StoreState): StoreProps => ({});
 
 const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
-  verifyToken: (code: string, context: VerificationContext, cb: (err?: Error) => void): void => {
-    dispatch(verifyToken(code, context, cb));
+  verifyCode: (code: string, scope: VerificationScope, cb: (err?: Error) => void): void => {
+    dispatch(verifyCode(code, scope, cb));
   }
 });
 

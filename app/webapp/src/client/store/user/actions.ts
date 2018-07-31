@@ -93,19 +93,19 @@ export const resetPasswordFailure = createAction(
   resolve => (error: Error, flags: StoreMiddlewareFlags) => resolve(error, flags)
 );
 
-// verifyToken
+// verifyCode
 
-export const verifyTokenPending = createAction(
-  "user.verifyTokenPending",
+export const verifyCodePending = createAction(
+  "user.verifyCodePending",
   resolve => (flags: StoreMiddlewareFlags) => resolve(undefined, flags)
 );
 
-export const verifyTokenSuccess = createAction(
-  "user.verifyTokenSuccess",
+export const verifyCodeSuccess = createAction(
+  "user.verifyCodeSuccess",
   resolve => (token: string, flags: StoreMiddlewareFlags) => resolve(token, flags)
 );
 
-export const verifyTokenFailure = createAction(
-  "user.verifyTokenFailure",
+export const verifyCodeFailure = createAction(
+  "user.verifyCodeFailure",
   resolve => (error: Error, flags: StoreMiddlewareFlags) => resolve(error, flags)
 );

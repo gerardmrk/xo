@@ -20,15 +20,11 @@ const defaultState: State = {
 
 const user: Reducer = (state: State = defaultState, action: Action): State => {
   switch (action.type) {
-    case getType(actions.getSettingsPending):
-      return state;
-
     case getType(actions.getSettingsSuccess):
       return set("settings", action.payload, state);
 
+    case getType(actions.getSettingsPending):
     case getType(actions.getSettingsFailure):
-      return state;
-
     case getType(actions.registerPending):
     case getType(actions.registerSuccess):
     case getType(actions.registerFailure):
@@ -41,6 +37,9 @@ const user: Reducer = (state: State = defaultState, action: Action): State => {
     case getType(actions.resetPasswordPending):
     case getType(actions.resetPasswordSuccess):
     case getType(actions.resetPasswordFailure):
+    case getType(actions.verifyCodePending):
+    case getType(actions.verifyCodeSuccess):
+    case getType(actions.verifyCodeFailure):
     default:
       return state;
   }
