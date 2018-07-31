@@ -1,0 +1,64 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-react",
+    "tslint-eslint-rules",
+    "tslint-microsoft-contrib",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "ban-comma-operator": false,
+    "completed-docs": false,
+    "curly": false,
+    "export-name": false,
+    "import-name": false,
+    "interface-name": false,
+    "interface-over-type-literal": false,
+    "match-default-export-name": false,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "private-static-field",
+          "protected-static-field",
+          "public-static-field",
+          "private-instance-field",
+          "protected-instance-field",
+          "public-instance-field",
+          "private-constructor",
+          "protected-constructor",
+          "public-constructor"
+        ]
+      }
+    ],
+    "missing-jsdoc": false,
+    "mocha-no-side-effect-code": [true, { "ignore": "it\\.skip.*" }],
+    "newline-before-return": false,
+    "no-console": { "severity": "warning" },
+    "no-default-export": false,
+    "no-empty": false,
+    "no-empty-interface": false,
+    "no-floating-promises": false,
+    "no-implicit-dependencies": false,
+    "no-relative-imports": false,
+    "no-single-line-block-comment": false,
+    "no-submodule-imports": false,
+    "no-unnecessary-callback-wrapper": false,
+    "no-unsafe-any": { "severity": "warning" },
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "one-variable-per-declaration": false,
+    "strict-boolean-expressions": false,
+    "typedef": {
+      "severity": "warning",
+      "options": [
+        "parameter",
+        "arrow-parameter",
+        "property-declaration",
+        "call-signature",
+        "arrow-call-signature"
+      ]
+    },
+    "variable-name": false
+  }
+}

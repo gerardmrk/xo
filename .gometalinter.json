@@ -1,0 +1,5 @@
+{
+  "Enable": ["gosimple", "nakedret"],
+  "Format":
+    "{{.Path}}:{{.Line}}:{{if .Col}}{{.Col}}{{end}}:{{.Severity}}: {{.Message}} ({{.Linter}})"
+}
