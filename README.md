@@ -11,7 +11,8 @@ This does not follow standard React-Redux-TypeScript conventions for various rea
 ## Setup
 
 ```shell
-yarn install && yarn start
+git clone && \
+  cd app/webappyarn install && yarn start
 ```
 
 then open `localhost:4200`
