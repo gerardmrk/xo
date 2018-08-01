@@ -45,7 +45,7 @@ export class ForgotPassword extends React.Component<Props, State> {
     const { intl: { messages } } = this.props;
 
     if (this.state.redirect) {
-      return <Redirect to={"/message"} />;
+      return <Redirect to={"/affirmation?preset=forgotpassword"} />;
     }
 
     return (

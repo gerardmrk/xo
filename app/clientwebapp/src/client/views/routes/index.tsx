@@ -15,6 +15,16 @@ export const DEFAULT_AUTH_PATH: string = "/login";
 export const DEFAULT_PUBLIC_PATH: string = "/";
 export const DEFAULT_PRIVATE_PATH: string = "/dashboard";
 
+export const POST_VERIFICATION_SUCCESS_REDIRECTION_RULES = {
+  email: "/affirmation?preset=emailconfirmed",
+  passwordreset: "/reset-password"
+};
+
+export const POST_VERIFICATION_FAILURE_REDIRECTION_RULES = {
+  invalidCode: "/affirmation?preset=invalidcode",
+  expiredCode: "/affirmation?preset=expiredcode"
+};
+
 export const routes: RouteProps[] = [
   {
     path: DEFAULT_PUBLIC_PATH,
@@ -72,14 +82,14 @@ export const routes: RouteProps[] = [
     })
   },
   {
-    path: "/message",
+    path: "/affirmation",
     exact: true,
     guarded: false,
     seo: { title: "-" },
     component: Loadable({
       loading: RouteLoaderUI,
-      modules: ["routes/message"],
-      loader: () => import(/* webpackChunkName: "routes/message" */ "@client/views/routes/Message") // prettier-ignore
+      modules: ["routes/affirmationmessage"],
+      loader: () => import(/* webpackChunkName: "routes/affirmationmessage" */ "@client/views/routes/AffirmationMessage") // prettier-ignore
     })
   },
   {

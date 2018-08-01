@@ -60,9 +60,21 @@
     }
   },
 
+  "instructions": {
+    "check_your_email": "Please Check Your Email"
+  },
+
+  "affirmations": {
+    "verification_email_sent":
+      "An email with your password reset instructions has been sent to your inbox. Check your spam folder if it hasn't appeared in your inbox after a few minutes.",
+    "email_verified": "Your email has been successfully verified."
+  },
+
   "error_msgs": {
     "400": "400 Bad Request",
     "404": "404 Not Found",
-    "500": "500 Internal Server Error"
+    "500": "500 Internal Server Error",
+    "invalid_verification_code": "The provided verification code is invalid.",
+    "expired_verification_code": "The provided verification code has expired."
   }
 }
