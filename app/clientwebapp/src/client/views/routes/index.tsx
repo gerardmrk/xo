@@ -2,7 +2,7 @@
 import * as Loadable from "react-loadable";
 import { RouteProps as BaseRouteProps } from "react-router-dom";
 
-import { SeoProps } from "@client/views/components/SeoElements";
+import { SeoProps } from "@client/views/connected/Route/SeoElements";
 import RouteLoaderUI from "@client/views/components/RouteLoaderUI";
 
 export interface RouteProps extends BaseRouteProps {
@@ -16,13 +16,13 @@ export const DEFAULT_PUBLIC_PATH: string = "/";
 export const DEFAULT_PRIVATE_PATH: string = "/dashboard";
 
 export const POST_VERIFICATION_SUCCESS_REDIRECTION_RULES = {
-  email: "/affirmation?preset=emailconfirmed",
+  email: "/instructions?preset=emailconfirmed",
   passwordreset: "/reset-password"
 };
 
 export const POST_VERIFICATION_FAILURE_REDIRECTION_RULES = {
-  invalidCode: "/affirmation?preset=invalidcode",
-  expiredCode: "/affirmation?preset=expiredcode"
+  invalidCode: "/instructions?preset=invalidcode",
+  expiredCode: "/instructions?preset=expiredcode"
 };
 
 export const routes: RouteProps[] = [
@@ -82,14 +82,14 @@ export const routes: RouteProps[] = [
     })
   },
   {
-    path: "/affirmation",
+    path: "/instructions",
     exact: true,
     guarded: false,
     seo: { title: "-" },
     component: Loadable({
       loading: RouteLoaderUI,
-      modules: ["routes/affirmationmessage"],
-      loader: () => import(/* webpackChunkName: "routes/affirmationmessage" */ "@client/views/routes/AffirmationMessage") // prettier-ignore
+      modules: ["routes/instructions"],
+      loader: () => import(/* webpackChunkName: "routes/instructions" */ "@client/views/routes/Instructions") // prettier-ignore
     })
   },
   {

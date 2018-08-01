@@ -7,10 +7,10 @@ import { Container, Menu, Dropdown, Divider } from "semantic-ui-react";
 import styles from "./styles.less";
 import { StoreState, StoreDispatcher } from "@client/store";
 import { DEFAULT_PUBLIC_PATH, DEFAULT_PRIVATE_PATH } from "@client/views/routes";
-import withAppSettings, { InjectedAppSettingsProps } from "@client/views/hocs/withAppSettings";
+import withSettings, { InjectedSettingsProps } from "@client/views/hocs/withSettings";
 import * as sessionActions from "@client/store/session/async-actions";
 
-export interface LocalProps extends InjectedAppSettingsProps {}
+export interface LocalProps extends InjectedSettingsProps {}
 export interface StoreProps {
   isLoggedIn: boolean;
 }
@@ -28,7 +28,7 @@ export class Header extends React.Component<Props, State> {
 
   // prettier-ignore
   public render(): JSX.Element | null {
-    const { intl: { messages }, appSettings: { name } } = this.props;
+    const { intl: { messages }, settings: { appSettings: { name } } } = this.props;
 
     return (
       <header className={styles.main}>
@@ -103,7 +103,7 @@ const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
   }
 });
 
-export default withAppSettings<LocalProps>(
+export default withSettings<LocalProps>(
   injectIntl<LocalProps>(
     connect<StoreProps, DispatchProps, LocalProps>(
       mapStateToProps,

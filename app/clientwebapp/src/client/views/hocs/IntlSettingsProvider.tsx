@@ -10,7 +10,7 @@ import * as defaultLocaleData from "react-intl/locale-data/en";
 import defaultTranslations from "@translations/en.json";
 import flattenTranslations from "@client/utils/flatten-translations";
 import deriveLangFromLocale from "@client/utils/derive-lang-from-locale";
-import IntlSettingsContext, { IntlSettings } from "@client/contexts/IntlSettingsContext";
+import IntlSettingsContext, { IntlSettings } from "@client/views/contexts/IntlSettingsContext";
 
 export interface Props {
   settings: typeof INJECTED_INTL_SETTINGS;

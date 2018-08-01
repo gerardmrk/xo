@@ -3,10 +3,10 @@ import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 import { MemoryRouter as Router } from "react-router-dom";
 
-import { UnknownErr } from "@client/views/routes/UnknownErr";
+import { GenericErrorMessage } from "@client/views/components/GenericErrorMessage";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
 
-describe("<UnknownErr />", () => {
+describe("<GenericErrorMessage />", () => {
   const props = {
     intl,
     isLoggedIn: false,
@@ -18,7 +18,7 @@ describe("<UnknownErr />", () => {
   beforeEach(() => {
     component = shallowWithIntl(
       <Router>
-        <UnknownErr {...props} />
+        <GenericErrorMessage {...props} />
       </Router>
     );
   });

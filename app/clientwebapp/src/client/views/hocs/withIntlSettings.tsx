@@ -2,7 +2,7 @@
 import * as React from "react";
 import { Subtract } from "utility-types";
 
-import IntlContext, { IntlSettings } from "@client/contexts/IntlSettingsContext";
+import IntlContext, { IntlSettings } from "@client/views/contexts/IntlSettingsContext";
 
 export interface InjectedIntlSettingsProps {
   intlSettings: IntlSettings;

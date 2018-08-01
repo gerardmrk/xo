@@ -12,9 +12,9 @@ import API from "@client/api";
 import App from "@client/views/App";
 import IntlProvider from "@client/views/hocs/IntlProvider";
 import initStore, { Store, StoreState } from "@client/store";
-import AppSettingsProvider from "@client/views/hocs/AppSettingsProvider";
+import SettingsProvider from "@client/views/hocs/SettingsProvider";
 import IntlSettingsProvider from "@client/views/hocs/IntlSettingsProvider";
-import BuildSettingsProvider from "@client/views/hocs/BuildSettingsProvider";
+import TopLevelErrorCatcher from "@client/views/connected/TopLevelErrorCatcher";
 // include the semantic-ui theme files and configs
 // import "@client/views/theme/semantic.less";
 
@@ -57,9 +57,9 @@ import BuildSettingsProvider from "@client/views/hocs/BuildSettingsProvider";
 
     // Render the whole app into the DOM at the specified mount point.
     renderIntoDOM(
-      <BuildSettingsProvider settings={INJECTED_BUILD_SETTINGS}>
-        <AppSettingsProvider settings={INJECTED_APP_SETTINGS}>
-          <IntlSettingsProvider settings={INJECTED_INTL_SETTINGS}>
+      <SettingsProvider appSettings={INJECTED_APP_SETTINGS} buildSettings={INJECTED_BUILD_SETTINGS}>
+        <IntlSettingsProvider settings={INJECTED_INTL_SETTINGS}>
+          <TopLevelErrorCatcher errorServiceDSN={""}>
             <IntlProvider>
               <StoreProvider store={store}>
                 <Router>
@@ -67,9 +67,9 @@ import BuildSettingsProvider from "@client/views/hocs/BuildSettingsProvider";
                 </Router>
               </StoreProvider>
             </IntlProvider>
-          </IntlSettingsProvider>
-        </AppSettingsProvider>
-      </BuildSettingsProvider>,
+          </TopLevelErrorCatcher>
+        </IntlSettingsProvider>
+      </SettingsProvider>,
       document.getElementById("app-mount-point")
     );
   } catch (err) {

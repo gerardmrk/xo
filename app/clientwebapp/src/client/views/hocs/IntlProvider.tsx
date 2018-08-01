@@ -6,9 +6,7 @@
 import * as React from "react";
 import { IntlProvider as BaseIntlProvider } from "react-intl";
 
-import IntlSettingsContext, {
-  IntlSettings
-} from "@client/contexts/IntlSettingsContext";
+import IntlSettingsContext, { IntlSettings } from "@client/views/contexts/IntlSettingsContext";
 
 export interface Props {}
 
@@ -24,9 +22,7 @@ export class IntlProvider extends React.Component<Props, State> {
 
   public render(): JSX.Element | null {
     return (
-      <IntlSettingsContext.Consumer>
-        {this.renderBaseIntlProvider}
-      </IntlSettingsContext.Consumer>
+      <IntlSettingsContext.Consumer>{this.renderBaseIntlProvider}</IntlSettingsContext.Consumer>
     );
   }
 }

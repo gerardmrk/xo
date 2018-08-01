@@ -3,10 +3,10 @@ import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 import { MemoryRouter as Router } from "react-router-dom";
 
-// import { AffirmationMessage } from "@client/views/routes/AffirmationMessage";
+// import { Instructions } from "@client/views/routes/Instructions";
 import { shallowWithIntl } from "@client/utils/test-helpers";
 
-describe("<AffirmationMessage />", () => {
+describe("<Instructions />", () => {
   // const props = {
   //   intl,
   //   isLoggedIn: false,
@@ -16,7 +16,7 @@ describe("<AffirmationMessage />", () => {
 
   let component: ShallowWrapper;
   beforeEach(() => {
-    component = shallowWithIntl(<Router>{/* <AffirmationMessage {...props} /> */}</Router>);
+    component = shallowWithIntl(<Router>{/* <Instructions {...props} /> */}</Router>);
   });
 
   it("renders OK", () => {

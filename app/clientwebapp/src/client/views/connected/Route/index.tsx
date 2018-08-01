@@ -4,7 +4,7 @@ import { LocationDescriptorObject } from "history";
 import { Route as BaseRoute, Redirect, RouteComponentProps } from "react-router-dom";
 
 import { StoreState } from "@client/store";
-import SeoElements from "@client/views/components/SeoElements";
+import SeoElements from "@client/views/connected/Route/SeoElements";
 import { RouteProps, DEFAULT_PRIVATE_PATH, DEFAULT_AUTH_PATH } from "@client/views/routes";
 
 export interface LocalProps extends RouteProps {}

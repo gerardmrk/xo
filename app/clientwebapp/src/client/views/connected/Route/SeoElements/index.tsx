@@ -2,10 +2,7 @@ import * as React from "react";
 import { Helmet } from "react-helmet";
 
 import appLogo from "@client/logo.png?noembed";
-import withAppSettings, { InjectedAppSettingsProps } from "@client/views/hocs/withAppSettings";
-import withBuildSettings, {
-  InjectedBuildSettingsProps
-} from "@client/views/hocs/withBuildSettings";
+import withSettings, { InjectedSettingsProps } from "@client/views/hocs/withSettings";
 
 export interface SeoProps {
   readonly routePath?: string;
@@ -17,10 +14,7 @@ export interface SeoProps {
   readonly twitterCardType?: "summary" | "summary_large_image" | "app" | "player";
 }
 
-export interface LocalProps
-  extends SeoProps,
-    InjectedAppSettingsProps,
-    InjectedBuildSettingsProps {}
+export interface LocalProps extends SeoProps, InjectedSettingsProps {}
 
 export type Props = LocalProps;
 
@@ -33,7 +27,10 @@ export class SeoElements extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props);
 
-    const { routePath, appSettings } = props;
+    const {
+      routePath,
+      settings: { appSettings }
+    } = props;
 
     this.titleTemplate = `${appSettings.name} | %s`;
     this.pageLink = routePath
@@ -46,7 +43,7 @@ export class SeoElements extends React.PureComponent<Props, State> {
       routeType = "website",
       imageAlt = "website logo",
       twitterCardType = "summary",
-      appSettings
+      settings: { appSettings }
     } = this.props;
 
     // not exactly sane defaults, but with a bundle size this big it's never
@@ -85,4 +82,4 @@ export class SeoElements extends React.PureComponent<Props, State> {
   }
 }
 
-export default withBuildSettings(withAppSettings<LocalProps>(SeoElements));
+export default withSettings<LocalProps>(SeoElements);
