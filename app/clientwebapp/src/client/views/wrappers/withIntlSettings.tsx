@@ -16,10 +16,8 @@ export const withIntlSettings = <WrappedProps extends InjectedIntlSettingsProps>
 
   return class WithIntlSettings extends React.Component<HocProps, HocState> {
     public static displayName = `withIntlSettings(${WrappedComponent.name})`;
-    // reference to original wrapped component
     public static readonly WrappedComponent = WrappedComponent;
 
-    // prettier-ignore
     public renderWithIntlSettings = (settings: IntlSettings): JSX.Element => (
       <WrappedComponent {...this.props} intlSettings={settings} />
     )

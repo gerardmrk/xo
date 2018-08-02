@@ -23,3 +23,11 @@ scope = "openid"
 
 [services.user]
 name = "dsd"
+
+# IP Stack
+[services.geolocator]
+api = ""
+
+# Sentry 
+[services.error_reporter]
+dsn = ""

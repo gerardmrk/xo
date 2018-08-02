@@ -10,10 +10,10 @@ import * as OfflinePluginRuntime from "offline-plugin/runtime";
 
 import API from "@client/api";
 import App from "@client/views/App";
-import IntlProvider from "@client/views/hocs/IntlProvider";
+import IntlProvider from "@client/views/wrappers/IntlProvider";
 import initStore, { Store, StoreState } from "@client/store";
-import SettingsProvider from "@client/views/hocs/SettingsProvider";
-import IntlSettingsProvider from "@client/views/hocs/IntlSettingsProvider";
+import SettingsProvider from "@client/views/wrappers/SettingsProvider";
+import IntlSettingsProvider from "@client/views/wrappers/IntlSettingsProvider";
 import TopLevelErrorCatcher from "@client/views/connected/TopLevelErrorCatcher";
 // include the semantic-ui theme files and configs
 // import "@client/views/theme/semantic.less";

@@ -11,9 +11,9 @@ import { StaticRouter as Router } from "react-router-dom";
 import API from "@client/api";
 import App from "@client/views/App";
 import initStore, { Store, StoreState } from "@client/store";
-import IntlProvider from "@client/views/hocs/IntlProvider";
-import SettingsProvider from "@client/views/hocs/SettingsProvider";
-import IntlSettingsProvider from "@client/views/hocs/IntlSettingsProvider";
+import IntlProvider from "@client/views/wrappers/IntlProvider";
+import SettingsProvider from "@client/views/wrappers/SettingsProvider";
+import IntlSettingsProvider from "@client/views/wrappers/IntlSettingsProvider";
 import TopLevelErrorCatcher from "@client/views/connected/TopLevelErrorCatcher";
 
 // REQUEST PARAMS

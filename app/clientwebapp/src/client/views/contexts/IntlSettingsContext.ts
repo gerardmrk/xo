@@ -16,11 +16,10 @@ export interface IntlSettings {
   setLocale(locale: string): Promise<void>;
 }
 
-// prettier-ignore
 export const IntlSettingsContext: React.Context<IntlSettings> = React.createContext<IntlSettings>({
   locale: "en",
   messages: {},
-  defaultLanguage: 'en',
+  defaultLanguage: "en",
   supportedLanguages: [],
   setLocale: async (locale: string): Promise<void> => {}
 });

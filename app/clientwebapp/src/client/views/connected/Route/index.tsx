@@ -22,12 +22,20 @@ export type State = {};
 export class Route extends React.Component<Props, State> {
   private targetRoute: LocationDescriptorObject = {
     pathname: DEFAULT_AUTH_PATH,
+    search: "",
     state: { from: "" }
   };
 
   public constructor(props: Props) {
     super(props);
-    this.targetRoute.state.from = props.location || DEFAULT_PRIVATE_PATH; // tslint:disable-line
+
+    const redirectTo =
+      props.location && props.location.pathname
+        ? `${props.location.pathname}${props.location.search || ""}`
+        : DEFAULT_PRIVATE_PATH;
+
+    this.targetRoute.state.from = redirectTo; // tslint:disable-line
+    this.targetRoute.search = `?from=${encodeURIComponent(redirectTo)}`;
   }
 
   // prettier-ignore

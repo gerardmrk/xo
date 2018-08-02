@@ -18,6 +18,8 @@
     "proto:types": "./node_modules/.bin/pbts -o ./src/renderer/proto/js/index.ts ./src/renderer/renderer.proto"
   },
   "dependencies": {
+    "@types/debug": "^0.0.30",
+    "debug": "^3.1.0",
     "isomorphic-fetch": "^2.2.1",
     "normalize.css": "^8.0.0",
     "raven-js": "^3.26.4",

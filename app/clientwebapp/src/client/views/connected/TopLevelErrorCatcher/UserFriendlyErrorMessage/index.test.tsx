@@ -3,10 +3,10 @@ import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 import { MemoryRouter as Router } from "react-router-dom";
 
-import { GenericErrorMessage } from "@client/views/components/GenericErrorMessage";
+import { UserFriendlyErrorMessage } from "@client/views/connected/TopLevelErrorCatcher/UserFriendlyErrorMessage";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
 
-describe("<GenericErrorMessage />", () => {
+describe("<UserFriendlyErrorMessage />", () => {
   const props = {
     intl,
     isLoggedIn: false,
@@ -18,7 +18,7 @@ describe("<GenericErrorMessage />", () => {
   beforeEach(() => {
     component = shallowWithIntl(
       <Router>
-        <GenericErrorMessage {...props} />
+        <UserFriendlyErrorMessage {...props} />
       </Router>
     );
   });

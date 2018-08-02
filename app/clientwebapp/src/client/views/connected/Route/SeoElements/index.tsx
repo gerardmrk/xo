@@ -2,7 +2,7 @@ import * as React from "react";
 import { Helmet } from "react-helmet";
 
 import appLogo from "@client/logo.png?noembed";
-import withSettings, { InjectedSettingsProps } from "@client/views/hocs/withSettings";
+import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/withSettings";
 
 export interface SeoProps {
   readonly routePath?: string;

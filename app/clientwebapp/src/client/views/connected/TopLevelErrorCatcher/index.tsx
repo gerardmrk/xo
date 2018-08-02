@@ -8,14 +8,19 @@
 
 import * as React from "react";
 import * as Raven from "raven-js";
-import GenericErrorMessage from "@client/views/components/GenericErrorMessage";
+import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/withSettings";
+import DevErrorDisplay from "@client/views/connected/TopLevelErrorCatcher/DevErrorDisplay";
+import UserFriendlyErrorMessage from "@client/views/connected/TopLevelErrorCatcher/UserFriendlyErrorMessage";
 
-export type Props = {
+export interface LocalProps extends InjectedSettingsProps {
   errorServiceDSN: string;
-};
+}
+
+export type Props = LocalProps;
 
 export type State = {
   error?: Error;
+  errorInfo?: React.ErrorInfo;
 };
 
 export class TopLevelErrorCatcher extends React.PureComponent<Props, State> {
@@ -28,16 +33,20 @@ export class TopLevelErrorCatcher extends React.PureComponent<Props, State> {
     Raven.config(props.errorServiceDSN).install();
 
     this.state = {
-      error: undefined
+      error: undefined,
+      errorInfo: undefined
     };
   }
 
   public componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     // any uncaught exceptions will bubble up the tree and end up here
-    this.setState((prevState: State) => ({ ...prevState, error }));
+    this.setState((prevState: State) => ({ ...prevState, error, errorInfo }));
   }
 
   public render(): React.ReactNode | null {
+    const {
+      settings: { buildSettings }
+    } = this.props;
     if (this.state.error === undefined) {
       return this.props.children;
     }
@@ -45,10 +54,13 @@ export class TopLevelErrorCatcher extends React.PureComponent<Props, State> {
     // if we've reached here, it means an error was caught
 
     // if development mode, display everything
+    if (buildSettings.devMode) {
+      return <DevErrorDisplay error={this.state.error} errorInfo={this.state.errorInfo} />;
+    }
 
     // if production mode, redirect user to generic error page
-    return <GenericErrorMessage />;
+    return <UserFriendlyErrorMessage />;
   }
 }
 
-export default TopLevelErrorCatcher;
+export default withSettings(TopLevelErrorCatcher);

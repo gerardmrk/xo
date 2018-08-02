@@ -9,6 +9,7 @@ import { StoreState, StoreDispatcher } from "@client/store";
 import { login } from "@client/store/session/async-actions";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 import { RouteProps, DEFAULT_PRIVATE_PATH, DEFAULT_AUTH_PATH } from "@client/views/routes";
+import queryParamsToObj from "@client/utils/query-params-to-obj";
 
 export interface LocalProps extends RouteProps {}
 
@@ -44,12 +45,18 @@ export class Login extends React.Component<Props, State> {
     };
 
     if (
-      !!props.location && // tslint:disable-line
-      !!props.location.state && // tslint:disable-line
+      !!props.location &&
+      !!props.location.state &&
       !!props.location.state.from && // tslint:disable-line
       props.location.state.from.pathname !== DEFAULT_AUTH_PATH // tslint:disable-line
     ) {
       this.referrerRoute = props.location.state.from; // tslint:disable-line
+    } else if (
+      !!props.location &&
+      !!props.location.search &&
+      !!queryParamsToObj(props.location.search).from
+    ) {
+      this.referrerRoute = decodeURIComponent(queryParamsToObj(props.location.search).from);
     }
   }
 

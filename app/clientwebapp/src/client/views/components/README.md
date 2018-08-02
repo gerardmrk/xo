@@ -1,0 +1,3 @@
+# Pure Components
+
+Pure components

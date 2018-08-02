@@ -3,8 +3,8 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 import { Header, Select, Container, DropdownOnSearchChangeData } from "semantic-ui-react";
 
 import styles from "./styles.less";
-import withSettings, { InjectedSettingsProps } from "@client/views/hocs/withSettings";
-import withIntlSettings, { InjectedIntlSettingsProps } from "@client/views/hocs/withIntlSettings"; // prettier-ignore
+import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/withSettings";
+import withIntlSettings, { InjectedIntlSettingsProps } from "@client/views/wrappers/withIntlSettings"; // prettier-ignore
 
 export interface LocalProps {}
 

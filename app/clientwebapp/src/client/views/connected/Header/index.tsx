@@ -7,7 +7,7 @@ import { Container, Menu, Dropdown, Divider } from "semantic-ui-react";
 import styles from "./styles.less";
 import { StoreState, StoreDispatcher } from "@client/store";
 import { DEFAULT_PUBLIC_PATH, DEFAULT_PRIVATE_PATH } from "@client/views/routes";
-import withSettings, { InjectedSettingsProps } from "@client/views/hocs/withSettings";
+import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/withSettings";
 import * as sessionActions from "@client/store/session/async-actions";
 
 export interface LocalProps extends InjectedSettingsProps {}
