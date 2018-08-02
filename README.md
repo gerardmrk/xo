@@ -31,9 +31,9 @@ The app itself should always be runnable and buildable on `master`, while other 
 |         | Preprocessor           | [Less](http://lesscss.org/)                                                             |
 |         | Postprocessor          | [Autoprefixer](https://autoprefixer.github.io/)                                         |
 | Scripts | Types Transpiler       | [TypeScript](https://www.typescriptlang.org/)                                           |
-|         | ESNext Transpiler      | [Babel 8](https://babeljs.io/)                                                          |
+|         | ESNext Transpiler      | [Babel 7](https://babeljs.io/)                                                          |
 |         | Assets/Modules Bundler | [Webpack 4](https://webpack.js.org/)                                                    |
-|         | Browser Polyfills      | [Babel 8 (via core-js)](https://babeljs.io/)                                            |
+|         | Browser Polyfills      | [Babel 7 (via core-js)](https://babeljs.io/)                                            |
 | App     | View Layer             | [React 16](https://reactjs.org/)                                                        |
 |         | SPA Router             | [React Router 4](https://reacttraining.com/react-router/web)                            |
 |         | State MGMT             | [Redux](https://redux.js.org/)                                                          |
