@@ -4,11 +4,16 @@
  * any actions to the store will be intercepted by all of these middleware.
  *
  */
+import * as debug from "debug";
 import { MiddlewareAPI } from "redux";
-import { StoreState, StoreAction, StoreDispatcher, StoreMiddleware } from "@client/store";
+import { GlobalMessage } from "@client/store/global-message/models";
 import * as globalLoaderActions from "@client/store/global-loader/actions";
 import * as globalMessageActions from "@client/store/global-message/actions";
-import { GlobalMessage } from "@client/store/global-message/models";
+import { StoreState, StoreAction, StoreDispatcher, StoreMiddleware } from "@client/store";
+
+// initialize debuggers
+const debugGL = debug("store:middleware:globalLoader");
+const debugGM = debug("store:middleware:globalMessage");
 
 type ActionWithMeta = StoreAction & { meta: StoreMiddlewareFlags };
 
@@ -26,6 +31,8 @@ export const globalLoaderMiddleware: StoreMiddleware = (store: MiddlewareAPI<Sto
 
   if (!(<ActionWithMeta>action).meta || (<ActionWithMeta>action).meta.showLoader === undefined) return;
 
+  debugGL("detected action.type='%s', action.meta.showLoader='%s'", action.type, (<ActionWithMeta>action).meta.showLoader);
+
   const { showLoader } = (<ActionWithMeta>action).meta;
   if (!!showLoader) {
     store.dispatch(globalLoaderActions.show(typeof showLoader === 'string' ? showLoader : undefined));
@@ -39,6 +46,8 @@ export const globalMessageMiddleware: StoreMiddleware = (store: MiddlewareAPI<St
   next(action);
 
   if (!(<ActionWithMeta>action).meta || (<ActionWithMeta>action).meta.showMessage === undefined) return;
+
+  debugGM("detected action.type='%s', action.meta.showMessage='%s'", action.type, (<ActionWithMeta>action).meta.showMessage);
 
   const { showMessage } = (<ActionWithMeta>action).meta;
   if (!!showMessage) {

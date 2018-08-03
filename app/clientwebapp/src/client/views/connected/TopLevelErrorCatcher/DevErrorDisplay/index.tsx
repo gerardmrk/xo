@@ -52,6 +52,8 @@ export class DevErrorDisplay extends React.Component<Props, State> {
   }
 }
 
+// ^in\s([A-Za-z()]+)\s?(\([A-Za-z() ]+\))?
+
 function formatVNodeEntry(vnodeEntry: string): string {
   // second word is either a component (PascalCase) or a wrapper (camelCase)
   return vnodeEntry;

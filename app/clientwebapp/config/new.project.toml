@@ -1,0 +1,91 @@
+# TEMPORARY FILE
+# > Canonical name of your app.
+name = "xo" 
+
+# Short but descriptive summary of the app.
+description = "slide on your block like danny glover with a lethal weapon"
+
+# App's browser compatibility, using Browserslist tool.
+browsers = ["> 10%", "not ie < 11"]
+
+[urls.base_urls]
+development = "localhost:4200" # change this to '0.0.0.0:4200' for external access
+staging = "uat.app.xo.com" # set this to your actual UAT URL
+production = "app.xo.com" # set this to your actual production URL
+
+# These are generally used in the footer and are external links to the official website itself.
+# Note that the link label should specify a translation key so they can be internationalized.
+[[urls.sitemap.general]]
+label = "Pricing"
+link = ""
+
+[[urls.sitemap.general]]
+label = "Contact"
+link = ""
+
+[[urls.sitemap.general]]
+label = "FAQ"
+link = ""
+
+# SITEMAP/COMPANY
+[[urls.sitemap.company]]
+label = "sitemap_links.company.about_us"
+link = ""
+
+[[urls.sitemap.company]]
+label = "sitemap_links.company.career"
+link = ""
+
+[[urls.sitemap.company]]
+label = "sitemap_links.company.blog"
+link = ""
+
+# SITEMAP/DEVELOPER
+[[urls.sitemap.developer]]
+label = "sitemap_links.developer.documentation"
+link = ""
+
+[[urls.sitemap.developer]]
+label = "sitemap_links.developer.guides"
+link = ""
+
+# SITEMAP/LEGAL
+[[urls.sitemap.legal]]
+label = "sitemap_links.legal.terms_of_service"
+link = ""
+
+[[urls.sitemap.legal]]
+label = "sitemap_links.legal.privacy_policy"
+link = ""
+
+[[urls.sitemap.legal]]
+label = "sitemap_links.legal.cookie_policy"
+link = ""
+
+[[urls.sitemap.legal]]
+label = "sitemap_links.legal.service_agreement"
+link = ""
+
+
+[intl]
+defaultLanguage = "en"
+supportedLanguages = ["en", "zh", "es", "de", "hi", "ar"]
+
+[services.auth]
+domain = ""
+clientID = ""
+redirectUri = ""
+audience = ""
+responseType = "token id_token"
+scope = "openid"
+
+[services.user]
+name = "dsd"
+
+# IP Stack
+[services.geolocator]
+api = ""
+
+# Sentry 
+[services.error_reporter]
+dsn = ""
