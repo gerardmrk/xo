@@ -6,6 +6,7 @@ import API from "@client/api";
 import * as actions from "@client/store/user/actions";
 import { StoreState, StoreDispatcher, StoreAsyncAction } from "@client/store";
 import { UserSettings, VerificationScope, RegistrationPayload } from "@client/store/user/models";
+import { FieldValidationResult } from "@client/utils/local-validators";
 
 // prettier-ignore
 export const getSettings = (): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
@@ -84,5 +85,59 @@ export const verifyCode = (code: string, scope: VerificationScope, callback: (er
   } catch (error) {
     dispatch(actions.verifyCodeFailure(<Error>error, { showLoader: false }));
     callback(<Error>error);
+  }
+}
+
+// prettier-ignore
+export const validateEmail = (email: string, callback: (validation: FieldValidationResult) => void): StoreAsyncAction => async(dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+  dispatch(actions.validateEmailPending());  
+
+  let validation: FieldValidationResult = {
+    valid: false
+  };
+
+  try {
+    validation = await api.user.validateEmail(email);
+    dispatch(actions.validateEmailSuccess(validation));
+  } catch (error) {
+    dispatch(actions.validateEmailFailure(<Error>error));
+  } finally {
+    callback(validation);
+  }
+}
+
+// prettier-ignore
+export const validateUsername = (username: string, callback: (validation: FieldValidationResult) => void): StoreAsyncAction => async(dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+  dispatch(actions.validateUsernamePending());  
+
+  let validation: FieldValidationResult = {
+    valid: false
+  };
+
+  try {
+    validation = await api.user.validateUsername(username);
+    dispatch(actions.validateUsernameSuccess(validation));
+  } catch (error) {
+    dispatch(actions.validateUsernameFailure(<Error>error));
+  } finally {
+    callback(validation);
+  }
+}
+
+// prettier-ignore
+export const validatePassword = (password: string, callback: (validation: FieldValidationResult) => void): StoreAsyncAction => async(dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+  dispatch(actions.validatePasswordPending());  
+
+  let validation: FieldValidationResult = {
+    valid: false
+  };
+
+  try {
+    validation = await api.user.validatePassword(password);
+    dispatch(actions.validatePasswordSuccess(validation));
+  } catch (error) {
+    dispatch(actions.validatePasswordFailure(<Error>error));
+  } finally {
+    callback(validation);
   }
 }

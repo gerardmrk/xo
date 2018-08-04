@@ -16,6 +16,7 @@
   "rules": {
     "prettier/prettier": ["error", { "printWidth": 100 }],
     "no-console": "warn",
+    "no-extra-boolean-cast": 0,
     "object-literal-sort-keys": false
   }
 }

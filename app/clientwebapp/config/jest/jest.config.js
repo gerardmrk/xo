@@ -1,4 +1,6 @@
 module.exports = {
+  notify: !!!process.env.CI,
+  verbose: true,
   rootDir: "./../../",
   roots: ["<rootDir>/src"],
   setupTestFrameworkScriptFile: "jest-enzyme",
@@ -14,6 +16,7 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   moduleNameMapper: {
     "\\.(css|less)$": "identity-obj-proxy",
+    "@client/(.*)\\?noembed$": "<rootDir>/src/client/$1",
     "@client/(.*)$": "<rootDir>/src/client/$1",
     "@renderer/(.*)$": "<rootDir>/src/renderer/$1",
     "@translations/(.*)$": "<rootDir>/config/i18n/translations/$1"

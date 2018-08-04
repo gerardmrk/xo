@@ -37,5 +37,5 @@ export interface RegistrationPayload {
   username: string;
   email: string;
   password: string;
-  agreedToTOS: boolean;
+  agreeToTOS: boolean;
 }

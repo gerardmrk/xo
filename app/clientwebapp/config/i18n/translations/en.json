@@ -70,6 +70,23 @@
     "email_verified": "Your email has been successfully verified."
   },
 
+  "validation_rules": {
+    "email": {
+      "valid": "Must be a valid email.",
+      "mandatory": "Email is required."
+    },
+    "username": {
+      "mandatory": "Username is required.",
+      "length": "Username must be between 3-30 characters.",
+      "characters": "Username can only contain letters and digits, without spaces."
+    },
+    "password": {
+      "mandatory": "Password is required.",
+      "length": "Password must be between 8-20 characters.",
+      "characters": "Password must contain at least 1 letter and 1 digit."
+    }
+  },
+
   "error_msgs": {
     "400": "400 Bad Request",
     "404": "404 Not Found",

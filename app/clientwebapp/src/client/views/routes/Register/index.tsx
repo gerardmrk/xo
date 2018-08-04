@@ -1,13 +1,24 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Form } from "semantic-ui-react";
-// import { connect } from "react-redux";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
+import { register } from "@client/store/user/async-actions";
+import { StoreState, StoreDispatcher } from "@client/store";
+import { RegistrationPayload } from "@client/store/user/models";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 
-export interface Props {}
+export interface LocalProps {}
+
+export interface StoreProps {}
+
+export interface DispatchProps {
+  register(form: RegistrationPayload): void;
+}
+
+export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
 
 export type State = {
   username: string;
@@ -17,7 +28,7 @@ export type State = {
   agreeToTOS: boolean;
 };
 
-export class Register extends React.Component<Props & InjectedIntlProps, State> {
+export class Register extends React.Component<Props, State> {
   public constructor(props: Props & InjectedIntlProps) {
     super(props);
     this.state = {
@@ -49,7 +60,9 @@ export class Register extends React.Component<Props & InjectedIntlProps, State> 
     this.setState({ agreeToTOS: !this.state.agreeToTOS });
   };
 
-  private onFormSubmit = (e: React.SyntheticEvent): void => {};
+  private onFormSubmit = (e: React.SyntheticEvent): void => {
+    this.props.register(this.state);
+  };
 
   public render(): JSX.Element | null {
     const {
@@ -141,4 +154,17 @@ export class Register extends React.Component<Props & InjectedIntlProps, State> 
   }
 }
 
-export default injectIntl<Props>(Register);
+const mapStateToProps = (state: StoreState): StoreProps => ({});
+
+const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
+  register: (form: RegistrationPayload): void => {
+    dispatch(register(form));
+  }
+});
+
+export default injectIntl(
+  connect<StoreProps, DispatchProps, LocalProps>(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Register)
+);
