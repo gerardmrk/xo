@@ -507,7 +507,7 @@ conf.addPlugin(undefined, CLIENT, ({ devMode }) => {
 conf.addPlugin(PRO, undefined, ({ paths, buildSettings }) => {
   return new BundleAnalyzerPlugin({
     analyzerMode: "static",
-    openAnalyzer: false,
+    openAnalyzer: !!!process.env.CI,
     generateStatsFile: true,
     statsFilename: `${paths.outputDir}/${buildSettings.source}/bundlestats.json`,
     reportFilename: `${paths.outputDir}/${buildSettings.source}/bundlestats.html`

@@ -28,7 +28,7 @@ export type State = {
   agreeToTOS: boolean;
 };
 
-export class Register extends React.Component<Props, State> {
+export class RegisterForm extends React.Component<Props, State> {
   public constructor(props: Props & InjectedIntlProps) {
     super(props);
     this.state = {
@@ -166,5 +166,5 @@ export default injectIntl(
   connect<StoreProps, DispatchProps, LocalProps>(
     mapStateToProps,
     mapDispatchToProps
-  )(Register)
+  )(RegisterForm)
 );

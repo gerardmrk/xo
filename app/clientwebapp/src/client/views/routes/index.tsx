@@ -77,8 +77,8 @@ export const routes: RouteProps[] = [
     seo: { title: "Register" },
     component: Loadable({
       loading: RouteLoaderUI,
-      modules: ["routes/register"],
-      loader: () => import(/* webpackChunkName: "routes/register" */ "@client/views/routes/Register") // prettier-ignore
+      modules: ["routes/registration"],
+      loader: () => import(/* webpackChunkName: "routes/registration" */ "@client/views/routes/Registration") // prettier-ignore
     })
   },
   {

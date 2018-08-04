@@ -3,11 +3,11 @@ import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 import { MemoryRouter as Router } from "react-router-dom";
 
-import { Register } from "@client/views/routes/Register";
+import { Registration } from "@client/views/routes/Registration";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
 import { RegistrationPayload } from "@client/store/user/models";
 
-describe("<Register />", () => {
+describe("<Registration />", () => {
   const props = {
     intl,
     isLoggedIn: false,
@@ -21,7 +21,7 @@ describe("<Register />", () => {
   beforeEach(() => {
     component = shallowWithIntl(
       <Router>
-        <Register {...props} register={registerStub} />
+        <Registration {...props} register={registerStub} />
       </Router>
     );
   });
