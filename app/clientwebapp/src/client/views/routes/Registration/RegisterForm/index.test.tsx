@@ -1,7 +1,6 @@
 // tslint:disable:no-relative-imports typedef
 import * as React from "react";
 import { ShallowWrapper } from "enzyme";
-import { MemoryRouter as Router } from "react-router-dom";
 
 import { RegisterForm } from "@client/views/routes/Registration/RegisterForm";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
@@ -9,21 +8,14 @@ import { RegistrationPayload } from "@client/store/user/models";
 
 describe("<RegisterForm />", () => {
   const props = {
-    intl,
-    isLoggedIn: false,
-    isAuthenticating: false,
-    guarded: true
+    intl
   };
 
-  const registerStub = (form: RegistrationPayload): void => {};
+  const onFormSubmitStub = (form: RegistrationPayload): void => {};
 
   let component: ShallowWrapper;
   beforeEach(() => {
-    component = shallowWithIntl(
-      <Router>
-        <RegisterForm {...props} register={registerStub} />
-      </Router>
-    );
+    component = shallowWithIntl(<RegisterForm {...props} onFormSubmit={onFormSubmitStub} />);
   });
 
   it("renders OK", () => {

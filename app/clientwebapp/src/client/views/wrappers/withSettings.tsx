@@ -14,7 +14,7 @@ export const withSettings = <WrappedProps extends InjectedSettingsProps>(Wrapped
 
   type HocState = {};
 
-  return class WithAppSettings extends React.Component<HocProps, HocState> {
+  return class WithSettings extends React.Component<HocProps, HocState> {
     public static displayName = `withSettings(${WrappedComponent.name})`;
     public static readonly WrappedComponent = WrappedComponent;
 

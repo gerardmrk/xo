@@ -1,3 +1,4 @@
+// tslint:disable:no-function-expression
 import { FieldValidator, FieldValidationResult } from "@client/utils/local-validators";
 
 /**
@@ -17,41 +18,39 @@ import { FieldValidator, FieldValidationResult } from "@client/utils/local-valid
 // - http://fightingforalostcause.net/misc/2006/compare-email-regex.php
 const DFLT_PATTERN: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export interface Options {}
+export interface Options {
+  required: boolean;
+}
 
 /**
  * Validates an email address
  * @param email email address to validate
  */
-export const emailValidator = (opts?: Options): FieldValidator => (
-  email: string
-): FieldValidationResult => {
+export const emailValidator = (opts?: Options): FieldValidator => {
   const pattern = DFLT_PATTERN;
+  let isRequired: boolean = false;
 
-  if (email.length === 0) {
-    return {
-      valid: false,
-      invalidReason: "validation_rules.email.mandatory"
-    };
+  if (opts && opts.required) {
+    isRequired = true;
   }
 
-  if (email.length > 254 || !pattern.test(email)) {
-    return {
-      valid: false,
-      invalidReason: "validation_rules.email.valid"
-    };
-  }
+  return function validateEmail(email: string): FieldValidationResult {
+    if (isRequired && email.length === 0) {
+      return {
+        valid: false,
+        invalidReason: "validation_rules.email.mandatory"
+      };
+    }
 
-  // const [localPart, domain]: string[] = email.split("@");
+    if (email.length > 254 || !pattern.test(email)) {
+      return {
+        valid: false,
+        invalidReason: "validation_rules.email.valid"
+      };
+    }
 
-  // if (localPart.length > 64 || domain.split(".").some((str: string) => str.length > 63)) {
-  //   return {
-  //     valid: false,
-  //     invalidReason: "validation_rules.email.valid"
-  //   };
-  // }
-
-  return { valid: true };
+    return { valid: true };
+  };
 };
 
 export default emailValidator;

@@ -40,15 +40,9 @@ const user: Reducer = (state: State = defaultState, action: Action): State => {
     case getType(actions.verifyCodePending):
     case getType(actions.verifyCodeSuccess):
     case getType(actions.verifyCodeFailure):
-    case getType(actions.validateEmailPending):
-    case getType(actions.validateEmailSuccess):
-    case getType(actions.validateEmailFailure):
-    case getType(actions.validateUsernamePending):
-    case getType(actions.validateUsernameSuccess):
-    case getType(actions.validateUsernameFailure):
-    case getType(actions.validatePasswordPending):
-    case getType(actions.validatePasswordSuccess):
-    case getType(actions.validatePasswordFailure):
+    case getType(actions.checkUsernameUniquenessPending):
+    case getType(actions.checkUsernameUniquenessSuccess):
+    case getType(actions.checkUsernameUniquenessFailure):
     default:
       return state;
   }

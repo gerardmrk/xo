@@ -5,7 +5,7 @@ describe("validate-password", async () => {
   let validatePassword: FieldValidator;
 
   beforeAll(async () => {
-    validatePassword = passwordValidator();
+    validatePassword = passwordValidator({ required: true });
   });
 
   it("validates passwords with correct characters and length", () => {

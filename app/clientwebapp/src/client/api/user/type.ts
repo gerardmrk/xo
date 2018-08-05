@@ -2,7 +2,6 @@
  * The UserAPI must implement this abstract class
  */
 import { RegistrationPayload, VerificationScope, UserSettings } from "@client/store/user/models";
-import { FieldValidationResult } from "@client/utils/local-validators";
 
 export abstract class AbstractUserAPI {
   // *******************************************************************************************************************
@@ -52,15 +51,6 @@ export abstract class AbstractUserAPI {
   public abstract async verifyCode(code: string, scope: VerificationScope): Promise<void>;
 
   /**
-   * Unauthenticated endpoint for dynamically validating email. E.G.
-   * - must be a valid email.
-   * Note that unlike the username, email uniqueness should not be checked here, rather when the whole form is submitted.
-   * This is to ensure information disclosure is difficult for potential attackers.
-   * @param email the email address as entered by the user
-   */
-  public abstract async validateEmail(email: string): Promise<FieldValidationResult>;
-
-  /**
    * Unauthenticated endpoint for dynamically validating username. E.G.
    * - username already exists
    * - username cannot contain ...
@@ -70,17 +60,7 @@ export abstract class AbstractUserAPI {
    * - you'd rather check username uniqueness when the whole form is submitted (bad UX).
    * @param username the username as entered by the user
    */
-  public abstract async validateUsername(username: string): Promise<FieldValidationResult>;
-
-  /**
-   * Unauthenticated endpoint for dynamically validating password. E.G.
-   * - password length must be between ...
-   * Validation can be implemented locally, client-side, but note that your validation rules
-   * are hardcoded into your client bundle. This is okay if:
-   * - you don't foresee your rules changing often.
-   * @param password the password as entered by the user
-   */
-  public abstract async validatePassword(password: string): Promise<FieldValidationResult>;
+  public abstract async checkUsernameUniqueness(username: string): Promise<boolean>;
 
   // *******************************************************************************************************************
   //    AUTHENTICATED ENDPOINTS

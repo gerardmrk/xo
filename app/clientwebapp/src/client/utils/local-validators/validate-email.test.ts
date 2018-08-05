@@ -43,7 +43,7 @@ describe("validate-email", async () => {
   let validateEmail: FieldValidator;
 
   beforeAll(async () => {
-    validateEmail = emailValidator();
+    validateEmail = emailValidator({ required: true });
   });
 
   it("validates a valid email", async () => {

@@ -1,24 +1,16 @@
 import * as React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { Form } from "semantic-ui-react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
-import { register } from "@client/store/user/async-actions";
-import { StoreState, StoreDispatcher } from "@client/store";
+import Input from "@client/views/components/InputWithValidator";
 import { RegistrationPayload } from "@client/store/user/models";
-import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 
-export interface LocalProps {}
-
-export interface StoreProps {}
-
-export interface DispatchProps {
-  register(form: RegistrationPayload): void;
+export interface LocalProps {
+  onFormSubmit(form: RegistrationPayload): void;
 }
 
-export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
+export type Props = LocalProps & InjectedIntlProps;
 
 export type State = {
   username: string;
@@ -29,7 +21,7 @@ export type State = {
 };
 
 export class RegisterForm extends React.Component<Props, State> {
-  public constructor(props: Props & InjectedIntlProps) {
+  public constructor(props: Props) {
     super(props);
     this.state = {
       username: "",
@@ -40,20 +32,20 @@ export class RegisterForm extends React.Component<Props, State> {
     };
   }
 
-  private onUsernameChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
-    this.setState({ username: e.currentTarget.value });
+  private onUsernameChange = (username: string): void => {
+    this.setState({ username });
   };
 
-  private onEmailChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
-    this.setState({ email: e.currentTarget.value });
+  private onEmailChange = (email: string): void => {
+    this.setState({ email });
   };
 
-  private onPasswordChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
-    this.setState({ password: e.currentTarget.value });
+  private onPasswordChange = (password: string): void => {
+    this.setState({ password });
   };
 
-  private onPasswordRepeatChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
-    this.setState({ passwordRepeat: e.currentTarget.value });
+  private onPasswordRepeatChange = (passwordRepeat: string): void => {
+    this.setState({ passwordRepeat });
   };
 
   private onAgreeToTOSChange = (): void => {
@@ -61,7 +53,7 @@ export class RegisterForm extends React.Component<Props, State> {
   };
 
   private onFormSubmit = (e: React.SyntheticEvent): void => {
-    this.props.register(this.state);
+    this.props.onFormSubmit(this.state);
   };
 
   public render(): JSX.Element | null {
@@ -70,101 +62,72 @@ export class RegisterForm extends React.Component<Props, State> {
     } = this.props;
 
     return (
-      <AuthRoutesContainer title={"sections.register"}>
-        <Form size={"small"} widths={"equal"}>
-          <Form.Group>
-            <Form.Input
-              name={"username"}
-              type={"text"}
-              required={true}
-              icon={"user outline"}
-              iconPosition={"left"}
-              value={this.state.username}
-              onChange={this.onUsernameChange}
-              label={messages["form_fields.common.username"]}
-            />
-          </Form.Group>
+      <Form size={"small"} widths={"equal"}>
+        <Input
+          name={"username"}
+          type={"text"}
+          required={true}
+          icon={"user outline"}
+          iconPosition={"left"}
+          value={this.state.username}
+          validatorName={"usernameValidator"}
+          onChangeProxy={this.onUsernameChange}
+          label={messages["form_fields.common.username"]}
+        />
 
-          <Form.Group>
-            <Form.Input
-              name={"email"}
-              type={"email"}
-              required={true}
-              icon={"at"}
-              iconPosition={"left"}
-              value={this.state.email}
-              onChange={this.onEmailChange}
-              label={messages["form_fields.common.email"]}
-            />
-          </Form.Group>
+        <Input
+          name={"email"}
+          type={"email"}
+          required={true}
+          icon={"at"}
+          iconPosition={"left"}
+          value={this.state.email}
+          validatorName={"emailValidator"}
+          onChangeProxy={this.onEmailChange}
+          label={messages["form_fields.common.email"]}
+        />
 
-          <Form.Group>
-            <Form.Input
-              name={"password"}
-              type={"password"}
-              required={true}
-              icon={"key"}
-              iconPosition={"left"}
-              value={this.state.password}
-              onChange={this.onPasswordChange}
-              label={messages["form_fields.common.password"]}
-            />
-          </Form.Group>
+        <Input
+          name={"password"}
+          type={"password"}
+          required={true}
+          icon={"key"}
+          iconPosition={"left"}
+          value={this.state.password}
+          validatorName={"passwordValidator"}
+          onChangeProxy={this.onPasswordChange}
+          label={messages["form_fields.common.password"]}
+        />
 
-          <Form.Group>
-            <Form.Input
-              name={"passwordRepeat"}
-              type={"password"}
-              required={true}
-              icon={"key"}
-              iconPosition={"left"}
-              value={this.state.passwordRepeat}
-              onChange={this.onPasswordRepeatChange}
-              label={messages["form_fields.register.reenter_password"]}
-            />
-          </Form.Group>
+        <Input
+          name={"passwordRepeat"}
+          type={"password"}
+          required={true}
+          icon={"key"}
+          iconPosition={"left"}
+          value={this.state.passwordRepeat}
+          validatorName={"passwordValidator"}
+          onChangeProxy={this.onPasswordRepeatChange}
+          label={messages["form_fields.register.reenter_password"]}
+        />
 
-          <Form.Group>
-            <Form.Checkbox
-              required={true}
-              checked={this.state.agreeToTOS}
-              onChange={this.onAgreeToTOSChange}
-              label={messages["form_fields.register.agree_to_terms_and_conditions"]}
-            />
-          </Form.Group>
+        <Form.Group className={styles.checkboxWrapper}>
+          <Form.Checkbox
+            required={true}
+            checked={this.state.agreeToTOS}
+            onChange={this.onAgreeToTOSChange}
+            label={messages["form_fields.register.agree_to_terms_and_conditions"]}
+          />
+        </Form.Group>
 
-          <Form.Group>
-            <br />
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Button primary={true} fluid={true} onClick={this.onFormSubmit}>
-              {messages["actions.register_submit"]}
-            </Form.Button>
-          </Form.Group>
-        </Form>
-
-        <div className={styles.formFooter}>
-          <Link to={"/login"}>
-            <span>{messages["route_links.already_have_an_account"]}</span>
-          </Link>
-        </div>
-      </AuthRoutesContainer>
+        <Form.Group>
+          <Form.Button primary={true} fluid={true} onClick={this.onFormSubmit}>
+            {messages["actions.register_submit"]}
+          </Form.Button>
+        </Form.Group>
+      </Form>
     );
   }
 }
 
-const mapStateToProps = (state: StoreState): StoreProps => ({});
-
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
-  register: (form: RegistrationPayload): void => {
-    dispatch(register(form));
-  }
-});
-
-export default injectIntl(
-  connect<StoreProps, DispatchProps, LocalProps>(
-    mapStateToProps,
-    mapDispatchToProps
-  )(RegisterForm)
-);
+export default injectIntl<LocalProps>(RegisterForm);

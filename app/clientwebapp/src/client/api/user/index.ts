@@ -5,24 +5,12 @@
  */
 import sleep from "@client/utils/sleep";
 import { AbstractUserAPI } from "@client/api/user/type";
-import emailValidator from "@client/utils/local-validators/validate-email";
-import usernameValidator from "@client/utils/local-validators/validate-username";
-import passwordValidator from "@client/utils/local-validators/validate-password";
-import { FieldValidator, FieldValidationResult } from "@client/utils/local-validators";
 import { UserSettings, RegistrationPayload, VerificationScope } from "@client/store/user/models";
 
 export interface Config {}
 
 class UserAPI implements AbstractUserAPI {
-  public validateEmailField: FieldValidator;
-  public validateUsernameField: FieldValidator;
-  public validatePasswordField: FieldValidator;
-
-  public constructor(config: Config) {
-    this.validateEmailField = emailValidator();
-    this.validateUsernameField = usernameValidator();
-    this.validatePasswordField = passwordValidator();
-  }
+  public constructor(config: Config) {}
 
   // *******************************************************************************************************************
   //    UNAUTHENTICATED ENDPOINTS
@@ -53,19 +41,9 @@ class UserAPI implements AbstractUserAPI {
     return;
   }
 
-  public async validateEmail(email: string): Promise<FieldValidationResult> {
+  public async checkUsernameUniqueness(username: string): Promise<boolean> {
     await sleep(700);
-    return this.validateEmailField(email);
-  }
-
-  public async validateUsername(username: string): Promise<FieldValidationResult> {
-    await sleep(700);
-    return this.validateUsernameField(username);
-  }
-
-  public async validatePassword(password: string): Promise<FieldValidationResult> {
-    await sleep(700);
-    return this.validatePasswordField(password);
+    return true;
   }
 
   // *******************************************************************************************************************

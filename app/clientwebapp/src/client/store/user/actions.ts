@@ -5,7 +5,6 @@ import { createAction } from "typesafe-actions";
 
 import { UserSettings } from "@client/store/user/models";
 import { StoreMiddlewareFlags } from "@client/store/middleware";
-import { FieldValidationResult } from "@client/utils/local-validators";
 
 // tslint:disable:typedef
 
@@ -111,50 +110,19 @@ export const verifyCodeFailure = createAction(
   resolve => (error: Error, flags: StoreMiddlewareFlags) => resolve(error, flags)
 );
 
-// validateEmail
+// checkUsernameUniqueness
 
-export const validateEmailPending = createAction("user.validateEmailPending", resolve => () =>
-  resolve()
+export const checkUsernameUniquenessPending = createAction(
+  "user.checkUsernameUniquenessPending",
+  resolve => () => resolve()
 );
 
-export const validateEmailSuccess = createAction(
-  "user.validateEmailSuccess",
-  resolve => (validation: FieldValidationResult) => resolve(validation)
+export const checkUsernameUniquenessSuccess = createAction(
+  "user.checkUsernameUniquenessSuccess",
+  resolve => (isUnique: boolean) => resolve(isUnique)
 );
 
-export const validateEmailFailure = createAction(
-  "user.validateEmailFailure",
-  resolve => (error: Error) => resolve(error)
-);
-
-// validateUsername
-
-export const validateUsernamePending = createAction("user.validateUsernamePending", resolve => () =>
-  resolve()
-);
-
-export const validateUsernameSuccess = createAction(
-  "user.validateUsernameSuccess",
-  resolve => (validation: FieldValidationResult) => resolve(validation)
-);
-
-export const validateUsernameFailure = createAction(
-  "user.validateUsernameFailure",
-  resolve => (error: Error) => resolve(error)
-);
-
-// validatePassword
-
-export const validatePasswordPending = createAction("user.validatePasswordPending", resolve => () =>
-  resolve()
-);
-
-export const validatePasswordSuccess = createAction(
-  "user.validatePasswordSuccess",
-  resolve => (validation: FieldValidationResult) => resolve(validation)
-);
-
-export const validatePasswordFailure = createAction(
-  "user.validatePasswordFailure",
+export const checkUsernameUniquenessFailure = createAction(
+  "user.checkUsernameUniquenessFailure",
   resolve => (error: Error) => resolve(error)
 );

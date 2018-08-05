@@ -5,7 +5,7 @@ describe("validate-username", async () => {
   let validateUsername: FieldValidator;
 
   beforeAll(async () => {
-    validateUsername = usernameValidator();
+    validateUsername = usernameValidator({ required: true });
   });
 
   it("validates usernames with correct characters and length", () => {
