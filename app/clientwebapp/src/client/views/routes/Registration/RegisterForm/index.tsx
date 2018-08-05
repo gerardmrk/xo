@@ -40,6 +40,8 @@ export class RegisterForm extends React.Component<Props, State> {
     };
   }
 
+  // The next four methods handle their respective input text fields on the form.
+
   private onUsernameChange = (username: string, usernameValid: boolean): void => {
     this.setState({ username, usernameValid });
   };
@@ -56,14 +58,26 @@ export class RegisterForm extends React.Component<Props, State> {
     this.setState({ passwordRepeat, passwordRepeatValid });
   };
 
+  // handler for the "Agree to ToS" checkbox
   private onAgreeToTOSChange = (): void => {
     this.setState({ agreeToTOS: !this.state.agreeToTOS });
   };
 
+  // handler for the form-submit button
   private onFormSubmit = (e: React.SyntheticEvent): void => {
     if (!Object.values(this.state).some((v: string | boolean) => v === "" || v === false)) {
       this.props.onFormSubmit(this.state);
     }
+    /** ^
+     * If the corresponding value of any properties on this.state is an empty string or False,
+     * do not allow form submission. This technique works because:
+     * - any properties with a boolean value is either:
+     *     -`{fieldName}Valid` -- form shouldn't be submittable if any of the fields are invalid
+     *     - the "agree to terms and conditions" option -- form also shouldn't be submittable if the user has not agreed to the ToS.
+     * - any properties with a string value is
+     *     - an input field value -- form should not be submittable if any of the required fields are empty
+     *       (and as of this writing, all of them are required, so if you needed to change one of the field to optional, remember to adjust the logic)
+     */
   };
 
   public render(): JSX.Element | null {

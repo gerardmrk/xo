@@ -20,15 +20,17 @@ export const getSettings = (): StoreAsyncAction => async (dispatch: StoreDispatc
 };
 
 // prettier-ignore
-export const register = (formObject: RegistrationPayload): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const register = (formObject: RegistrationPayload, callback: (error?: Error) => void): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
   dispatch(actions.registerPending({ showLoader: true }));
 
   try {
     await api.user.register(formObject);
     
     dispatch(actions.registerSuccess({ showLoader: false }));
+    callback();
   } catch (error) {
     dispatch(actions.registerFailure(<Error>error, { showLoader: false }));
+    callback(<Error>error);
   }
 };
 

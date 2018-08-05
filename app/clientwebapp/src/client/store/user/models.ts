@@ -39,3 +39,9 @@ export interface RegistrationPayload {
   password: string;
   agreeToTOS: boolean;
 }
+
+export class RegistrationError extends Error {
+  public constructor(message: string) {
+    super(message);
+  }
+}
