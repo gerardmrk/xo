@@ -14,9 +14,13 @@ export type Props = LocalProps & InjectedIntlProps;
 
 export type State = {
   username: string;
+  usernameValid: boolean;
   email: string;
+  emailValid: boolean;
   password: string;
+  passwordValid: boolean;
   passwordRepeat: string;
+  passwordRepeatValid: boolean;
   agreeToTOS: boolean;
 };
 
@@ -25,27 +29,31 @@ export class RegisterForm extends React.Component<Props, State> {
     super(props);
     this.state = {
       username: "",
+      usernameValid: false,
       email: "",
+      emailValid: false,
       password: "",
+      passwordValid: false,
       passwordRepeat: "",
+      passwordRepeatValid: false,
       agreeToTOS: false
     };
   }
 
-  private onUsernameChange = (username: string): void => {
-    this.setState({ username });
+  private onUsernameChange = (username: string, usernameValid: boolean): void => {
+    this.setState({ username, usernameValid });
   };
 
-  private onEmailChange = (email: string): void => {
-    this.setState({ email });
+  private onEmailChange = (email: string, emailValid: boolean): void => {
+    this.setState({ email, emailValid });
   };
 
-  private onPasswordChange = (password: string): void => {
-    this.setState({ password });
+  private onPasswordChange = (password: string, passwordValid: boolean): void => {
+    this.setState({ password, passwordValid });
   };
 
-  private onPasswordRepeatChange = (passwordRepeat: string): void => {
-    this.setState({ passwordRepeat });
+  private onPasswordRepeatChange = (passwordRepeat: string, passwordRepeatValid: boolean): void => {
+    this.setState({ passwordRepeat, passwordRepeatValid });
   };
 
   private onAgreeToTOSChange = (): void => {
@@ -53,7 +61,9 @@ export class RegisterForm extends React.Component<Props, State> {
   };
 
   private onFormSubmit = (e: React.SyntheticEvent): void => {
-    this.props.onFormSubmit(this.state);
+    if (!Object.values(this.state).some((v: string | boolean) => v === "" || v === false)) {
+      this.props.onFormSubmit(this.state);
+    }
   };
 
   public render(): JSX.Element | null {
@@ -106,7 +116,8 @@ export class RegisterForm extends React.Component<Props, State> {
           icon={"key"}
           iconPosition={"left"}
           value={this.state.passwordRepeat}
-          validatorName={"passwordValidator"}
+          validatorName={"passwordRepeatValidator"}
+          compareWith={this.state.password}
           onChangeProxy={this.onPasswordRepeatChange}
           label={messages["form_fields.register.reenter_password"]}
         />
@@ -121,7 +132,14 @@ export class RegisterForm extends React.Component<Props, State> {
         </Form.Group>
 
         <Form.Group>
-          <Form.Button primary={true} fluid={true} onClick={this.onFormSubmit}>
+          <Form.Button
+            primary={true}
+            fluid={true}
+            disabled={Object.values(this.state).some(
+              (v: string | boolean) => v === "" || v === false
+            )}
+            onClick={this.onFormSubmit}
+          >
             {messages["actions.register_submit"]}
           </Form.Button>
         </Form.Group>

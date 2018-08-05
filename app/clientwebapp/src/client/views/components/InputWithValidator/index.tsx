@@ -24,7 +24,7 @@ interface ProxiedInputProps {
 
 // prettier-ignore
 export interface LocalProps extends InjectedIntlProps, InjectedValidatorProps, Subtract<FormInputProps, ProxiedInputProps> {
-  onChangeProxy(value: string): void;
+  onChangeProxy(value: string, isValid: boolean): void;
 }
 
 export type Props = LocalProps;
@@ -47,7 +47,7 @@ export class InputWithValidator extends React.Component<Props, State> {
 
     const { valid, invalidReason } = this.props.validateInput(value);
     this.setState({ valid, invalidReason }, () => {
-      this.props.onChangeProxy(value);
+      this.props.onChangeProxy(value, valid);
     });
   };
 
@@ -75,11 +75,7 @@ export class InputWithValidator extends React.Component<Props, State> {
         />
         {this.state.showInvalidReason && this.state.invalidReason && (
           <div className={styles.invalidReason}>
-            <p>
-              <em>
-                {intl.messages[this.state.invalidReason]}
-              </em>
-            </p>
+            <p><em>{intl.messages[this.state.invalidReason]}</em></p>
           </div>
         )}
       </Form.Group>

@@ -1,3 +1,10 @@
+/**
+ * Works one of 2 ways:
+ * - use a preset, or
+ * - compareWith
+ *
+ * preset takes precedence over the comparevalues
+ */
 import * as React from "react";
 import { Subtract } from "utility-types";
 
@@ -16,6 +23,7 @@ export interface InjectedValidatorProps {
 export const withInputValidator = <WrappedComponentProps extends InjectedValidatorProps>(WrappedComponent: React.ComponentType<WrappedComponentProps>) => { // tslint:disable-line:typedef
   type WrapperProps = Subtract<WrappedComponentProps, InjectedValidatorProps> & {
     validatorName: keyof Validators;
+    compareWith?: string; // this is only relevant if validatorName == "equalityValidator"
   };
 
   type WrapperState = {};
@@ -31,13 +39,17 @@ export const withInputValidator = <WrappedComponentProps extends InjectedValidat
       this.validate = validators[props.validatorName]();
     }
 
+    private validateInput = (value: string): FieldValidationResult => {
+      return this.validate(value, this.props.compareWith);
+    }
+
     public render(): JSX.Element {
       // see issue -> https://github.com/Microsoft/TypeScript/pull/13288
-      const { validatorName, ...other } = this.props as any // tslint:disable-line:no-any no-unsafe-any
+      const { validatorName, compareWith, compareFieldName, ...other } = this.props as any // tslint:disable-line:no-any no-unsafe-any
       return (
         <WrappedComponent
           {...other as WrapperProps}
-          validateInput={this.validate}
+          validateInput={this.validateInput}
         />
       );
     }
