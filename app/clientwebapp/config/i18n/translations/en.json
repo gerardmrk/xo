@@ -78,7 +78,8 @@
     "username": {
       "mandatory": "Username is required.",
       "length": "Username must be between 3-30 characters.",
-      "characters": "Username can only contain letters and digits, without spaces."
+      "characters": "Username can only contain letters and digits, without spaces.",
+      "uniqueness": "Username is already taken."
     },
     "password": {
       "mandatory": "Password is required.",
@@ -86,7 +87,7 @@
       "characters": "Password must contain at least 1 letter and 1 digit."
     },
     "password_repeat": {
-      "mandatory": "Required",
+      "mandatory": "Please re-enter password.",
       "must_match": "Password does not match."
     }
   },

@@ -1,5 +1,9 @@
 // tslint:disable:no-function-expression
-import { FieldValidator, FieldValidationResult } from "@client/utils/local-validators";
+import {
+  FieldValidator,
+  FieldValidationResult,
+  FieldValidatorOptions
+} from "@client/utils/local-validators";
 
 /**
  * credits:
@@ -11,28 +15,16 @@ import { FieldValidator, FieldValidationResult } from "@client/utils/local-valid
 // maximum length: 20 (arbitrary)
 // must contain a letter and a digit
 // may contain special characters
-const DFLT_MIN_LEN = 8;
-const DFLT_MAX_LEN = 20;
-const DFLT_PATTERN = /^((?=.*[A-Za-z])(?=.*\d)[A-Za-z\d])|((?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&])+/;
 
-export interface Options {
-  required: boolean;
-  minLen?: number;
-  maxLen?: number;
-  pattern?: RegExp;
-}
+export const passwordValidator = (opts?: FieldValidatorOptions): FieldValidator => {
+  const MIN_LEN = 8;
+  const MAX_LEN = 20;
+  const PATTERN = /^((?=.*[A-Za-z])(?=.*\d)[A-Za-z\d])|((?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&])+/;
 
-export const passwordValidator = (opts?: Options): FieldValidator => {
   let isRequired = false;
-  let minLen = DFLT_MIN_LEN;
-  let maxLen = DFLT_MAX_LEN;
-  let pattern = DFLT_PATTERN;
 
   if (opts !== undefined) {
-    isRequired = opts.required;
-    minLen = opts.minLen || DFLT_MIN_LEN;
-    maxLen = opts.minLen || DFLT_MAX_LEN;
-    pattern = opts.pattern || DFLT_PATTERN;
+    isRequired = opts.required || false;
   }
 
   return function validatePassword(password: string): FieldValidationResult {
@@ -43,14 +35,14 @@ export const passwordValidator = (opts?: Options): FieldValidator => {
       };
     }
 
-    if (password.length > maxLen || password.length < minLen) {
+    if (password.length > MAX_LEN || password.length < MIN_LEN) {
       return {
         valid: false,
         invalidReason: "validation_rules.password.length"
       };
     }
 
-    if (!pattern.test(password)) {
+    if (!PATTERN.test(password)) {
       return {
         valid: false,
         invalidReason: "validation_rules.password.characters"

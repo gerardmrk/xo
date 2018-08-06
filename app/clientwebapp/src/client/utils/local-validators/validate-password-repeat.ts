@@ -1,15 +1,15 @@
 // tslint:disable:no-function-expression
-import { FieldValidator, FieldValidationResult } from "@client/utils/local-validators";
+import {
+  FieldValidator,
+  FieldValidationResult,
+  FieldValidatorOptions
+} from "@client/utils/local-validators";
 
-export interface Options {
-  required: boolean;
-}
-
-export const passwordRepeatValidator = (opts?: Options): FieldValidator => {
+export const passwordRepeatValidator = (opts?: FieldValidatorOptions): FieldValidator => {
   let isRequired = false;
 
   if (opts !== undefined) {
-    isRequired = opts.required;
+    isRequired = opts.required || false;
   }
 
   return function validatePasswordRepeat(value: string, pswd?: string): FieldValidationResult {

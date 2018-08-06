@@ -4,7 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
-import { register } from "@client/store/user/async-actions";
+import { register, checkUsernameUniqueness } from "@client/store/user/async-actions";
 import { StoreState, StoreDispatcher } from "@client/store";
 import { RegistrationPayload, RegistrationError } from "@client/store/user/models";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
@@ -16,6 +16,7 @@ export interface StoreProps {}
 
 export interface DispatchProps {
   register(form: RegistrationPayload, callback: (error?: Error) => void): void;
+  checkUsernameUniqueness(username: string, callback: Function): void;
 }
 
 export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
@@ -29,16 +30,21 @@ export class Registration extends React.Component<Props, State> {
     registrationCompleted: false
   };
 
+  // prettier-ignore
+  private checkUsernameUniqueness = (username: string, callback: ErrorFirstCallback<boolean>): void => {
+    this.props.checkUsernameUniqueness(username, callback);
+  };
+
   private handleFormSubmit = (form: RegistrationPayload): void => {
     this.props.register(form, (error?: Error) => {
-      if (!error) {
-        this.setState({ registrationCompleted: true });
-      }
-
-      if (error instanceof RegistrationError) {
-        this.setState({ registrationCompleted: false });
-      } else {
+      if (error && !(error instanceof RegistrationError)) {
+        // if this is not a registration error, e.g. a network-error, throw and let
+        // it be handled by the next error-boundary.
         throw error;
+      } else {
+        this.setState({
+          registrationCompleted: !error
+        });
       }
     });
   };
@@ -54,7 +60,10 @@ export class Registration extends React.Component<Props, State> {
 
     return (
       <AuthRoutesContainer title={"sections.register"}>
-        <RegisterForm onFormSubmit={this.handleFormSubmit} />
+        <RegisterForm
+          onFormSubmit={this.handleFormSubmit}
+          checkUsernameUniqueness={this.checkUsernameUniqueness}
+        />
 
         <div className={styles.formFooter}>
           <Link to={"/login"}>
@@ -71,6 +80,9 @@ const mapStateToProps = (state: StoreState): StoreProps => ({});
 const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
   register: (form: RegistrationPayload, callback: (error?: Error) => void): void => {
     dispatch(register(form, callback));
+  },
+  checkUsernameUniqueness: (username: string, callback: ErrorFirstCallback): void => {
+    dispatch(checkUsernameUniqueness(username, callback));
   }
 });
 

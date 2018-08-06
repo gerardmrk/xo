@@ -22,6 +22,7 @@ export interface InjectedValidatorProps {
 // prettier-ignore
 export const withInputValidator = <WrappedComponentProps extends InjectedValidatorProps>(WrappedComponent: React.ComponentType<WrappedComponentProps>) => { // tslint:disable-line:typedef
   type WrapperProps = Subtract<WrappedComponentProps, InjectedValidatorProps> & {
+    required?: boolean;
     validatorName: keyof Validators;
     compareWith?: string; // this is only relevant if validatorName == "equalityValidator"
   };
@@ -36,7 +37,7 @@ export const withInputValidator = <WrappedComponentProps extends InjectedValidat
 
     public constructor(props: WrapperProps) {
       super(props);
-      this.validate = validators[props.validatorName]();
+      this.validate = validators[props.validatorName]({ required: props.required });
     }
 
     private validateInput = (value: string): FieldValidationResult => {

@@ -14,7 +14,7 @@ export interface LocalProps extends RouteComponentProps<{ scope: VerificationSco
 export interface StoreProps {}
 
 export interface DispatchProps {
-  verifyCode(code: string, scope: VerificationScope, cb: (err?: Error) => void): void;
+  verifyCode(code: string, scope: VerificationScope, cb: ErrorFirstCallback): void;
 }
 
 export type Props = LocalProps & StoreProps & DispatchProps;
@@ -36,7 +36,7 @@ export class Verification extends React.Component<Props, State> {
       this.props.verifyCode(
         queryParamsToObj(this.props.location.search).code,
         this.props.match.params.scope,
-        (error?: Error) => { this.setState({ error, verifying: false }) }
+        (error: Error | null) => { this.setState({ error: error || undefined, verifying: false }) }
       );
     });
   }
@@ -66,7 +66,7 @@ export class Verification extends React.Component<Props, State> {
 const mapStateToProps = (state: StoreState): StoreProps => ({});
 
 const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
-  verifyCode: (code: string, scope: VerificationScope, cb: (err?: Error) => void): void => {
+  verifyCode: (code: string, scope: VerificationScope, cb: ErrorFirstCallback): void => {
     dispatch(verifyCode(code, scope, cb));
   }
 });

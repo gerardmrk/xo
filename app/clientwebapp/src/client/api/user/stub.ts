@@ -42,8 +42,9 @@ class UserAPIStub implements AbstractUserAPI {
   }
 
   public async checkUsernameUniqueness(username: string): Promise<boolean> {
-    await sleep(700);
-    return true;
+    await sleep(880);
+    if (Date.now() % 2 === 0) return true;
+    return false;
   }
 
   // *******************************************************************************************************************

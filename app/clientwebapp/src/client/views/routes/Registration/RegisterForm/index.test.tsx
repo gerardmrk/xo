@@ -12,10 +12,17 @@ describe("<RegisterForm />", () => {
   };
 
   const onFormSubmitStub = (form: RegistrationPayload): void => {};
+  const checkUsernameUniquenessStub = (username: string): void => {};
 
   let component: ShallowWrapper;
   beforeEach(() => {
-    component = shallowWithIntl(<RegisterForm {...props} onFormSubmit={onFormSubmitStub} />);
+    component = shallowWithIntl(
+      <RegisterForm
+        {...props}
+        onFormSubmit={onFormSubmitStub}
+        checkUsernameUniqueness={checkUsernameUniquenessStub}
+      />
+    );
   });
 
   it("renders OK", () => {

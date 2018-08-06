@@ -8,76 +8,110 @@ import { RegistrationPayload } from "@client/store/user/models";
 
 export interface LocalProps {
   onFormSubmit(form: RegistrationPayload): void;
+  checkUsernameUniqueness(username: string, cb: ErrorFirstCallback<boolean>): void;
 }
 
 export type Props = LocalProps & InjectedIntlProps;
 
 export type State = {
+  // form fields
   username: string;
-  usernameValid: boolean;
   email: string;
-  emailValid: boolean;
   password: string;
-  passwordValid: boolean;
   passwordRepeat: string;
-  passwordRepeatValid: boolean;
   agreeToTOS: boolean;
+  // meta
+  forceValidate: boolean;
+  usernameNotUniqueMessage?: string;
+  checkingUsernameUniqueness: boolean;
 };
 
 export class RegisterForm extends React.Component<Props, State> {
+  // keep "isValid" flags out of local state;
+  // since this registration form is going to update a boatload (not just from value change), it makes
+  // sense to keep local state object as minimal as possible, whereever possible.
+  private formValidity = {
+    username: false,
+    email: false,
+    password: false,
+    passwordRepeat: false,
+    agreeToTOS: false
+  };
+
   public constructor(props: Props) {
     super(props);
+
     this.state = {
+      // form fields
       username: "",
-      usernameValid: false,
       email: "",
-      emailValid: false,
       password: "",
-      passwordValid: false,
       passwordRepeat: "",
-      passwordRepeatValid: false,
-      agreeToTOS: false
+      agreeToTOS: false,
+      // meta
+      forceValidate: false,
+      usernameNotUniqueMessage: undefined,
+      checkingUsernameUniqueness: false
     };
   }
 
   // The next four methods handle their respective input text fields on the form.
 
-  private onUsernameChange = (username: string, usernameValid: boolean): void => {
-    this.setState({ username, usernameValid });
+  private onUsernameChange = (username: string, isValid: boolean): void => {
+    this.setState({ username, forceValidate: false, usernameNotUniqueMessage: undefined }, () => {
+      this.formValidity.username = isValid;
+    });
   };
 
-  private onEmailChange = (email: string, emailValid: boolean): void => {
-    this.setState({ email, emailValid });
+  private onEmailChange = (email: string, isValid: boolean): void => {
+    this.setState({ email, forceValidate: false }, () => {
+      this.formValidity.email = isValid;
+    });
   };
 
-  private onPasswordChange = (password: string, passwordValid: boolean): void => {
-    this.setState({ password, passwordValid });
+  private onPasswordChange = (password: string, isValid: boolean): void => {
+    this.setState({ password, forceValidate: false }, () => {
+      this.formValidity.password = isValid;
+    });
   };
 
-  private onPasswordRepeatChange = (passwordRepeat: string, passwordRepeatValid: boolean): void => {
-    this.setState({ passwordRepeat, passwordRepeatValid });
+  private onPasswordRepeatChange = (passwordRepeat: string, isValid: boolean): void => {
+    this.setState({ passwordRepeat, forceValidate: false }, () => {
+      this.formValidity.passwordRepeat = isValid;
+    });
   };
 
   // handler for the "Agree to ToS" checkbox
   private onAgreeToTOSChange = (): void => {
-    this.setState({ agreeToTOS: !this.state.agreeToTOS });
+    this.setState({ agreeToTOS: !this.state.agreeToTOS, forceValidate: false }, () => {
+      this.formValidity.agreeToTOS = this.state.agreeToTOS === true;
+    });
+  };
+
+  // handler to check for username uniqueness
+  private onUsernameBlur = (): void => {
+    if (this.state.username !== "" && this.formValidity.username === true) {
+      this.setState({ checkingUsernameUniqueness: true }, () => {
+        // prettier-ignore
+        this.props.checkUsernameUniqueness(this.state.username, (error: Error | null, isValid: boolean) => {
+          const isUsernameUnique = !!!error && isValid;
+          this.formValidity.username = isUsernameUnique;
+          this.setState({
+            checkingUsernameUniqueness: false,
+            usernameNotUniqueMessage: isUsernameUnique ? undefined : "validation_rules.username.uniqueness"
+          });
+        });
+      });
+    }
   };
 
   // handler for the form-submit button
   private onFormSubmit = (e: React.SyntheticEvent): void => {
-    if (!Object.values(this.state).some((v: string | boolean) => v === "" || v === false)) {
+    if (Object.values(this.formValidity).some((valid: boolean) => !valid)) {
+      this.setState({ forceValidate: true });
+    } else {
       this.props.onFormSubmit(this.state);
     }
-    /** ^
-     * If the corresponding value of any properties on this.state is an empty string or False,
-     * do not allow form submission. This technique works because:
-     * - any properties with a boolean value is either:
-     *     -`{fieldName}Valid` -- form shouldn't be submittable if any of the fields are invalid
-     *     - the "agree to terms and conditions" option -- form also shouldn't be submittable if the user has not agreed to the ToS.
-     * - any properties with a string value is
-     *     - an input field value -- form should not be submittable if any of the required fields are empty
-     *       (and as of this writing, all of them are required, so if you needed to change one of the field to optional, remember to adjust the logic)
-     */
   };
 
   public render(): JSX.Element | null {
@@ -96,7 +130,11 @@ export class RegisterForm extends React.Component<Props, State> {
           value={this.state.username}
           validatorName={"usernameValidator"}
           onChangeProxy={this.onUsernameChange}
+          onBlur={this.onUsernameBlur}
           label={messages["form_fields.common.username"]}
+          forceValidate={this.state.forceValidate}
+          loading={this.state.checkingUsernameUniqueness}
+          externalInvalidationMessage={this.state.usernameNotUniqueMessage}
         />
 
         <Input
@@ -109,6 +147,7 @@ export class RegisterForm extends React.Component<Props, State> {
           validatorName={"emailValidator"}
           onChangeProxy={this.onEmailChange}
           label={messages["form_fields.common.email"]}
+          forceValidate={this.state.forceValidate}
         />
 
         <Input
@@ -121,6 +160,7 @@ export class RegisterForm extends React.Component<Props, State> {
           validatorName={"passwordValidator"}
           onChangeProxy={this.onPasswordChange}
           label={messages["form_fields.common.password"]}
+          forceValidate={this.state.forceValidate}
         />
 
         <Input
@@ -134,6 +174,7 @@ export class RegisterForm extends React.Component<Props, State> {
           compareWith={this.state.password}
           onChangeProxy={this.onPasswordRepeatChange}
           label={messages["form_fields.register.reenter_password"]}
+          forceValidate={this.state.forceValidate}
         />
 
         <Form.Group className={styles.checkboxWrapper}>
@@ -146,14 +187,7 @@ export class RegisterForm extends React.Component<Props, State> {
         </Form.Group>
 
         <Form.Group>
-          <Form.Button
-            primary={true}
-            fluid={true}
-            disabled={Object.values(this.state).some(
-              (v: string | boolean) => v === "" || v === false
-            )}
-            onClick={this.onFormSubmit}
-          >
+          <Form.Button primary={true} fluid={true} onClick={this.onFormSubmit}>
             {messages["actions.register_submit"]}
           </Form.Button>
         </Form.Group>

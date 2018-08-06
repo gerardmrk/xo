@@ -5,16 +5,20 @@ import { passwordRepeatValidator } from "@client/utils/local-validators/validate
 
 export type FieldValidator = (fieldInput: string, extra?: string) => FieldValidationResult;
 
+export interface FieldValidatorOptions {
+  required?: boolean;
+}
+
 export interface FieldValidationResult {
   valid: boolean;
   invalidReason?: string;
 }
 
 export interface Validators {
-  emailValidator(): FieldValidator;
-  usernameValidator(): FieldValidator;
-  passwordValidator(): FieldValidator;
-  passwordRepeatValidator(): FieldValidator;
+  emailValidator(opts: FieldValidatorOptions): FieldValidator;
+  usernameValidator(opts: FieldValidatorOptions): FieldValidator;
+  passwordValidator(opts: FieldValidatorOptions): FieldValidator;
+  passwordRepeatValidator(opts: FieldValidatorOptions): FieldValidator;
 }
 
 export const validators: Validators = {

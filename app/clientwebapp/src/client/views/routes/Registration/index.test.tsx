@@ -16,12 +16,20 @@ describe("<Registration />", () => {
   };
 
   const registerStub = (form: RegistrationPayload): void => {};
+  const checkUsernameUniquenessStub = (
+    username: string,
+    cb: ErrorFirstCallback<boolean>
+  ): void => {};
 
   let component: ShallowWrapper;
   beforeEach(() => {
     component = shallowWithIntl(
       <Router>
-        <Registration {...props} register={registerStub} />
+        <Registration
+          {...props}
+          register={registerStub}
+          checkUsernameUniqueness={checkUsernameUniquenessStub}
+        />
       </Router>
     );
   });

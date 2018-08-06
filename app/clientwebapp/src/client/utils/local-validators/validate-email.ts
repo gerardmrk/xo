@@ -1,5 +1,9 @@
 // tslint:disable:no-function-expression
-import { FieldValidator, FieldValidationResult } from "@client/utils/local-validators";
+import {
+  FieldValidator,
+  FieldValidationResult,
+  FieldValidatorOptions
+} from "@client/utils/local-validators";
 
 /**
  * Email address validation
@@ -26,7 +30,7 @@ export interface Options {
  * Validates an email address
  * @param email email address to validate
  */
-export const emailValidator = (opts?: Options): FieldValidator => {
+export const emailValidator = (opts?: FieldValidatorOptions): FieldValidator => {
   const pattern = DFLT_PATTERN;
   let isRequired: boolean = false;
 

@@ -76,13 +76,13 @@ export const resetPassword = (newPassword: string): StoreAsyncAction => async (d
 };
 
 // prettier-ignore
-export const verifyCode = (code: string, scope: VerificationScope, callback: (err?: Error) => void): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const verifyCode = (code: string, scope: VerificationScope, callback: ErrorFirstCallback): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
   dispatch(actions.verifyCodePending({ showLoader: true }));
 
   try {
     await api.user.verifyCode(code, scope);
     dispatch(actions.verifyCodeSuccess(code, { showLoader: false }));
-    callback();
+    callback(null);
   } catch (error) {
     dispatch(actions.verifyCodeFailure(<Error>error, { showLoader: false }));
     callback(<Error>error);
@@ -90,15 +90,15 @@ export const verifyCode = (code: string, scope: VerificationScope, callback: (er
 }
 
 // prettier-ignore
-export const checkUsernameUniqueness = (username: string, callback: (isUnique: boolean, error: Error | null) => void): StoreAsyncAction => async(dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const checkUsernameUniqueness = (username: string, callback: ErrorFirstCallback<boolean>): StoreAsyncAction => async(dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
   dispatch(actions.checkUsernameUniquenessPending());  
 
   try {
     const isUnique = await api.user.checkUsernameUniqueness(username);
     dispatch(actions.checkUsernameUniquenessSuccess(isUnique));
-    callback(isUnique, null);
+    callback(null, isUnique);
   } catch (error) {
     dispatch(actions.checkUsernameUniquenessFailure(<Error>error));
-    callback(false, <Error>error);
+    callback(<Error>error);
   }
 }
