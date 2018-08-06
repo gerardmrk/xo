@@ -6,7 +6,11 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 import styles from "./styles.less";
 import { register, checkUsernameUniqueness } from "@client/store/user/async-actions";
 import { StoreState, StoreDispatcher } from "@client/store";
-import { RegistrationPayload, RegistrationError } from "@client/store/user/models";
+import {
+  RegistrationPayload,
+  RegistrationError,
+  AlreadyRegisteredError
+} from "@client/store/user/models";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 import RegisterForm from "@client/views/routes/Registration/RegisterForm";
 
@@ -37,14 +41,23 @@ export class Registration extends React.Component<Props, State> {
 
   private handleFormSubmit = (form: RegistrationPayload): void => {
     this.props.register(form, (error?: Error) => {
-      if (error && !(error instanceof RegistrationError)) {
+      if (!!!error) {
+        // registration successful.
+        this.setState({ registrationCompleted: true });
+        return;
+      }
+
+      if (!(error instanceof RegistrationError)) {
         // if this is not a registration error, e.g. a network-error, throw and let
         // it be handled by the next error-boundary.
         throw error;
-      } else {
-        this.setState({
-          registrationCompleted: !error
-        });
+      }
+
+      switch (error.constructor) {
+        case AlreadyRegisteredError:
+
+        default:
+          throw error;
       }
     });
   };
