@@ -9,10 +9,6 @@
   "tslint.enable": true,
   "tslint.packageManager": "yarn",
   "tslint.configFile": "app/clientwebapp/config/syntax/tslint.json",
-  "jshint.enable": true,
-  "jshint.packageManager": "yarn",
-  "jshint.config": "app/clientwebapp/config/syntax/.jshintrc",
-  "jshint.nodePath": "app/clientwebapp/node_modules/jshint",
   "prettier.printWidth": 100,
   "go.lintTool": "gometalinter",
   "[go]": {},
@@ -27,59 +23,5 @@
   },
   "[html]": {
     "editor.formatOnSave": false
-  },
-  "vsicons.associations.files": [
-    {
-      "icon": "bazel",
-      "format": "svg",
-      "extensions": [".bazelrc"]
-    }
-  ],
-  "vsicons.associations.folders": [
-    {
-      "icon": "db",
-      "format": "svg",
-      "extensions": [".state"]
-    },
-    {
-      "icon": "git",
-      "format": "svg",
-      "extensions": ["hooks", ".hooks", "githooks", ".githooks"]
-    },
-    {
-      "icon": "log",
-      "format": "svg",
-      "extensions": [".log", "logs", ".logs"]
-    },
-    {
-      "icon": "dist",
-      "format": "svg",
-      "extensions": [".dist", "build", ".build", "builds", ".builds"]
-    },
-    {
-      "icon": "temp",
-      "format": "svg",
-      "extensions": [".cache", "caches", ".caches"]
-    },
-    {
-      "icon": "docker",
-      "format": "svg",
-      "extensions": ["iac", ".iac", "infrastructure", ".infrastructure"]
-    },
-    {
-      "icon": "app",
-      "format": "svg",
-      "extensions": ["apps"]
-    },
-    {
-      "icon": "package",
-      "format": "svg",
-      "extensions": ["pkgs"]
-    },
-    {
-      "icon": "server",
-      "format": "svg",
-      "extensions": ["svcs"]
-    }
-  ]
+  }
 }
