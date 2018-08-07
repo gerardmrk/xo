@@ -31,7 +31,7 @@ export const globalLoaderMiddleware: StoreMiddleware = (store: MiddlewareAPI<Sto
 
   if (!(<ActionWithMeta>action).meta || (<ActionWithMeta>action).meta.showLoader === undefined) return;
 
-  debugGL("detected action.type='%s', action.meta.showLoader='%s'", action.type, (<ActionWithMeta>action).meta.showLoader);
+  debugGL("['%s']: meta.showLoader='%s'", action.type, (<ActionWithMeta>action).meta.showLoader);
 
   const { showLoader } = (<ActionWithMeta>action).meta;
   if (!!showLoader) {
@@ -47,15 +47,10 @@ export const globalMessageMiddleware: StoreMiddleware = (store: MiddlewareAPI<St
 
   if (!(<ActionWithMeta>action).meta || (<ActionWithMeta>action).meta.showMessage === undefined) return;
 
-  debugGM("detected action.type='%s', action.meta.showMessage='%s'", action.type, (<ActionWithMeta>action).meta.showMessage);
+  debugGM("handling '%s': meta.showMessage='%s'", action.type, (<ActionWithMeta>action).meta.showMessage);
 
   const { showMessage } = (<ActionWithMeta>action).meta;
   if (!!showMessage) {
     store.dispatch(globalMessageActions.show(showMessage));
-    if (showMessage.autoDismiss) {
-      setTimeout(() => {
-        store.dispatch(globalMessageActions.hide());
-      }, 5000);
-    }
   }
 };

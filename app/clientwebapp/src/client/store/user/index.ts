@@ -1,7 +1,7 @@
 /**
  * user state
  */
-// tslint:disable:typedef no-unsafe-any
+// tslint:disable:no-unsafe-any
 
 import { Reducer } from "redux";
 import { DeepReadonly } from "utility-types";
@@ -21,7 +21,7 @@ const defaultState: State = {
 const user: Reducer = (state: State = defaultState, action: Action): State => {
   switch (action.type) {
     case getType(actions.getSettingsSuccess):
-      return set("settings", action.payload, state);
+      return <State>set("settings", action.payload, state);
 
     case getType(actions.getSettingsPending):
     case getType(actions.getSettingsFailure):

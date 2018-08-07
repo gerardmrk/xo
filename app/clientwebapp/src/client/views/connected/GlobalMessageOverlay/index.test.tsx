@@ -19,4 +19,8 @@ describe("<GlobalMessageOverlay />", () => {
     expect(component).toExist();
     expect(component).not.toBeEmptyRender();
   });
+
+  it.skip("is dismissable", async () => {});
+
+  it.skip("renders the correct preset", async () => {});
 });

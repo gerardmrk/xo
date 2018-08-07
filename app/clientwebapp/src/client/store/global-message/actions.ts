@@ -5,11 +5,11 @@
 // tslint:disable:typedef
 import { createAction } from "typesafe-actions";
 
-import { GlobalMessage } from "@client/store/global-message/models";
+import * as models from "@client/store/global-message/models";
 
 export const show = createAction(
   "ui.globalMessage.show",
-  resolve => (msg: GlobalMessage) => resolve(msg)
+  resolve => (message: models.GlobalMessage) => resolve(message)
 );
 
 export const hide = createAction("ui.globalMessage.hide");

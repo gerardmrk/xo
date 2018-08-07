@@ -1,4 +1,11 @@
 {
+  "global_messages": {
+    "refresh_page_for_new_updates": {
+      "header": "The app has new updates",
+      "content": "Please reload page to see changes."
+    }
+  },
+
   "sections": {
     "login": "Login",
     "register": "Register",

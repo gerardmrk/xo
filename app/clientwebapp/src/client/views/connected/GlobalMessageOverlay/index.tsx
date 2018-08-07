@@ -1,18 +1,23 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Message, Container } from "semantic-ui-react";
+import { Message } from "semantic-ui-react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
+import presets from "./preset-options";
 import { StoreState, StoreDispatcher } from "@client/store";
+import { hide } from "@client/store/global-message/actions";
+import { GlobalMessage } from "@client/store/global-message/models";
 
 export interface LocalProps {}
 
 export interface StoreProps {
-  message?: string;
+  message: GlobalMessage;
 }
 
-export interface DispatchProps {}
+export interface DispatchProps {
+  dismissMessage(): void;
+}
 
 export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
 
@@ -20,30 +25,64 @@ export type State = {};
 
 export class GlobalMessageOverlay extends React.PureComponent<Props, State> {
   public render(): JSX.Element | null {
-    const {
-      intl: { messages },
-      message
-    } = this.props;
+    const { intl, message } = this.props;
 
-    if (!message) return null;
+    if (message === undefined) {
+      return null;
+    }
 
+    if (typeof message === "string") {
+      const PresetMessage = presets[message];
+      return (
+        <div className={styles.main}>
+          <PresetMessage onDismiss={this.props.dismissMessage} />
+        </div>
+      );
+    }
+
+    // prettier-ignore
     return (
       <div className={styles.main}>
-        <Container>
-          <Message info={true} floating={true} size={"big"}>
-            {messages[message] || message}
+          <Message
+            floating={true}
+            size={"big"}
+            color={message.color}
+            onDismiss={this.props.dismissMessage}
+          >
+            <Message.Header>
+              {intl.messages[message.header] || message.header}
+            </Message.Header>
+
+            {message.content && (
+              <Message.Content>
+                {intl.messages[message.content] || message.content}
+              </Message.Content>
+            )}
+
+            {message.list && (
+              <Message.List>
+                {message.list.map((item: string, i: number) => (
+                  <Message.Item key={i}>
+                    {intl.messages[item] || item}
+                  </Message.Item>
+                ))}
+              </Message.List>
+            )}
           </Message>
-        </Container>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ globalMessage }: StoreState): StoreProps => ({
-  message: globalMessage.message
+const mapStateToProps = ({ globalMessage: { message } }: StoreState): StoreProps => ({
+  message
 });
 
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({});
+const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
+  dismissMessage: (): void => {
+    dispatch(hide());
+  }
+});
 
 export default injectIntl<LocalProps>(
   connect<StoreProps, DispatchProps, LocalProps>(
