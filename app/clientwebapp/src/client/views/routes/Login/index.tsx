@@ -1,15 +1,16 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { injectIntl, InjectedIntlProps } from "react-intl";
-import { Link, Redirect, RedirectProps } from "react-router-dom";
+import { Redirect, RedirectProps } from "react-router-dom";
 import { Form } from "semantic-ui-react";
 
 import styles from "./styles.less";
 import { StoreState, StoreDispatcher } from "@client/store";
 import { login } from "@client/store/session/async-actions";
+import queryParamsToObj from "@client/utils/query-params-to-obj";
+import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 import { RouteProps, DEFAULT_PRIVATE_PATH, DEFAULT_AUTH_PATH } from "@client/views/routes";
-import queryParamsToObj from "@client/utils/query-params-to-obj";
 
 export interface LocalProps extends RouteProps {}
 
@@ -108,9 +109,9 @@ export class Login extends React.Component<Props, State> {
 
           <Form.Group>
             <Form.Field className={styles.forgotPasswordLink}>
-              <Link to={"/forgot-password"}>
+              <UpdateAwareLink to={"/forgot-password"}>
                 <em>{intl.messages["route_links.forgot_password"]}</em>
-              </Link>
+              </UpdateAwareLink>
             </Form.Field>
           </Form.Group>
 
@@ -139,9 +140,9 @@ export class Login extends React.Component<Props, State> {
         </Form>
 
         <div className={styles.formFooter}>
-          <Link to={"/register"}>
+          <UpdateAwareLink to={"/register"}>
             <span>{intl.messages["route_links.dont_have_an_account"]}</span>
-          </Link>
+          </UpdateAwareLink>
         </div>
       </AuthRoutesContainer>
     );

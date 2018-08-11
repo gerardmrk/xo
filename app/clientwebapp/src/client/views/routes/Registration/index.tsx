@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
@@ -11,8 +11,9 @@ import {
   RegistrationError,
   AlreadyRegisteredError
 } from "@client/store/user/models";
-import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 import RegisterForm from "@client/views/routes/Registration/RegisterForm";
+import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
+import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 
 export interface LocalProps {}
 
@@ -79,9 +80,9 @@ export class Registration extends React.Component<Props, State> {
         />
 
         <div className={styles.formFooter}>
-          <Link to={"/login"}>
+          <UpdateAwareLink to={"/login"}>
             <span>{messages["route_links.already_have_an_account"]}</span>
-          </Link>
+          </UpdateAwareLink>
         </div>
       </AuthRoutesContainer>
     );

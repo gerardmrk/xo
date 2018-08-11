@@ -5,15 +5,9 @@
  */
 import { combineReducers } from "redux";
 
-import user, {
-  State as UserState,
-  Action as UserAction
-} from "@client/store/user";
+import user, { State as UserState, Action as UserAction } from "@client/store/user";
 
-import session, {
-  State as SessionState,
-  Action as SessionAction
-} from "@client/store/session";
+import session, { State as SessionState, Action as SessionAction } from "@client/store/session";
 
 import globalLoader, {
   State as GlobalLoaderState,
@@ -25,22 +19,30 @@ import globalMessage, {
   Action as GlobalMessageAction
 } from "@client/store/global-message";
 
+import appStatuses, {
+  State as AppStatusesState,
+  Action as AppStatusesAction
+} from "@client/store/app-statuses";
+
 export type RootState = {
   user: UserState;
   session: SessionState;
   globalLoader: GlobalLoaderState;
   globalMessage: GlobalMessageState;
+  appStatuses: AppStatusesState;
 };
 
 export type RootAction =
   | UserAction
   | SessionAction
   | GlobalLoaderAction
-  | GlobalMessageAction;
+  | GlobalMessageAction
+  | AppStatusesAction;
 
 export default combineReducers<RootState, RootAction>({
   user,
   session,
   globalLoader,
-  globalMessage
+  globalMessage,
+  appStatuses
 });

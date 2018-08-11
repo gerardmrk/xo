@@ -53,13 +53,7 @@
     "strict-boolean-expressions": false,
     "typedef": {
       "severity": "warning",
-      "options": [
-        "parameter",
-        "arrow-parameter",
-        "property-declaration",
-        "call-signature",
-        "arrow-call-signature"
-      ]
+      "options": ["parameter", "arrow-parameter", "property-declaration", "call-signature"]
     },
     "variable-name": false
   }

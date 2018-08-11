@@ -4,7 +4,6 @@
  * to show or hide the global message overlay
  */
 // tslint:disable:no-unsafe-any
-import { Reducer } from "redux";
 import { set } from "unchanged";
 import { ActionType, getType } from "typesafe-actions";
 
@@ -21,7 +20,7 @@ const defaultState: State = {
   message: undefined
 };
 
-const globalMessage: Reducer = (state: State = defaultState, action: Action): State => {
+const globalMessage = (state: State = defaultState, action: Action): State => {
   switch (action.type) {
     case getType(actions.show):
       return set("message", action.payload, state);

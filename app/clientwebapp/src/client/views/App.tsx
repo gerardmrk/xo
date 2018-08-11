@@ -18,18 +18,11 @@ export interface Props extends RouteComponentProps<{}, {}> {}
 export type State = {};
 
 export class App extends React.PureComponent<Props, State> {
-  private TIME_ELAPSED_SINCE_LAST_PAGE_REFRESH: number;
-
   public componentDidUpdate(prevProps: Props): void {
-    // ensure the page always scroll to top after a nav change
     if (this.props.location !== prevProps.location) {
+      // ensure the page always scroll to top after a nav change
       window.scrollTo(0, 0);
     }
-  }
-
-  public componentWillUnmount(): void {
-    // will implement tomorrow
-    clearInterval(this.TIME_ELAPSED_SINCE_LAST_PAGE_REFRESH);
   }
 
   public render(): JSX.Element | null {

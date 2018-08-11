@@ -1,6 +1,7 @@
 /**
  * main application entrypoint
  */
+import * as debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as AsyncLoader from "react-loadable";
@@ -12,14 +13,16 @@ import API from "@client/api";
 import App from "@client/views/App";
 import IntlProvider from "@client/views/wrappers/IntlProvider";
 import initStore, { Store, StoreState } from "@client/store";
+import { updatesAvailable } from "@client/store/app-statuses/actions";
 import SettingsProvider from "@client/views/wrappers/SettingsProvider";
 import IntlSettingsProvider from "@client/views/wrappers/IntlSettingsProvider";
 import TopLevelErrorCatcher from "@client/views/connected/TopLevelErrorCatcher";
-import { show as showGlobalMessage } from "@client/store/global-message/actions";
 // include the semantic-ui theme files and configs
 // import "@client/views/theme/semantic.less";
 
 (async (): Promise<void> => {
+  const debugSW = debug("serviceworker");
+
   try {
     // Get the initial store state, if any, from the global variable.
     const initialState: StoreState = window["_INITIAL_STATE_"] || {}; // tslint:disable-line
@@ -35,22 +38,24 @@ import { show as showGlobalMessage } from "@client/store/global-message/actions"
     // Install the offline-plugin (caches assets in service-workers or app-cache).
     OfflinePluginRuntime.install({
       onUpdating: (): void => {
-        // console.log("[SW]: `onUpdating` event");
+        debugSW("[event] onUpdating");
       },
       onUpdateReady: (): void => {
-        // console.log("[SW]: `onUpdateReady` event");
+        debugSW("[event] onUpdateReady");
         // Force the new service worker to be immediately updated.
         // this won't happen by default until all tabs of yours sites are closed.
         OfflinePluginRuntime.applyUpdate();
       },
       onUpdated: (): void => {
-        // console.log("[SW]: `onUpdated` event");
+        debugSW("[event] onUpdated");
         // Updates will not be reflected in the app until the next refresh.
         // either prompt the user for a refresh, or set a 'update-available' event on the store
-        store.dispatch(showGlobalMessage("REFRESH_PAGE_FOR_NEW_UPDATES"));
+        store.dispatch(updatesAvailable());
       },
       onUpdateFailed: (): void => {
-        // console.log("[SW]: `onUpdateFailed` event");
+        debugSW("[event] onUpdatedFailed");
+        // This should be a `Retryable` error.
+        // Handle accordingly - todo
       }
     });
 

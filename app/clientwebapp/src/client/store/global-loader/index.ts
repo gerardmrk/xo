@@ -22,7 +22,6 @@ const defaultState: State = {
   message: undefined
 };
 
-// prettier-ignore
 const globalLoader: Reducer = (state: State = defaultState, action: Action): State => {
   switch (action.type) {
     case getType(actions.show):

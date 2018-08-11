@@ -1,11 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Form } from "semantic-ui-react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 import { StoreState, StoreDispatcher } from "@client/store";
+import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
 import { requestPasswordReset } from "@client/store/user/async-actions";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 
@@ -70,13 +71,13 @@ export class ForgotPassword extends React.Component<Props, State> {
         </Form>
 
         <div className={styles.formFooter}>
-          <Link to={"/login"}>
+          <UpdateAwareLink to={"/login"}>
             <span>{messages["route_links.login"]}</span>
-          </Link>
+          </UpdateAwareLink>
           <span>{" / "}</span>
-          <Link to={"/register"}>
+          <UpdateAwareLink to={"/register"}>
             <span>{messages["route_links.register"]}</span>
-          </Link>
+          </UpdateAwareLink>
         </div>
       </AuthRoutesContainer>
     );
