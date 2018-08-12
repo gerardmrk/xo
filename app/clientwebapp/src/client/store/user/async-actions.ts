@@ -81,7 +81,7 @@ export const verifyCode = (code: string, scope: VerificationScope, callback: Err
 
   try {
     await api.user.verifyCode(code, scope);
-    dispatch(actions.verifyCodeSuccess(code, { showLoader: false }));
+    dispatch(actions.verifyCodeSuccess({ showLoader: false }));
     callback(null);
   } catch (error) {
     dispatch(actions.verifyCodeFailure(<Error>error, { showLoader: false }));

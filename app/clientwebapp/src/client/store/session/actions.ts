@@ -8,6 +8,9 @@ import { createAction } from "typesafe-actions";
 
 import { AuthTokens } from "@client/store/session/models";
 import { StoreMiddlewareFlags } from "@client/store/middleware";
+import { TEST_ACTION } from "@client/store/global-loader/actions";
+
+export { TEST_ACTION };
 
 export const loginPending = createAction(
   "session.loginPending",

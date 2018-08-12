@@ -33,3 +33,25 @@ Higher order components. These are generally not true UI components. They functi
 ### <App/>
 
 This is a special component
+
+## Quick References
+
+### Enzyme Matchers
+
+- [toBeChecked()](#tobechecked)
+- [toBeDisabled()](#tobedisabled)
+- [toBeEmptyRender()](#tobeemptyrender)
+- [toExist()](#toexist)
+- [toContainReact()](#tocontainreact)
+- [toHaveClassName()](#tohaveclassname)
+- [toHaveHTML()](#tohavehtml)
+- [toHaveProp()](#tohaveprop)
+- [toHaveRef()](#tohaveref)
+- [toHaveState()](#tohavestate)
+- [toHaveStyle()](#tohavestyle)
+- [toHaveTagName()](#tohavetagname)
+- [toHaveText()](#tohavetext)
+- [toIncludeText()](#toincludetext)
+- [toHaveValue()](#tohavevalue)
+- [toMatchElement()](#tomatchelement)
+- [toMatchSelector()](#tomatchselector)

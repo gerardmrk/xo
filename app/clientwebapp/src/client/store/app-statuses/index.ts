@@ -16,8 +16,10 @@ const appStatuses = (state: State = defaultState, action: Action): State => {
   switch (action.type) {
     case getType(actions.updatesAvailable):
       return { updated: false };
+
     case getType(actions.updatesApplied):
       return { updated: true };
+
     default:
       return state;
   }

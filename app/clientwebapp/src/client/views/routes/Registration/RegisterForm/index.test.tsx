@@ -26,9 +26,13 @@ describe("<RegisterForm />", () => {
   });
 
   it("renders OK", () => {
+    console.log(component.debug());
     expect(component).toExist();
     expect(component).not.toBeEmptyRender();
+    expect(component.name()).toBe("Form");
   });
+
+  it("renders the required registration input fields", () => {});
 
   it("renders a form with empty fields by default", () => {});
 

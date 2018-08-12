@@ -20,7 +20,10 @@ export interface InjectedValidatorProps {
 }
 
 // prettier-ignore
-export const withInputValidator = <WrappedComponentProps extends InjectedValidatorProps>(WrappedComponent: React.ComponentType<WrappedComponentProps>) => { // tslint:disable-line:typedef
+export const withInputValidator = <WrappedComponentProps extends InjectedValidatorProps>(
+  WrappedComponent: React.ComponentType<WrappedComponentProps>
+) => {
+
   type WrapperProps = Subtract<WrappedComponentProps, InjectedValidatorProps> & {
     required?: boolean;
     validatorName: keyof Validators;
@@ -31,22 +34,33 @@ export const withInputValidator = <WrappedComponentProps extends InjectedValidat
 
   return class WithInputValidator extends React.PureComponent<WrapperProps, WrapperState> {
     public static displayName = `withInputValidator(${WrappedComponent.name})`;
+
     public static readonly WrappedComponent = WrappedComponent;
 
     private validate: FieldValidator;
 
     public constructor(props: WrapperProps) {
       super(props);
-      this.validate = validators[props.validatorName]({ required: props.required });
+      this.validate = validators[props.validatorName]({
+        required: props.required
+      });
     }
 
     private validateInput = (value: string): FieldValidationResult => {
-      return this.validate(value, this.props.compareWith);
+      return this.validate(
+        value,
+        this.props.compareWith
+      );
     }
 
     public render(): JSX.Element {
-      // see issue -> https://github.com/Microsoft/TypeScript/pull/13288
-      const { validatorName, compareWith, compareFieldName, ...other } = this.props as any // tslint:disable-line:no-any no-unsafe-any
+      const {
+        validatorName,
+        compareWith,
+        compareFieldName,
+        ...other // ---------> see issue -> https://github.com/Microsoft/TypeScript/pull/13288
+      } = this.props as any // tslint:disable-line:no-any no-unsafe-any
+      
       return (
         <WrappedComponent
           {...other as WrapperProps}

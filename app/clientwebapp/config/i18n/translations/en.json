@@ -68,6 +68,10 @@
   },
 
   "instructions": {
+    "post_registration": {
+      "header": "Successfully registered.",
+      "message": "An email has been sent to your inbox."
+    },
     "check_your_email": "Please Check Your Email"
   },
 

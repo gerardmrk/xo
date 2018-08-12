@@ -1,4 +1,3 @@
-// tslint:disable:no-relative-imports typedef
 import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 

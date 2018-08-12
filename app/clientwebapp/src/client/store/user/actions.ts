@@ -5,6 +5,9 @@ import { createAction } from "typesafe-actions";
 
 import { UserSettings } from "@client/store/user/models";
 import { StoreMiddlewareFlags } from "@client/store/middleware";
+import { TEST_ACTION } from "@client/store/global-loader/actions";
+
+export { TEST_ACTION };
 
 // tslint:disable:typedef
 
@@ -102,7 +105,7 @@ export const verifyCodePending = createAction(
 
 export const verifyCodeSuccess = createAction(
   "user.verifyCodeSuccess",
-  resolve => (token: string, flags: StoreMiddlewareFlags) => resolve(token, flags)
+  resolve => (flags: StoreMiddlewareFlags) => resolve(flags)
 );
 
 export const verifyCodeFailure = createAction(

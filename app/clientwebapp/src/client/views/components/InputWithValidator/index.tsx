@@ -64,7 +64,6 @@ export class InputWithValidator extends React.Component<Props, State> {
 
   public componentDidUpdate(prevProps: Props): void {
     if (prevProps.forceValidate !== this.props.forceValidate) {
-      // manually trigger validation (only validates on input change)
       const { valid, invalidReason } = this.props.validateInput(this.props.value as string);
       this.setState({ valid, invalidReason });
     }
@@ -72,8 +71,6 @@ export class InputWithValidator extends React.Component<Props, State> {
 
   public onInputChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
     const { value } = e.currentTarget;
-
-    // validate input everytime the input value changes
     const { valid, invalidReason } = this.props.validateInput(value);
     this.setState({ valid, invalidReason }, () => {
       this.props.onChangeProxy(value, valid);
@@ -81,25 +78,19 @@ export class InputWithValidator extends React.Component<Props, State> {
   };
 
   public onInputBlur = (e: React.SyntheticEvent): void => {
-    // only toggle invalidation message display if one exist
     if (!this.state.valid) {
       this.setState({ showInvalidReason: true }, () => {
-        // Since we're displaying the error message, scroll it into view. It's still possible for the DOM ref to be null,
-        // for whatever reason, so we check to prevent runtime-error from occurring if the DOM ref isn't present.
         if (this.invalidMsgDomRef.current !== null) {
           this.invalidMsgDomRef.current.scrollIntoView();
         }
       });
     }
-    // since we're swallowing the 'blur' event with this handler, we need to check and call
-    // the provided onBlur handler, if one was provided in the first place.
     if (this.props.onBlur !== undefined) {
       this.props.onBlur(e); // tslint:disable-line:no-unsafe-any
     }
   };
 
   public onInputFocus = (e: React.SyntheticEvent): void => {
-    // hide annoying invalidation message if the user starts typing again.
     this.setState({ showInvalidReason: false });
   };
 
@@ -119,7 +110,7 @@ export class InputWithValidator extends React.Component<Props, State> {
     return (
       <Form.Group className={styles.main}>
         <Form.Input
-          {...otherProps} // I.E., apart from the props mandated above, any other `FormInputProps` props or HTMLInputElement props is also valid
+          {...otherProps}
           error={!this.state.valid}
           onChange={this.onInputChange}
           onBlur={this.onInputBlur}

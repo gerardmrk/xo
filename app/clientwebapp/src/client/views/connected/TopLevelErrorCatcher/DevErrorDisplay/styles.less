@@ -6,6 +6,7 @@
 
 .container {
   height: inherit !important;
+  padding: 1em;
 }
 
 .content {
@@ -15,22 +16,20 @@
   align-items: stretch;
 }
 
-.errorInfoPane,
 .errorPane {
-  width: 50%;
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  border-right: 1px solid red;
+  p {
+    font-size: 11.7px;
+    color: red;
+  }
 }
 
 .errorInfoPane {
+  display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.errorPane {
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-between;
-  p {
-    font-size: 10.7px;
-  }
 }

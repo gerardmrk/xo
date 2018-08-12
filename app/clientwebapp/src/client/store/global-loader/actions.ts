@@ -5,15 +5,15 @@
 // tslint:disable:typedef
 
 import { createAction } from "typesafe-actions";
+import { TEST_ACTION } from "@client/utils/test-helpers/test-action";
 
-// prettier-ignore
+export { TEST_ACTION };
+
 // show the global loading display
 // optionally display a message with it
-export const show = createAction(
-  "ui.globalLoader.show",
-  resolve => (loadingMessage?: string) => resolve(loadingMessage)
+export const show = createAction("globalLoader.show", resolve => (loadingMessage?: string) =>
+  resolve(loadingMessage)
 );
 
-// prettier-ignore
 // hide the global loading display
-export const hide = createAction("ui.globalLoader.hide");
+export const hide = createAction("globalLoader.hide");

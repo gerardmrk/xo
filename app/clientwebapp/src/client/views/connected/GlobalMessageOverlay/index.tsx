@@ -4,7 +4,7 @@ import { Message } from "semantic-ui-react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
-import presets from "./preset-options";
+import presets from "@client/views/connected/GlobalMessageOverlay/preset-options";
 import { StoreState, StoreDispatcher } from "@client/store";
 import { hide } from "@client/store/global-message/actions";
 import { GlobalMessage } from "@client/store/global-message/models";

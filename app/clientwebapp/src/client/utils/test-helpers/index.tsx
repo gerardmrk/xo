@@ -13,10 +13,7 @@ import { IntlProvider, intlShape } from "react-intl";
 import messages from "@translations/en.json";
 
 // Create the IntlProvider to retrieve context for wrapping around.
-const intlProvider: IntlProvider = new IntlProvider(
-  { locale: "en", messages },
-  {}
-);
+const intlProvider: IntlProvider = new IntlProvider({ locale: "en", messages }, {});
 export const { intl } = intlProvider.getChildContext();
 
 /**

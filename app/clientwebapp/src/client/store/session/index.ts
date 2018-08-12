@@ -2,7 +2,6 @@
  * Session state
  */
 // tslint:disable:no-unsafe-any
-import { Reducer } from "redux";
 import { set, merge } from "unchanged";
 import { DeepReadonly } from "utility-types";
 import { ActionType, getType } from "typesafe-actions";
@@ -25,7 +24,7 @@ const defaultState: State = {
 };
 
 // prettier-ignore
-const session: Reducer = (state: State = defaultState, action: Action): State => {
+const session = (state: State = defaultState, action: Action): State => {
   switch (action.type) {
     case getType(actions.loginPending):
       return <State>(set("authenticating", true, state));

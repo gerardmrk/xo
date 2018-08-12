@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Header, Container } from "semantic-ui-react";
+import { Header } from "semantic-ui-react";
 
 import styles from "./styles.less";
 
@@ -17,7 +17,7 @@ export class DevErrorDisplay extends React.Component<Props, State> {
     const { error, errorInfo } = this.props;
     return (
       <div className={styles.main}>
-        <Container className={styles.container}>
+        <div className={styles.container}>
           <div className={styles.content}>
             <div className={styles.errorPane}>
               <Header>
@@ -46,7 +46,7 @@ export class DevErrorDisplay extends React.Component<Props, State> {
               </ul>
             </div>
           </div>
-        </Container>
+        </div>
       </div>
     );
   }

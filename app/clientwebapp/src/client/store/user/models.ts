@@ -10,17 +10,15 @@ export interface AccountSettings {
   mobile: string;
   mfaEnabled: boolean;
   emailVerified: boolean;
-  secondaryEmail?: string;
-  secondaryMobile?: string;
 }
 
 export interface ProfileSettings {
   name: string;
   bio: string;
   isPublic: boolean;
-  websiteURL?: string;
-  profilePicURL?: string;
-  bannerPicURL?: string;
+  websiteURL: string | undefined;
+  profilePicURL: string | undefined;
+  bannerPicURL: string | undefined;
 }
 
 export interface AppPreferences {
@@ -28,9 +26,9 @@ export interface AppPreferences {
 }
 
 export type UserSettings = {
-  accountSettings: AccountSettings;
-  profileSettings: ProfileSettings;
-  appPreferences: AppPreferences;
+  account: AccountSettings;
+  profile: ProfileSettings;
+  preferences: AppPreferences;
 };
 
 export interface RegistrationPayload {
