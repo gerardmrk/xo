@@ -20,8 +20,8 @@ export interface LocalProps {}
 export interface StoreProps {}
 
 export interface DispatchProps {
-  register(form: RegistrationPayload, callback: (error?: Error) => void): void;
-  checkUsernameUniqueness(username: string, callback: Function): void;
+  register(form: RegistrationPayload, callback: ErrorFirstCallback): void;
+  checkUsernameUniqueness(username: string, callback: ErrorFirstCallback<boolean>): void;
 }
 
 export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
@@ -41,7 +41,7 @@ export class Registration extends React.Component<Props, State> {
   };
 
   private handleFormSubmit = (form: RegistrationPayload): void => {
-    this.props.register(form, (error?: Error) => {
+    this.props.register(form, (error: Error | null) => {
       if (!!!error) {
         // registration successful.
         this.setState({ registrationCompleted: true });
@@ -92,10 +92,10 @@ export class Registration extends React.Component<Props, State> {
 const mapStateToProps = (state: StoreState): StoreProps => ({});
 
 const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
-  register: (form: RegistrationPayload, callback: (error?: Error) => void): void => {
+  register: (form: RegistrationPayload, callback: ErrorFirstCallback): void => {
     dispatch(register(form, callback));
   },
-  checkUsernameUniqueness: (username: string, callback: ErrorFirstCallback): void => {
+  checkUsernameUniqueness: (username: string, callback: ErrorFirstCallback<boolean>): void => {
     dispatch(checkUsernameUniqueness(username, callback));
   }
 });

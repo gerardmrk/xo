@@ -1,7 +1,7 @@
-import reducer from "./";
-import * as actions from "./actions";
+import reducer from "@client/store/user";
+import * as actions from "@client/store/user/actions";
 import { UserSettings } from "@client/store/user/models";
-import userSettings from "@client/utils/mocks/user-settings";
+import { userSettings } from "@client/utils/test-helpers/mocks";
 
 describe("reducer:user", () => {
   let settings: UserSettings;

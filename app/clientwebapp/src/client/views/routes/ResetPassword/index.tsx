@@ -13,7 +13,7 @@ export interface LocalProps {}
 export interface StoreProps {}
 
 export interface DispatchProps {
-  resetPassword(newPassword: string): void;
+  resetPassword(newPassword: string, callback: ErrorFirstCallback): void;
 }
 
 export type Props = LocalProps & StoreProps & DispatchProps;
@@ -38,7 +38,7 @@ export class ResetPassword extends React.Component<Props & InjectedIntlProps, St
   };
 
   private onFormSubmit = (e: React.SyntheticEvent): void => {
-    this.props.resetPassword(this.state.password);
+    this.props.resetPassword(this.state.password, (error: Error | null) => {});
   };
 
   public render(): JSX.Element | null {
@@ -85,8 +85,8 @@ export class ResetPassword extends React.Component<Props & InjectedIntlProps, St
 const mapStateToProps = ({ session }: StoreState): StoreProps => ({});
 
 const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
-  resetPassword: (newPassword: string): void => {
-    dispatch(resetPassword(newPassword));
+  resetPassword: (newPassword: string, callback: ErrorFirstCallback): void => {
+    dispatch(resetPassword(newPassword, callback));
   }
 });
 

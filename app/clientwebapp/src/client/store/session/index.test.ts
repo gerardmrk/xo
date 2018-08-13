@@ -1,19 +1,21 @@
-import reducer, { State } from "./";
-import * as actions from "./actions";
+import reducer, { State } from "@client/store/session";
+import * as actions from "@client/store/session/actions";
 import { AuthTokens } from "@client/store/session/models";
 
 describe("reducer:session", () => {
+  let authTokens: AuthTokens;
   let authenticatedState: State;
   beforeAll(() => {
+    authTokens = {
+      idToken: "minsk",
+      accessToken: "podgorica",
+      refreshToken: "zagreb",
+      expiresIn: 2000
+    };
     authenticatedState = {
       authenticated: true,
       authenticating: false,
-      authTokens: {
-        idToken: "minsk",
-        accessToken: "podgorica",
-        refreshToken: "zagreb",
-        expiresIn: 100000
-      }
+      authTokens
     };
   });
 
@@ -26,12 +28,6 @@ describe("reducer:session", () => {
   });
 
   it("uses the provided state", () => {
-    const authTokens: AuthTokens = {
-      idToken: "minsk",
-      accessToken: "podgorica",
-      refreshToken: "zagreb",
-      expiresIn: 2000
-    };
     // prettier-ignore
     expect(reducer({
       authenticated: true,
@@ -54,12 +50,10 @@ describe("reducer:session", () => {
     });
 
     it("handles 'loginSuccess'", () => {
-      expect(
-        reducer(undefined, actions.loginSuccess({ accessToken: "xoxo" }, { showLoader: false }))
-      ).toEqual({
+      expect(reducer(undefined, actions.loginSuccess(authTokens, { showLoader: false }))).toEqual({
         authenticated: true,
         authenticating: false,
-        authTokens: { accessToken: "xoxo" }
+        authTokens
       });
     });
 

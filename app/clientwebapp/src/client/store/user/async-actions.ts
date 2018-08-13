@@ -20,14 +20,14 @@ export const getSettings = (): StoreAsyncAction => async (dispatch: StoreDispatc
 };
 
 // prettier-ignore
-export const register = (formObject: RegistrationPayload, callback: (error?: Error) => void): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const register = (formObject: RegistrationPayload, callback: ErrorFirstCallback): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
   dispatch(actions.registerPending({ showLoader: true }));
 
   try {
     await api.user.register(formObject);
     
     dispatch(actions.registerSuccess({ showLoader: false }));
-    callback();
+    callback(null);
   } catch (error) {
     dispatch(actions.registerFailure(<Error>error, { showLoader: false }));
     callback(<Error>error);
@@ -48,30 +48,32 @@ export const changePassword = (oldPassword: string, newPassword: string): StoreA
 };
 
 // prettier-ignore
-export const requestPasswordReset = (usernameOrEmail: string, callback: (success: boolean) => void): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const requestPasswordReset = (usernameOrEmail: string, callback: ErrorFirstCallback): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
   dispatch(actions.requestPasswordResetPending({ showLoader: true }));
 
   try {
     await api.user.requestPasswordReset(usernameOrEmail);
     
     dispatch(actions.requestPasswordResetSuccess({ showLoader: false }));
-    callback(true);
+    callback(null);
   } catch (error) {
     dispatch(actions.requestPasswordResetFailure(<Error>error, { showLoader: false }));
-    callback(false);
+    callback(<Error>error);
   }
 };
 
 // prettier-ignore
-export const resetPassword = (newPassword: string): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const resetPassword = (newPassword: string, callback: ErrorFirstCallback): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
   dispatch(actions.resetPasswordPending({ showLoader: true }));
 
   try {
     await api.user.resetPassword(newPassword);
     
     dispatch(actions.resetPasswordSuccess({ showLoader: false }));
+    callback(null);
   } catch (error) {
     dispatch(actions.resetPasswordFailure(<Error>error, { showLoader: false }));
+    callback(<Error>error);
   }
 };
 

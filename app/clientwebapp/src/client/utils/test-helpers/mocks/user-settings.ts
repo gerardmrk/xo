@@ -4,7 +4,7 @@ import { UserSettings } from "@client/store/user/models";
  * exports a valid UserSettings object
  */
 
-const userSettings: UserSettings = {
+export const userSettings: UserSettings = {
   preferences: {
     notificationsEnabled: false
   },

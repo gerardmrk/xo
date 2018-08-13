@@ -15,7 +15,7 @@ export interface LocalProps {}
 export interface StoreProps {}
 
 export interface DispatchProps {
-  requestPasswordReset(usernameOrEmail: string, callback: (success: boolean) => void): void;
+  requestPasswordReset(usernameOrEmail: string, callback: ErrorFirstCallback): void;
 }
 
 export type Props = LocalProps & InjectedIntlProps & StoreProps & DispatchProps;
@@ -87,7 +87,7 @@ export class ForgotPassword extends React.Component<Props, State> {
 const mapStateToProps = (state: StoreState): StoreProps => ({});
 
 const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
-  requestPasswordReset: (usernameOrEmail: string, callback: (success: boolean) => void): void => {
+  requestPasswordReset: (usernameOrEmail: string, callback: ErrorFirstCallback): void => {
     dispatch(requestPasswordReset(usernameOrEmail, callback));
   }
 });

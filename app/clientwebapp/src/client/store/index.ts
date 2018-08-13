@@ -21,14 +21,18 @@ export type StoreAsyncAction = ThunkAction<Promise<void>, StoreState, API, Store
 export type StoreDispatcher = Dispatch & AsyncDispatch;
 export type StoreMiddleware = Middleware<void, StoreState, StoreDispatcher>;
 
+// prettier-ignore
 export const initStore: StoreInitializer = (api: API): StorePartial => (
   initialState: StoreState
 ): Store => {
-  return createStore<StoreState, StoreAction, typeof middleware, void>(
+  return createStore<StoreState, StoreAction, StoreDispatcher, void>(
     rootReducer,
     initialState,
     composeWithDevTools(
-      applyMiddleware(asyncMiddleware.withExtraArgument(api), ...Object.values(middleware))
+      applyMiddleware(
+        asyncMiddleware.withExtraArgument(api),
+        ...Object.values(middleware)
+      )
     )
   );
 };

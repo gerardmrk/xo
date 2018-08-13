@@ -6,7 +6,7 @@
 import sleep from "@client/utils/sleep";
 import { AbstractUserAPI } from "@client/api/user/type";
 import { UserSettings, RegistrationPayload, VerificationScope } from "@client/store/user/models";
-import userSettings from "@client/utils/mocks/user-settings";
+import userSettings from "@client/utils/test-helpers/mocks/user-settings";
 
 export interface Config {}
 

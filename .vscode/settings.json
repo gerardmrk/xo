@@ -22,6 +22,6 @@
     "editor.tabSize": 2
   },
   "[html]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true
   }
 }
