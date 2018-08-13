@@ -4,7 +4,7 @@ import { Container } from "semantic-ui-react";
 import { Redirect, RouteComponentProps } from "react-router-dom";
 
 import styles from "./styles.less";
-import { StoreState, StoreDispatcher } from "@client/store";
+import * as store from "@client/store";
 import { verifyCode } from "@client/store/user/async-actions";
 import queryParamsToObj from "@client/utils/query-params-to-obj";
 import { VerificationScope } from "@client/store/user/models";
@@ -63,9 +63,9 @@ export class Verification extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: StoreState): StoreProps => ({});
+const mapStateToProps = (state: store.StoreState): StoreProps => ({});
 
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   verifyCode: (code: string, scope: VerificationScope, cb: ErrorFirstCallback): void => {
     dispatch(verifyCode(code, scope, cb));
   }

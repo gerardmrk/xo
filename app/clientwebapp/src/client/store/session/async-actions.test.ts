@@ -27,14 +27,14 @@ describe("async-actions: session.login", () => {
   it("[normal] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
     const dispatched = store.getActions();
     expect(dispatched[0]).toEqual(actions.loginPending({ showLoader: "progress.logging_in" }));
-    expect(dispatched[2]).toEqual(actions.loginSuccess(authTokens, { showLoader: false }));
+    expect(dispatched[1]).toEqual(actions.loginSuccess(authTokens, { showLoader: false }));
     expect(apiMethod).toHaveBeenCalledTimes(1);
     expect(apiMethod).toHaveBeenCalledWith("bucharest", "ljubljana", true);
   });
 
   it("[failed] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
     const dispatched = store.getActions();
-    expect(dispatched[2]).toEqual(actions.loginFailure(new Error("auth_error"), { showLoader: false }));
+    expect(dispatched[1]).toEqual(actions.loginFailure(new Error("auth_error"), { showLoader: false }));
   });
 });
 
@@ -62,12 +62,12 @@ describe("async-actions: session.logout", () => {
   it("[normal] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
     const dispatched = store.getActions();
     expect(dispatched[0]).toEqual(actions.logoutPending({ showLoader: "progress.logging_out" }));
-    expect(dispatched[2]).toEqual(actions.logoutSuccess({ showLoader: false }));
+    expect(dispatched[1]).toEqual(actions.logoutSuccess({ showLoader: false }));
     expect(apiMethod).toHaveBeenCalledTimes(1);
   });
 
   it("[failed] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
     const dispatched = store.getActions();
-    expect(dispatched[2]).toEqual(actions.logoutFailure(new Error("auth_error"), { showLoader: false }));
+    expect(dispatched[1]).toEqual(actions.logoutFailure(new Error("auth_error"), { showLoader: false }));
   });
 });

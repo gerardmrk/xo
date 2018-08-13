@@ -4,7 +4,7 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 import { Container, Menu, Dropdown, Divider } from "semantic-ui-react";
 
 import styles from "./styles.less";
-import { StoreState, StoreDispatcher } from "@client/store";
+import * as store from "@client/store";
 import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
 import * as sessionActions from "@client/store/session/async-actions";
 import { DEFAULT_PUBLIC_PATH, DEFAULT_PRIVATE_PATH } from "@client/views/routes";
@@ -97,11 +97,11 @@ export class Header extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = ({ session }: StoreState): StoreProps => ({
+const mapStateToProps = ({ session }: store.StoreState): StoreProps => ({
   isLoggedIn: session.authenticated
 });
 
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   logout: (): void => {
     dispatch(sessionActions.logout());
   }

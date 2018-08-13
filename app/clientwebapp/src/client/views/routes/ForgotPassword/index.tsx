@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
-import { StoreState, StoreDispatcher } from "@client/store";
+import * as store from "@client/store";
 import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
 import { requestPasswordReset } from "@client/store/user/async-actions";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
@@ -84,9 +84,9 @@ export class ForgotPassword extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: StoreState): StoreProps => ({});
+const mapStateToProps = (state: store.StoreState): StoreProps => ({});
 
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   requestPasswordReset: (usernameOrEmail: string, callback: ErrorFirstCallback): void => {
     dispatch(requestPasswordReset(usernameOrEmail, callback));
   }

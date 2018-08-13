@@ -4,7 +4,7 @@ import { Form } from "semantic-ui-react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 // import styles from "./styles.less";
-import { StoreState, StoreDispatcher } from "@client/store";
+import * as store from "@client/store";
 import { resetPassword } from "@client/store/user/async-actions";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 
@@ -82,9 +82,9 @@ export class ResetPassword extends React.Component<Props & InjectedIntlProps, St
   }
 }
 
-const mapStateToProps = ({ session }: StoreState): StoreProps => ({});
+const mapStateToProps = ({ session }: store.StoreState): StoreProps => ({});
 
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   resetPassword: (newPassword: string, callback: ErrorFirstCallback): void => {
     dispatch(resetPassword(newPassword, callback));
   }

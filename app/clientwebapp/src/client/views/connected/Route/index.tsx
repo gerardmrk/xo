@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { LocationDescriptorObject } from "history";
 import { Route as BaseRoute, Redirect, RouteComponentProps } from "react-router-dom";
 
-import { StoreState } from "@client/store";
+import * as store from "@client/store";
 import SeoElements from "@client/views/connected/Route/SeoElements";
 import { RouteProps, DEFAULT_PRIVATE_PATH, DEFAULT_AUTH_PATH } from "@client/views/routes";
 
@@ -67,7 +67,7 @@ export class Route extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: StoreState): StoreProps => ({
+const mapStateToProps = (state: store.StoreState): StoreProps => ({
   isLoggedIn: state.session.authenticated
 });
 

@@ -4,8 +4,8 @@ import { Redirect } from "react-router-dom";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
+import * as store from "@client/store";
 import { register, checkUsernameUniqueness } from "@client/store/user/async-actions";
-import { StoreState, StoreDispatcher } from "@client/store";
 import { RegistrationPayload } from "@client/store/user/models";
 import RegisterForm from "@client/views/routes/Registration/RegisterForm";
 import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
@@ -17,7 +17,7 @@ import {
 
 export interface LocalProps {}
 
-export interface StoreProps {}
+export type StoreProps = {};
 
 export interface DispatchProps {
   register(form: RegistrationPayload, callback: ErrorFirstCallback): void;
@@ -89,13 +89,13 @@ export class Registration extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: StoreState): StoreProps => ({});
+const mapStateToProps = (state: store.StoreState) => ({});
 
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
-  register: (form: RegistrationPayload, callback: ErrorFirstCallback): void => {
+const mapDispatchToProps = (dispatch: store.StoreDispatcher) => ({
+  register: (form: RegistrationPayload, callback: ErrorFirstCallback) => {
     dispatch(register(form, callback));
   },
-  checkUsernameUniqueness: (username: string, callback: ErrorFirstCallback<boolean>): void => {
+  checkUsernameUniqueness: (username: string, callback: ErrorFirstCallback<boolean>) => {
     dispatch(checkUsernameUniqueness(username, callback));
   }
 });

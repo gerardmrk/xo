@@ -4,7 +4,7 @@ import { Loader } from "semantic-ui-react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
-import { StoreState, StoreDispatcher } from "@client/store";
+import * as store from "@client/store";
 
 export interface LocalProps {}
 
@@ -33,21 +33,19 @@ export class GlobalLoader extends React.PureComponent<Props, State> {
       <div className={styles.main}>
         <div className={styles.container}>
           <Loader active={true} size={"massive"} inline={true} />
-          {!!loadingMessage && (
-            <p>{messages[loadingMessage] || loadingMessage}</p>
-          )}
+          {!!loadingMessage && <p>{messages[loadingMessage] || loadingMessage}</p>}
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state: StoreState): StoreProps => ({
+const mapStateToProps = (state: store.StoreState): StoreProps => ({
   show: state.globalLoader.loading,
   loadingMessage: state.globalLoader.message
 });
 
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({});
+const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({});
 
 export default injectIntl<LocalProps>(
   connect<StoreProps, DispatchProps, LocalProps>(

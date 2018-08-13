@@ -5,26 +5,37 @@
  */
 import { combineReducers } from "redux";
 
-import user, { State as UserState, Action as UserAction } from "@client/store/user";
+// prettier-ignore
+import user, {
+  State as UserState,
+  Action as UserAction
+} from "@client/store/user";
 
-import session, { State as SessionState, Action as SessionAction } from "@client/store/session";
+// prettier-ignore
+import session, {
+  State as SessionState,
+  Action as SessionAction
+} from "@client/store/session";
 
+// prettier-ignore
 import globalLoader, {
   State as GlobalLoaderState,
   Action as GlobalLoaderAction
 } from "@client/store/global-loader";
 
+// prettier-ignore
 import globalMessage, {
   State as GlobalMessageState,
   Action as GlobalMessageAction
 } from "@client/store/global-message";
 
+// prettier-ignore
 import appStatuses, {
   State as AppStatusesState,
   Action as AppStatusesAction
 } from "@client/store/app-statuses";
 
-export type RootState = {
+type RootState = {
   user: UserState;
   session: SessionState;
   globalLoader: GlobalLoaderState;

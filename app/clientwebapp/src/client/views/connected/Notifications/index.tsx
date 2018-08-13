@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 import { Sidebar } from "semantic-ui-react";
-import { StoreState, StoreDispatcher } from "@client/store";
+import * as store from "@client/store";
 
 export interface LocalProps {}
 
@@ -20,9 +20,9 @@ export class Notifications extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: StoreState): StoreProps => ({});
+const mapStateToProps = (state: store.StoreState): StoreProps => ({});
 
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({});
+const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({});
 
 export default injectIntl<Props>(
   connect<StoreProps, DispatchProps, LocalProps>(

@@ -18,7 +18,6 @@ import { StoreState, StoreAction, StoreDispatcher, StoreMiddleware } from "@clie
 // initialize debuggers
 const debugGL = debug("store:middleware:globalLoader");
 const debugGM = debug("store:middleware:globalMessage");
-const debugUA = debug("store:middleware:updatesAvailable");
 
 type ActionWithMeta = StoreAction & { meta: StoreMiddlewareFlags };
 
@@ -95,21 +94,3 @@ export const globalMessageMiddleware: StoreMiddleware = (
     store.dispatch(globalMessageActions.show(showMessage));
   }
 };
-
-// prettier-ignore
-export const updatesAvailableMiddleware: StoreMiddleware = (
-  store: MiddlewareAPI<StoreDispatcher, StoreState>
-) => (
-  next: StoreDispatcher
-) => (
-  action: StoreAction
-): void => {
-
-  next(action);
-
-  if (action.type !== "appStatuses.updatesAvailable") {
-    return;
-  }
-
-  debugUA("[%s]", action.type);
-}

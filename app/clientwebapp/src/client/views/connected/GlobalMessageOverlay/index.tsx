@@ -5,7 +5,7 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 import presets from "@client/views/connected/GlobalMessageOverlay/preset-options";
-import { StoreState, StoreDispatcher } from "@client/store";
+import * as store from "@client/store";
 import { hide } from "@client/store/global-message/actions";
 import { GlobalMessage } from "@client/store/global-message/models";
 
@@ -74,11 +74,11 @@ export class GlobalMessageOverlay extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = ({ globalMessage: { message } }: StoreState): StoreProps => ({
+const mapStateToProps = ({ globalMessage: { message } }: store.StoreState): StoreProps => ({
   message
 });
 
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   dismissMessage: (): void => {
     dispatch(hide());
   }

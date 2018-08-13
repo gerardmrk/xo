@@ -5,7 +5,7 @@ import { Redirect, RedirectProps } from "react-router-dom";
 import { Form } from "semantic-ui-react";
 
 import styles from "./styles.less";
-import { StoreState, StoreDispatcher } from "@client/store";
+import * as store from "@client/store";
 import { login } from "@client/store/session/async-actions";
 import queryParamsToObj from "@client/utils/query-params-to-obj";
 import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
@@ -149,12 +149,12 @@ export class Login extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = ({ session }: StoreState): StoreProps => ({
+const mapStateToProps = ({ session }: store.StoreState): StoreProps => ({
   isLoggedIn: session.authenticated,
   isAuthenticating: session.authenticating
 });
 
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   login: (usernameOrEmail: string, password: string, remember: boolean): void => {
     dispatch(login(usernameOrEmail, password, remember));
   }

@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { NavLink, NavLinkProps } from "react-router-dom";
 
-import { StoreState, StoreDispatcher } from "@client/store";
+import * as store from "@client/store";
 import { updatesApplied } from "@client/store/app-statuses/actions";
 
 export type LocalProps = NavLinkProps & {};
@@ -43,11 +43,11 @@ export class UpdateAwareLink extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: StoreState): StoreProps => ({
+const mapStateToProps = (state: store.StoreState): StoreProps => ({
   updated: state.appStatuses.updated
 });
 
-const mapDispatchToProps = (dispatch: StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   notifyUpdated: (): void => {
     dispatch(updatesApplied());
   }
