@@ -11,5 +11,5 @@ export abstract class AbstractAuthAPI {
     remember: boolean
   ): Promise<AuthTokens>;
 
-  public abstract cacheLocalSession(tokens: AuthTokens): void;
+  public abstract async unauthenticate(): Promise<void>;
 }

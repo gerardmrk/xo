@@ -6,14 +6,14 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 import styles from "./styles.less";
 import { register, checkUsernameUniqueness } from "@client/store/user/async-actions";
 import { StoreState, StoreDispatcher } from "@client/store";
-import {
-  RegistrationPayload,
-  RegistrationError,
-  AlreadyRegisteredError
-} from "@client/store/user/models";
+import { RegistrationPayload } from "@client/store/user/models";
 import RegisterForm from "@client/views/routes/Registration/RegisterForm";
 import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
+import {
+  RegistrationError,
+  AlreadyRegisteredError
+} from "@client/utils/custom-errors/registration-errors";
 
 export interface LocalProps {}
 

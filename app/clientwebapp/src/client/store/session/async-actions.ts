@@ -2,7 +2,6 @@
  * async actions for the session state
  */
 import API from "@client/api";
-import sleep from "@client/utils/sleep";
 import { AuthTokens } from "@client/store/session/models";
 import * as actions from "@client/store/session/actions";
 import { StoreState, StoreDispatcher, StoreAsyncAction } from "@client/store";
@@ -24,7 +23,7 @@ export const login = (
       remember
     );
 
-    api.auth.cacheLocalSession(authTokens);
+    // api.auth.cacheLocalSession(authTokens);
 
     dispatch(actions.loginSuccess(authTokens, {
       showLoader: false
@@ -43,7 +42,7 @@ export const logout = (): StoreAsyncAction => async (dispatch: StoreDispatcher, 
   }));
 
   try {
-    await sleep(1000);
+    await api.auth.unauthenticate();
 
     dispatch(actions.logoutSuccess({
       showLoader: false

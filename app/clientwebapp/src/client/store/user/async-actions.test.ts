@@ -26,6 +26,7 @@ describe("async-actions: user.getSettings", () => {
 
   it("[normal] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
     const dispatched = store.getActions();
+    expect(apiMethod).toHaveBeenCalledTimes(1);
     expect(dispatched[0]).toEqual(actions.getSettingsPending({ showLoader: "progress.fetching_settings" }));
     expect(dispatched[2]).toEqual(actions.getSettingsSuccess(userSettings, { showLoader: false }));
   });
