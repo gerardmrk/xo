@@ -9,8 +9,8 @@
 import * as React from "react";
 import * as Raven from "raven-js";
 import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/withSettings";
-import DevErrorDisplay from "@client/views/connected/TopLevelErrorCatcher/DevErrorDisplay";
-import UserFriendlyErrorMessage from "@client/views/connected/TopLevelErrorCatcher/UserFriendlyErrorMessage";
+import DevErrorDisplay from "@client/views/connected/MainErrorCatcher/DevErrorDisplay";
+import UserFriendlyErrorMessage from "@client/views/connected/MainErrorCatcher/UserFriendlyErrorMessage";
 
 export interface LocalProps extends InjectedSettingsProps {
   errorServiceDSN: string;
@@ -23,7 +23,7 @@ export type State = {
   errorInfo?: React.ErrorInfo;
 };
 
-export class TopLevelErrorCatcher extends React.PureComponent<Props, State> {
+export class MainErrorCatcher extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props);
 
@@ -63,4 +63,4 @@ export class TopLevelErrorCatcher extends React.PureComponent<Props, State> {
   }
 }
 
-export default withSettings(TopLevelErrorCatcher);
+export default withSettings(MainErrorCatcher);

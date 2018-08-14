@@ -2,7 +2,7 @@
 import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 
-import Header from "@client/views/connected/Header";
+import Header from "@client/views/connected/RootHeader";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
 
 describe("<Header />", () => {

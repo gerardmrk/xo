@@ -2,7 +2,7 @@
 import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 
-import SeoElements from "@client/views/connected/Route/SeoElements";
+import SeoElements from "@client/views/connected/EnhancedRoute/SeoElements";
 import { shallowWithIntl } from "@client/utils/test-helpers";
 
 describe("<SeoElements />", () => {

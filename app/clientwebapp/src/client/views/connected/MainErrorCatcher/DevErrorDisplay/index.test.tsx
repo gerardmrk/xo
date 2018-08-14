@@ -3,7 +3,7 @@ import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 import { MemoryRouter as Router } from "react-router-dom";
 
-import { DevErrorDisplay } from "@client/views/connected/TopLevelErrorCatcher/DevErrorDisplay";
+import { DevErrorDisplay } from "@client/views/connected/MainErrorCatcher/DevErrorDisplay";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
 
 const errorInfo: React.ErrorInfo = {
@@ -27,8 +27,8 @@ const errorInfo: React.ErrorInfo = {
   in Provider
   in IntlProvider
   in IntlProvider
-  in TopLevelErrorCatcher
-  in withSettings(TopLevelErrorCatcher)
+  in MainErrorCatcher
+  in withSettings(MainErrorCatcher)
   in IntlSettingsProvider
   in SettingsProvider`
 };

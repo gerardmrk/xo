@@ -15,7 +15,7 @@ import IntlProvider from "@client/views/wrappers/IntlProvider";
 import initStore, { appStatusesActions, Store, StoreState } from "@client/store";
 import SettingsProvider from "@client/views/wrappers/SettingsProvider";
 import IntlSettingsProvider from "@client/views/wrappers/IntlSettingsProvider";
-import TopLevelErrorCatcher from "@client/views/connected/TopLevelErrorCatcher";
+import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 // include the semantic-ui theme files and configs
 // import "@client/views/theme/semantic.less";
 
@@ -40,21 +40,21 @@ import TopLevelErrorCatcher from "@client/views/connected/TopLevelErrorCatcher";
         debugSW("[event] onUpdating");
       },
       onUpdateReady: (): void => {
-        debugSW("[event] onUpdateReady");
         // Force the new service worker to be immediately updated.
         // this won't happen by default until all tabs of yours sites are closed.
+        debugSW("[event] onUpdateReady");
         OfflinePluginRuntime.applyUpdate();
       },
       onUpdated: (): void => {
-        debugSW("[event] onUpdated");
         // Updates will not be reflected in the app until the next refresh.
         // either prompt the user for a refresh, or set a 'update-available' event on the store
+        debugSW("[event] onUpdated");
         store.dispatch(appStatusesActions.updatesAvailable());
       },
       onUpdateFailed: (): void => {
-        debugSW("[event] onUpdatedFailed");
         // This should be a `Retryable` error.
         // Handle accordingly - todo
+        debugSW("[event] onUpdatedFailed");
       }
     });
 
@@ -67,7 +67,7 @@ import TopLevelErrorCatcher from "@client/views/connected/TopLevelErrorCatcher";
     renderIntoDOM(
       <SettingsProvider appSettings={INJECTED_APP_SETTINGS} buildSettings={INJECTED_BUILD_SETTINGS}>
         <IntlSettingsProvider settings={INJECTED_INTL_SETTINGS}>
-          <TopLevelErrorCatcher errorServiceDSN={""}>
+          <MainErrorCatcher errorServiceDSN={""}>
             <IntlProvider>
               <StoreProvider store={store}>
                 <Router>
@@ -75,7 +75,7 @@ import TopLevelErrorCatcher from "@client/views/connected/TopLevelErrorCatcher";
                 </Router>
               </StoreProvider>
             </IntlProvider>
-          </TopLevelErrorCatcher>
+          </MainErrorCatcher>
         </IntlSettingsProvider>
       </SettingsProvider>,
       document.getElementById("app-mount-point")

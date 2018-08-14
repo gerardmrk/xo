@@ -45,7 +45,7 @@ const conf = new ConfigBuilder();
 // [MODULES] *.ts, *.tsx
 // [LOADERS] ts-loader
 // prettier-ignore
-conf.addModuleRule(({ paths, clientBuild, projectSettings }) => ({
+conf.addModuleRule(({ paths, devMode, clientBuild, projectSettings }) => ({
   test: /\.tsx?$/,
   exclude: [/node_modules/],
   use: [
@@ -70,11 +70,22 @@ conf.addModuleRule(({ paths, clientBuild, projectSettings }) => ({
         ],
         plugins: [
           ["lodash", { id: "lodash-compat" }],
+          ["transform-imports", {
+            lodash: {
+              transform: "lodash/${member}",
+              preventFullImport: true
+            },
+            "react-router": {
+              transform: "react-router/${member}",
+              preventFullImport: true
+            }
+          }],
           "@babel/plugin-syntax-dynamic-import",
           "@babel/plugin-transform-runtime",
+          !devMode && "transform-react-remove-prop-types",
           clientBuild && "react-hot-loader/babel",
           "react-loadable/babel"
-        ].filter(x => !!x)
+        ].filter(x => !!x),
       }
     }
   ]

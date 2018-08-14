@@ -20,7 +20,7 @@ export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
 
 export type State = {};
 
-export class Header extends React.Component<Props, State> {
+export class RootHeader extends React.Component<Props, State> {
   private onLogoutClick = (): void => {
     this.props.logout();
   };
@@ -111,6 +111,6 @@ export default withSettings<LocalProps>(
     connect<StoreProps, DispatchProps, LocalProps>(
       mapStateToProps,
       mapDispatchToProps
-    )(Header)
+    )(RootHeader)
   )
 );

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 
-import Footer from "@client/views/connected/Footer";
+import Footer from "@client/views/connected/RootFooter";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
 
 describe("<Footer />", () => {

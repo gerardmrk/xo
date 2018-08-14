@@ -1,5 +1,5 @@
 {
-  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
   "npm.packageManager": "yarn",
   "eslint.enable": true,
   "eslint.options": {
@@ -12,7 +12,9 @@
   "tslint.exclude": "${rootPath}/config/syntax/custom-rules",
   "prettier.printWidth": 100,
   "go.lintTool": "gometalinter",
-  "[go]": {},
+  "[go]": {
+    "editor.tabSize": 4
+  },
   "[json]": {
     "editor.tabSize": 2
   },
@@ -23,6 +25,7 @@
     "editor.tabSize": 2
   },
   "[html]": {
+    "editor.tabSize": 4,
     "editor.formatOnSave": true
   }
 }

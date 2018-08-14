@@ -14,7 +14,7 @@ import initStore, { Store, StoreState } from "@client/store";
 import IntlProvider from "@client/views/wrappers/IntlProvider";
 import SettingsProvider from "@client/views/wrappers/SettingsProvider";
 import IntlSettingsProvider from "@client/views/wrappers/IntlSettingsProvider";
-import TopLevelErrorCatcher from "@client/views/connected/TopLevelErrorCatcher";
+import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 
 // REQUEST PARAMS
 export type Params = {
@@ -60,7 +60,7 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
           buildSettings={INJECTED_BUILD_SETTINGS}
         >
           <IntlSettingsProvider settings={INJECTED_INTL_SETTINGS}>
-            <TopLevelErrorCatcher errorServiceDSN={""}>
+            <MainErrorCatcher errorServiceDSN={""}>
               <IntlProvider>
                 <StoreProvider store={store}>
                   <Router location={url} context={routerContext}>
@@ -68,7 +68,7 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
                   </Router>
                 </StoreProvider>
               </IntlProvider>
-            </TopLevelErrorCatcher>
+            </MainErrorCatcher>
           </IntlSettingsProvider>
         </SettingsProvider>
       </AsyncModuleLoader.Capture>

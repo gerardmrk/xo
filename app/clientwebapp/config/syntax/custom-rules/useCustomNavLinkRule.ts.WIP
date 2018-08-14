@@ -5,15 +5,15 @@ export class Rule extends Lint.Rules.AbstractRule {
   public static FAILURE_STRING = "import statement forbidden";
 
   public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
-    return this.applyWithWalker(new NoDirectStoreImportsWalker(sourceFile, this.getOptions()));
+    return this.applyWithWalker(new UseCustomNavLinkWalker(sourceFile, this.getOptions()));
   }
 }
 
 // The walker takes care of all the work.
-class NoDirectStoreImportsWalker extends Lint.RuleWalker {
-  private message: string = "Import from the main store entrypoint to avoid import statement bloat";
+class UseCustomNavLinkWalker extends Lint.RuleWalker {
+  private message: string = "Use the customised NavLink component in '@client/views/connected'";
 
-  private indicator: string = '"@client/store';
+  private indicator: string = '"react-router-dom';
   private indicatorLen: number = this.indicator.length + 1;
 
   public visitImportDeclaration(node: ts.ImportDeclaration): void {

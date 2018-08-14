@@ -2,7 +2,7 @@
 import * as Loadable from "react-loadable";
 import { RouteProps as BaseRouteProps } from "react-router-dom";
 
-import { SeoProps } from "@client/views/connected/Route/SeoElements";
+import { SeoProps } from "@client/views/connected/EnhancedRoute/SeoElements";
 import RouteLoaderUI from "@client/views/components/RouteLoaderUI";
 
 export interface RouteProps extends BaseRouteProps {

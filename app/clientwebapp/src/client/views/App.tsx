@@ -7,9 +7,9 @@ import { hot } from "react-hot-loader";
 import { Switch as RouteSwitcher, RouteComponentProps, withRouter } from "react-router-dom";
 import styles from "@client/views/App.less";
 import routes, { RouteProps } from "@client/views/routes";
-import Route from "@client/views/connected/Route";
-import Header from "@client/views/connected/Header";
-import Footer from "@client/views/connected/Footer";
+import RootHeader from "@client/views/connected/RootHeader";
+import RootFooter from "@client/views/connected/RootFooter";
+import EnhancedRoute from "@client/views/connected/EnhancedRoute";
 import GlobalLoader from "@client/views/connected/GlobalLoader";
 import GlobalMessageOverlay from "@client/views/connected/GlobalMessageOverlay";
 
@@ -31,15 +31,15 @@ export class App extends React.PureComponent<Props, State> {
         <GlobalLoader />
         <GlobalMessageOverlay />
 
-        <Header />
+        <RootHeader />
 
         <main className={styles.container}>
           <RouteSwitcher>
-            {routes.map((r: RouteProps, i: number) => <Route key={i} {...r} />)}
+            {routes.map((r: RouteProps, i: number) => <EnhancedRoute key={i} {...r} />)}
           </RouteSwitcher>
         </main>
 
-        <Footer />
+        <RootFooter />
       </div>
     );
   }

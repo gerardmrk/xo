@@ -3,7 +3,7 @@ import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 import { MemoryRouter as Router } from "react-router-dom";
 
-import { UserFriendlyErrorMessage } from "@client/views/connected/TopLevelErrorCatcher/UserFriendlyErrorMessage";
+import { UserFriendlyErrorMessage } from "@client/views/connected/MainErrorCatcher/UserFriendlyErrorMessage";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
 
 describe("<UserFriendlyErrorMessage />", () => {

@@ -15,7 +15,7 @@ export type Props = LocalProps &
 
 export type State = {};
 
-export class Footer extends React.PureComponent<Props, State> {
+export class RootFooter extends React.PureComponent<Props, State> {
   private languageOptions: { text: string; value: string }[];
 
   public constructor(props: Props) {
@@ -61,4 +61,4 @@ export class Footer extends React.PureComponent<Props, State> {
   }
 }
 
-export default withSettings(withIntlSettings(injectIntl(Footer)));
+export default withSettings(withIntlSettings(injectIntl(RootFooter)));
