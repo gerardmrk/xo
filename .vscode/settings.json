@@ -1,5 +1,4 @@
 {
-  "editor.detectIndentation": false,
   "npm.packageManager": "yarn",
   "eslint.enable": true,
   "eslint.options": {

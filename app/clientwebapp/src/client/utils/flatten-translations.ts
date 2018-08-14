@@ -1,30 +1,25 @@
 /**
- * flattens a nested translations object
- *
+ * Flattens a nested translations object. Example:
  * example:
  *
  * IN: { "x": { "y": { "z": "msg" } } }
- *
  * OUT: "x.y.z": "msg"
- *
  */
-// tslint:disable
-// prettier-ignore
+
+// tslint:disable:no-unsafe-any
 export function flattenTranslations(nestedTrans: object, prefix: string = ""): Messages {
   return Object.keys(nestedTrans).reduce((messages: { [k: string]: string }, key: string) => {
-      const value: string = nestedTrans[key];
-      const prefixedKey: string = !!prefix ? `${prefix}.${key}` : key;
+    const value: string = nestedTrans[key];
+    const prefixedKey: string = !!prefix ? `${prefix}.${key}` : key;
 
-      if (typeof value === "string") {
-        messages[prefixedKey] = value;
-      } else {
-        Object.assign(messages, flattenTranslations(value, prefixedKey));
-      }
+    if (typeof value === "string") {
+      messages[prefixedKey] = value;
+    } else {
+      Object.assign(messages, flattenTranslations(value, prefixedKey));
+    }
 
-      return messages;
-    },
-    {}
-  );
+    return messages;
+  }, {});
 }
 
 export default flattenTranslations;

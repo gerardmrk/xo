@@ -1,32 +1,50 @@
-import * as net from "net";
-// import * as protobuf from "protobufjs";
-import renderer from "@renderer/renderer";
-import * as Loadable from "react-loadable";
+import * as process from "process";
 
-export { renderer };
-
-const connectionHandler = (render: ReturnType<typeof renderer>): HandleConnFn => (
-  client: net.Socket
-): void => {
-  client.on("data", () => {
-    // 1. decode the proto message
-    // 2. render the content based on the URL
-    // 3. check for errors
-  });
+type SocketServerOptions = {
+  socketfile?: string;
 };
 
-export const listenOnUnixSocket = async (sockAddr: string): Promise<void> => {
-  await Loadable.preloadAll();
-  const render = renderer(Loadable);
+class InvalidOptionError extends Error {
+  public static IsMissing: string = "MISSING";
+  public static IsUnknown: string = "UNKNOWN";
 
-  // await protobuf.load()
+  public constructor(
+    option: string | undefined,
+    value: string | undefined,
+    kind: typeof InvalidOptionError.IsMissing | typeof InvalidOptionError.IsUnknown
+  ) {
+    const message = !!!option ? "" : "";
+    super(message);
+  }
+}
 
-  const server = net.createServer();
-  const handleConnection = connectionHandler(render);
-
-  server.on("connection", handleConnection);
-
-  server.listen(sockAddr);
+// [PURE] turns `[--opt1=A, --opt2=B]` into `{ opt1: A, opt2: B }`
+export const parseOptions = (opts: string[]): SocketServerOptions => {
+  return opts.reduce((parsed: SocketServerOptions, opt: string) => {
+    const [k, v]: string[] = opt.split("=");
+    return { ...parsed, [k.slice(2)]: v };
+  }, {});
 };
 
-type HandleConnFn = (client: net.Socket) => void;
+// [SIDEEFFECT] may throw a typed error
+export const validateOptions = (opts: SocketServerOptions): SocketServerOptions => {
+  if (!!!opts.socketfile) {
+    throw new InvalidOptionError("socketfile", opts.socketfile, InvalidOptionError.IsMissing);
+  }
+  return opts;
+};
+
+(async (options: string[]) => {
+  try {
+  } catch (error) {
+    process.exit(1);
+  }
+  // if (cluster.isMaster) {
+  //   console.info(`MASTER [${process.pid}] is running..`);
+  //   for (let i = 0; i < numCPUs; i++) cluster.fork();
+  //   cluster.on("exit", (worker, code, signal) => {
+  //     console.info(`WORKER [${worker.process.pid}] exited with ${signal}`);
+  //   });
+  // } else {
+  // }
+})(process.argv);
