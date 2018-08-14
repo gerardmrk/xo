@@ -38,7 +38,7 @@ export class SeoElements extends React.PureComponent<Props, State> {
       : undefined;
   }
 
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     const {
       routeType = "website",
       imageAlt = "website logo",

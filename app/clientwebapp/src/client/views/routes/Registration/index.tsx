@@ -61,7 +61,7 @@ export class Registration extends React.Component<Props, State> {
     });
   };
 
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     const {
       intl: { messages }
     } = this.props;

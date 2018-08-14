@@ -40,7 +40,7 @@ export class Verification extends React.Component<Props, State> {
     });
   }
 
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     // don't need to display anything;
     // the global loading display is called from the async action
     if (this.state.verifying) return null;

@@ -13,7 +13,7 @@ export type Props = LocalProps;
 export type State = {};
 
 export class DevErrorDisplay extends React.Component<Props, State> {
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     const { error, errorInfo } = this.props;
     return (
       <div className={styles.main}>

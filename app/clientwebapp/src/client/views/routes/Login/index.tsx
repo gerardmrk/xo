@@ -76,7 +76,7 @@ export class Login extends React.Component<Props, State> {
     this.props.login(this.state.usernameOrEmail, this.state.password, this.state.remember);
   };
 
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     const { intl, isLoggedIn, isAuthenticating } = this.props;
 
     if (isLoggedIn) {

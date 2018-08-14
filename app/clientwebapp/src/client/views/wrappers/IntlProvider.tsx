@@ -20,7 +20,7 @@ export class IntlProvider extends React.Component<Props, State> {
     </BaseIntlProvider>
   );
 
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     return (
       <IntlSettingsContext.Consumer>{this.renderBaseIntlProvider}</IntlSettingsContext.Consumer>
     );

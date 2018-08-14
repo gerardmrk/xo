@@ -40,7 +40,7 @@ export class ForgotPassword extends React.Component<Props, State> {
     });
   };
 
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     // prettier-ignore
     const { intl: { messages } } = this.props;
 

@@ -26,7 +26,7 @@ export class RootHeader extends React.Component<Props, State> {
   };
 
   // prettier-ignore
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     const { intl: { messages }, settings: { appSettings: { name } } } = this.props;
 
     return (

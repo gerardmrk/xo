@@ -22,7 +22,7 @@ export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
 export type State = {};
 
 export class GlobalMessageOverlay extends React.PureComponent<Props, State> {
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     const { intl, message } = this.props;
 
     if (message === undefined) {

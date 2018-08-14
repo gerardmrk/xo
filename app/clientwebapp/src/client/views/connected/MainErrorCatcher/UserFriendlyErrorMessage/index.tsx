@@ -8,7 +8,7 @@ export interface Props {}
 export type State = {};
 
 export class UserFriendlyErrorMessage extends React.Component<Props, State> {
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     return (
       <div className={styles.main}>
         <Container>

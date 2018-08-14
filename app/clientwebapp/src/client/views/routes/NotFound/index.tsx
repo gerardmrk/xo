@@ -8,7 +8,7 @@ export interface Props extends InjectedIntlProps {}
 export type State = {};
 
 export class NotFound extends React.Component<Props, State> {
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     return (
       <div className={styles.main}>
         <h1>{this.props.intl.messages["error_msgs.404"]}</h1>

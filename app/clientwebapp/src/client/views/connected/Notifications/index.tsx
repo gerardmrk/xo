@@ -15,7 +15,7 @@ export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
 export type State = {};
 
 export class Notifications extends React.Component<Props, State> {
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     return <Sidebar />;
   }
 }

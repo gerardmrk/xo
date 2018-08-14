@@ -40,7 +40,7 @@ export class ResetPassword extends React.Component<Props & InjectedIntlProps, St
     this.props.resetPassword(this.state.password, (error: Error | null) => {});
   };
 
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     const {
       intl: { messages }
     } = this.props;

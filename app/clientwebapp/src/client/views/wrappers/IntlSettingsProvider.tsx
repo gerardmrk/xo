@@ -45,7 +45,7 @@ export class IntlSettingsProvider extends React.Component<Props, State> {
     });
   };
 
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     return (
       <IntlSettingsContext.Provider value={this.state}>
         {this.props.children}

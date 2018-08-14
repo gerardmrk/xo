@@ -9,7 +9,7 @@ export interface Props {}
 export type State = {};
 
 export class Dashboard extends React.Component<Props, State> {
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     return (
       <div className={styles.main}>
         <Menu vertical={true}>

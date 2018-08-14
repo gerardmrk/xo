@@ -14,7 +14,7 @@ export interface Props {
 export type State = {};
 
 export class SettingsProvider extends React.PureComponent<Props, State> {
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     return (
       <SettingsContext.Provider value={this.props}>{this.props.children}</SettingsContext.Provider>
     );

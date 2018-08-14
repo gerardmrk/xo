@@ -13,7 +13,7 @@ export interface Props extends LoadingComponentProps, InjectedIntlProps {
 export type State = {};
 
 export class RouteLoaderUI extends React.Component<Props, State> {
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     return (
       <div className={styles.main}>
         <Loader size={"big"} active={this.props.pastDelay} inline={"centered"}>

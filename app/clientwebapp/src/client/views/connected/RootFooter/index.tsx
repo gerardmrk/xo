@@ -32,7 +32,7 @@ export class RootFooter extends React.PureComponent<Props, State> {
     this.props.intlSettings.setLocale(locale as string);
   };
 
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     const {
       intlSettings: { locale },
       settings: {

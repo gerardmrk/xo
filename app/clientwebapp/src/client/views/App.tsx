@@ -1,5 +1,5 @@
 /**
- * The root app component
+ * The root UI component
  *
  */
 import * as React from "react";
@@ -20,25 +20,30 @@ export type State = {};
 export class App extends React.PureComponent<Props, State> {
   public componentDidUpdate(prevProps: Props): void {
     if (this.props.location !== prevProps.location) {
-      // ensure the page always scroll to top after a nav change
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0); // force page to scroll back top after a nav change
     }
   }
 
-  public render(): JSX.Element | null {
+  public render(): React.ReactNode {
     return (
       <div className={styles.main}>
+        {/* Main loading UI indicator. Hidden by default. */}
         <GlobalLoader />
+
+        {/* Message overlay. Hidden by default (renders null). */}
         <GlobalMessageOverlay />
 
+        {/* Main header of the app. */}
         <RootHeader />
 
+        {/* This is where the routes go. Routes are defined in "@client/routes". */}
         <main className={styles.container}>
           <RouteSwitcher>
             {routes.map((r: RouteProps, i: number) => <EnhancedRoute key={i} {...r} />)}
           </RouteSwitcher>
         </main>
 
+        {/* Main footer of the app. */}
         <RootFooter />
       </div>
     );
