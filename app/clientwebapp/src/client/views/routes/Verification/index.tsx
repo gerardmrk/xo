@@ -5,16 +5,15 @@ import { Redirect, RouteComponentProps } from "react-router-dom";
 
 import styles from "./styles.less";
 import * as store from "@client/store";
-import { verifyCode } from "@client/store/user/async-actions";
 import queryParamsToObj from "@client/utils/query-params-to-obj";
-import { VerificationScope } from "@client/store/user/models";
 
-export interface LocalProps extends RouteComponentProps<{ scope: VerificationScope }> {}
+export interface LocalProps
+  extends RouteComponentProps<{ scope: store.userModels.VerificationScope }> {}
 
 export interface StoreProps {}
 
 export interface DispatchProps {
-  verifyCode(code: string, scope: VerificationScope, cb: ErrorFirstCallback): void;
+  verifyCode(code: string, scope: store.userModels.VerificationScope, cb: ErrorFirstCallback): void;
 }
 
 export type Props = LocalProps & StoreProps & DispatchProps;
@@ -66,8 +65,12 @@ export class Verification extends React.Component<Props, State> {
 const mapStateToProps = (state: store.StoreState): StoreProps => ({});
 
 const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
-  verifyCode: (code: string, scope: VerificationScope, cb: ErrorFirstCallback): void => {
-    dispatch(verifyCode(code, scope, cb));
+  verifyCode: (
+    code: string,
+    scope: store.userModels.VerificationScope,
+    cb: ErrorFirstCallback
+  ): void => {
+    dispatch(store.userAsyncActions.verifyCode(code, scope, cb));
   }
 });
 

@@ -3,11 +3,11 @@ import { Form } from "semantic-ui-react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
+import * as store from "@client/store";
 import Input from "@client/views/components/InputWithValidator";
-import { RegistrationPayload } from "@client/store/user/models";
 
 export interface LocalProps {
-  onFormSubmit(form: RegistrationPayload): void;
+  onFormSubmit(form: store.userModels.RegistrationPayload): void;
   checkUsernameUniqueness(username: string, cb: ErrorFirstCallback<boolean>): void;
 }
 

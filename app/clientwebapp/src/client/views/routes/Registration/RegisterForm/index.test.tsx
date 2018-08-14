@@ -2,16 +2,16 @@
 import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 
+import * as store from "@client/store";
 import { RegisterForm } from "@client/views/routes/Registration/RegisterForm";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
-import { RegistrationPayload } from "@client/store/user/models";
 
 describe("<RegisterForm />", () => {
   const props = {
     intl
   };
 
-  const onFormSubmitStub = (form: RegistrationPayload): void => {};
+  const onFormSubmitStub = (form: store.userModels.RegistrationPayload): void => {};
   const checkUsernameUniquenessStub = (username: string): void => {};
 
   let component: ShallowWrapper;

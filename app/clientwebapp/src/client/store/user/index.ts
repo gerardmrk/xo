@@ -9,6 +9,7 @@ import { set } from "unchanged";
 
 import * as models from "@client/store/user/models";
 import * as actions from "@client/store/user/actions";
+import * as asyncActions from "@client/store/user/async-actions";
 
 export type Action = ActionType<typeof actions>;
 export type State = DeepReadonly<{ settings?: models.UserSettings }>;
@@ -17,7 +18,7 @@ const defaultState: State = {
   settings: undefined
 };
 
-const user = (state: State = defaultState, action: Action): State => {
+export const reducer = (state: State = defaultState, action: Action): State => {
   switch (action.type) {
     case getType(actions.getSettingsSuccess):
       return <State>set("settings", action.payload, state);
@@ -47,4 +48,6 @@ const user = (state: State = defaultState, action: Action): State => {
   }
 };
 
-export default user;
+export { actions };
+export { asyncActions };
+export { models };

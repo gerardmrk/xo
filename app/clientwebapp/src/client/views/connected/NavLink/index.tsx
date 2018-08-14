@@ -1,9 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { NavLink, NavLinkProps } from "react-router-dom";
+import { NavLink as BaseNavLink, NavLinkProps } from "react-router-dom";
 
 import * as store from "@client/store";
-import { updatesApplied } from "@client/store/app-statuses/actions";
 
 export type LocalProps = NavLinkProps & {};
 
@@ -19,7 +18,7 @@ export type Props = LocalProps & StoreProps & DispatchProps & {};
 
 export type State = {};
 
-export class UpdateAwareLink extends React.Component<Props, State> {
+export class NavLink extends React.Component<Props, State> {
   private onClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     if (e.metaKey || e.ctrlKey) {
       return;
@@ -39,7 +38,7 @@ export class UpdateAwareLink extends React.Component<Props, State> {
   public render(): React.ReactNode {
     const { updated, notifyUpdated, ...navLinkProps } = this.props;
 
-    return <NavLink {...navLinkProps} onClick={this.onClick} />;
+    return <BaseNavLink {...navLinkProps} onClick={this.onClick} />;
   }
 }
 
@@ -49,11 +48,11 @@ const mapStateToProps = (state: store.StoreState): StoreProps => ({
 
 const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   notifyUpdated: (): void => {
-    dispatch(updatesApplied());
+    dispatch(store.appStatusesActions.updatesApplied());
   }
 });
 
 export default connect<StoreProps, DispatchProps, LocalProps>(
   mapStateToProps,
   mapDispatchToProps
-)(UpdateAwareLink);
+)(NavLink);

@@ -6,8 +6,7 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 import * as store from "@client/store";
-import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
-import { requestPasswordReset } from "@client/store/user/async-actions";
+import NavLink from "@client/views/connected/NavLink";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 
 export interface LocalProps {}
@@ -71,13 +70,13 @@ export class ForgotPassword extends React.Component<Props, State> {
         </Form>
 
         <div className={styles.formFooter}>
-          <UpdateAwareLink to={"/login"}>
+          <NavLink to={"/login"}>
             <span>{messages["route_links.login"]}</span>
-          </UpdateAwareLink>
+          </NavLink>
           <span>{" / "}</span>
-          <UpdateAwareLink to={"/register"}>
+          <NavLink to={"/register"}>
             <span>{messages["route_links.register"]}</span>
-          </UpdateAwareLink>
+          </NavLink>
         </div>
       </AuthRoutesContainer>
     );
@@ -88,7 +87,7 @@ const mapStateToProps = (state: store.StoreState): StoreProps => ({});
 
 const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   requestPasswordReset: (usernameOrEmail: string, callback: ErrorFirstCallback): void => {
-    dispatch(requestPasswordReset(usernameOrEmail, callback));
+    dispatch(store.userAsyncActions.requestPasswordReset(usernameOrEmail, callback));
   }
 });
 

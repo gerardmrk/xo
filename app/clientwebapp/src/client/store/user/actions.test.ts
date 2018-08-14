@@ -1,5 +1,4 @@
-import * as actions from "@client/store/user/actions";
-import * as asyncActions from "@client/store/user/async-actions";
+import * as store from "@client/store";
 import { initTestStore } from "@client/utils/test-helpers/test-store";
 import { userSettings, registrationPayload } from "@client/utils/test-helpers/mocks";
 
@@ -7,40 +6,40 @@ import { userSettings, registrationPayload } from "@client/utils/test-helpers/mo
 // prettier-ignore
 describe("async-actions: user.getSettings", () => {
   let apiMethod: jest.Mock;
-  let store: ReturnType<typeof initTestStore>;
+  let testStore: ReturnType<typeof initTestStore>;
 
   beforeAll(() => {
     apiMethod = jest.fn()
       .mockImplementationOnce(() => userSettings) // normal call
       .mockImplementationOnce(() => { throw new Error(""); }); // failed call
-    store = initTestStore({ user: { getSettings: apiMethod } });
+    testStore = initTestStore({ user: { getSettings: apiMethod } });
   });
 
   beforeEach(() => {
-    store.dispatch(asyncActions.getSettings());
+    testStore.dispatch(store.userAsyncActions.getSettings());
   });
 
   afterEach(() => {
-    store.clearActions();
+    testStore.clearActions();
   });
 
   it("[normal] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
+    const dispatched = testStore.getActions();
     expect(apiMethod).toHaveBeenCalledTimes(1);
-    expect(dispatched[0]).toEqual(actions.getSettingsPending({ showLoader: "progress.fetching_settings" }));
-    expect(dispatched[1]).toEqual(actions.getSettingsSuccess(userSettings, { showLoader: false }));
+    expect(dispatched[0]).toEqual(store.userActions.getSettingsPending({ showLoader: "progress.fetching_settings" }));
+    expect(dispatched[1]).toEqual(store.userActions.getSettingsSuccess(userSettings, { showLoader: false }));
   });
 
   it("[failed] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
-    expect(dispatched[1]).toEqual(actions.getSettingsFailure(new Error(""), { showLoader: false }));
+    const dispatched = testStore.getActions();
+    expect(dispatched[1]).toEqual(store.userActions.getSettingsFailure(new Error(""), { showLoader: false }));
   });
 });
 
 // tests for user.register
 // prettier-ignore
 describe("async-actions: user.register", () => {
-  let store: ReturnType<typeof initTestStore>;
+  let testStore: ReturnType<typeof initTestStore>;
   let apiMethod: jest.Mock;
   let callback: jest.Mock<ErrorFirstCallback>;
 
@@ -49,30 +48,30 @@ describe("async-actions: user.register", () => {
       .mockImplementationOnce(() => {}) // normal
       .mockImplementationOnce(() => { throw new Error("BAD"); }); // failed
     callback = jest.fn();
-    store = initTestStore({ user: { register: apiMethod } });
+    testStore = initTestStore({ user: { register: apiMethod } });
   });
 
   beforeEach(() => {
-    store.dispatch(asyncActions.register(registrationPayload, callback));
+    testStore.dispatch(store.userAsyncActions.register(registrationPayload, callback));
   });
 
   afterEach(() => {
-    store.clearActions();
+    testStore.clearActions();
     callback.mockClear();
   });
 
   it("[normal] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
+    const dispatched = testStore.getActions();
     expect(apiMethod).toHaveBeenCalledWith(registrationPayload);
-    expect(dispatched[0]).toEqual(actions.registerPending({ showLoader: true }));
-    expect(dispatched[1]).toEqual(actions.registerSuccess({ showLoader: false }));
+    expect(dispatched[0]).toEqual(store.userActions.registerPending({ showLoader: true }));
+    expect(dispatched[1]).toEqual(store.userActions.registerSuccess({ showLoader: false }));
     expect(callback).toHaveBeenCalledTimes(1);
     expect(callback).toHaveBeenCalledWith(null);
   });
 
   it("[failed] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
-    expect(dispatched[1]).toEqual(actions.registerFailure(new Error("BAD"), { showLoader: false }));
+    const dispatched = testStore.getActions();
+    expect(dispatched[1]).toEqual(store.userActions.registerFailure(new Error("BAD"), { showLoader: false }));
     expect(callback).toHaveBeenCalledWith(new Error("BAD"));
   });
 });
@@ -80,7 +79,7 @@ describe("async-actions: user.register", () => {
 // tests for user.changePassword
 // prettier-ignore
 describe("async-actions: user.changePassword", () => {
-  let store: ReturnType<typeof initTestStore>;
+  let testStore: ReturnType<typeof initTestStore>;
   let apiMethod: jest.Mock;
 
   beforeAll(() => {
@@ -88,34 +87,34 @@ describe("async-actions: user.changePassword", () => {
       .fn()
       .mockImplementationOnce(() => {}) // normal
       .mockImplementationOnce(() => { throw new Error("BAD"); }); // failed
-    store = initTestStore({ user: { changePassword: apiMethod } });
+    testStore = initTestStore({ user: { changePassword: apiMethod } });
   });
 
   beforeEach(() => {
-    store.dispatch(asyncActions.changePassword("rhodesisland", "newhampshire"));
+    testStore.dispatch(store.userAsyncActions.changePassword("rhodesisland", "newhampshire"));
   });
 
   afterEach(() => {
-    store.clearActions();
+    testStore.clearActions();
   });
 
   it("[normal] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
+    const dispatched = testStore.getActions();
     expect(apiMethod).toHaveBeenCalledWith("rhodesisland", "newhampshire");
-    expect(dispatched[0]).toEqual(actions.changePasswordPending({ showLoader: true }));
-    expect(dispatched[1]).toEqual(actions.changePasswordSuccess({ showLoader: false }));
+    expect(dispatched[0]).toEqual(store.userActions.changePasswordPending({ showLoader: true }));
+    expect(dispatched[1]).toEqual(store.userActions.changePasswordSuccess({ showLoader: false }));
   });
 
   it("[failed] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
-    expect(dispatched[1]).toEqual(actions.changePasswordFailure(new Error("BAD"), { showLoader: false }));
+    const dispatched = testStore.getActions();
+    expect(dispatched[1]).toEqual(store.userActions.changePasswordFailure(new Error("BAD"), { showLoader: false }));
   });
 });
 
 // tests for user.requestPasswordReset
 // prettier-ignore
 describe("async-actions: user.requestPasswordReset", () => {
-  let store: ReturnType<typeof initTestStore>;
+  let testStore: ReturnType<typeof initTestStore>;
   let apiMethod: jest.Mock;
   let callback: jest.Mock<ErrorFirstCallback>;
 
@@ -124,30 +123,30 @@ describe("async-actions: user.requestPasswordReset", () => {
       .mockImplementationOnce(() => {}) // normal
       .mockImplementationOnce(() => { throw new Error("BAD"); }); // failed
     callback = jest.fn();
-    store = initTestStore({ user: { requestPasswordReset: apiMethod } });
+    testStore = initTestStore({ user: { requestPasswordReset: apiMethod } });
   });
 
   beforeEach(() => {
-    store.dispatch(asyncActions.requestPasswordReset("douglas_adams", callback));
+    testStore.dispatch(store.userAsyncActions.requestPasswordReset("douglas_adams", callback));
   });
 
   afterEach(() => {
-    store.clearActions();
+    testStore.clearActions();
     callback.mockClear();
   });
 
   it("[normal] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
+    const dispatched = testStore.getActions();
     expect(apiMethod).toHaveBeenCalledWith("douglas_adams");
-    expect(dispatched[0]).toEqual(actions.requestPasswordResetPending({ showLoader: true }));
-    expect(dispatched[1]).toEqual(actions.requestPasswordResetSuccess({ showLoader: false }));
+    expect(dispatched[0]).toEqual(store.userActions.requestPasswordResetPending({ showLoader: true }));
+    expect(dispatched[1]).toEqual(store.userActions.requestPasswordResetSuccess({ showLoader: false }));
     expect(callback).toHaveBeenCalledTimes(1);
     expect(callback).toHaveBeenCalledWith(null);
   });
 
   it("[failed] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
-    expect(dispatched[1]).toEqual(actions.requestPasswordResetFailure(new Error("BAD"), { showLoader: false }));
+    const dispatched = testStore.getActions();
+    expect(dispatched[1]).toEqual(store.userActions.requestPasswordResetFailure(new Error("BAD"), { showLoader: false }));
     expect(callback).toHaveBeenCalledWith(new Error("BAD"));
   });
 });
@@ -155,7 +154,7 @@ describe("async-actions: user.requestPasswordReset", () => {
 // tests for user.resetPassword
 // prettier-ignore
 describe("async-actions: user.resetPassword", () => {
-  let store: ReturnType<typeof initTestStore>;
+  let testStore: ReturnType<typeof initTestStore>;
   let apiMethod: jest.Mock;
   let callback: jest.Mock<ErrorFirstCallback>;
 
@@ -164,30 +163,30 @@ describe("async-actions: user.resetPassword", () => {
       .mockImplementationOnce(() => {}) // normal
       .mockImplementationOnce(() => { throw new Error("BAD"); }); // failed
     callback = jest.fn();
-    store = initTestStore({ user: { resetPassword: apiMethod } });
+    testStore = initTestStore({ user: { resetPassword: apiMethod } });
   });
 
   beforeEach(() => {
-    store.dispatch(asyncActions.resetPassword("SoLongAndThanksForAllTheFish", callback));
+    testStore.dispatch(store.userAsyncActions.resetPassword("SoLongAndThanksForAllTheFish", callback));
   });
 
   afterEach(() => {
-    store.clearActions();
+    testStore.clearActions();
     callback.mockClear();
   });
 
   it("[normal] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
+    const dispatched = testStore.getActions();
     expect(apiMethod).toHaveBeenCalledWith("SoLongAndThanksForAllTheFish");
-    expect(dispatched[0]).toEqual(actions.resetPasswordPending({ showLoader: true }));
-    expect(dispatched[1]).toEqual(actions.resetPasswordSuccess({ showLoader: false }));
+    expect(dispatched[0]).toEqual(store.userActions.resetPasswordPending({ showLoader: true }));
+    expect(dispatched[1]).toEqual(store.userActions.resetPasswordSuccess({ showLoader: false }));
     expect(callback).toHaveBeenCalledTimes(1);
     expect(callback).toHaveBeenCalledWith(null);
   });
 
   it("[failed] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
-    expect(dispatched[1]).toEqual(actions.resetPasswordFailure(new Error("BAD"), { showLoader: false }));
+    const dispatched = testStore.getActions();
+    expect(dispatched[1]).toEqual(store.userActions.resetPasswordFailure(new Error("BAD"), { showLoader: false }));
     expect(callback).toHaveBeenCalledWith(new Error("BAD"));
   });
 });
@@ -195,7 +194,7 @@ describe("async-actions: user.resetPassword", () => {
 // tests for user.verifyCode
 // prettier-ignore
 describe("async-actions: user.verifyCode", () => {
-  let store: ReturnType<typeof initTestStore>;
+  let testStore: ReturnType<typeof initTestStore>;
   let apiMethod: jest.Mock;
   let callback: jest.Mock<ErrorFirstCallback>;
 
@@ -204,30 +203,30 @@ describe("async-actions: user.verifyCode", () => {
       .mockImplementationOnce(() => {}) // normal
       .mockImplementationOnce(() => { throw new Error("BAD"); }); // failed
     callback = jest.fn();
-    store = initTestStore({ user: { verifyCode: apiMethod } });
+    testStore = initTestStore({ user: { verifyCode: apiMethod } });
   });
 
   beforeEach(() => {
-    store.dispatch(asyncActions.verifyCode("01W9FBB0347DD", "email", callback));
+    testStore.dispatch(store.userAsyncActions.verifyCode("01W9FBB0347DD", "email", callback));
   });
 
   afterEach(() => {
-    store.clearActions();
+    testStore.clearActions();
     callback.mockClear();
   });
 
   it("[normal] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
+    const dispatched = testStore.getActions();
     expect(apiMethod).toHaveBeenCalledWith("01W9FBB0347DD", "email");
-    expect(dispatched[0]).toEqual(actions.verifyCodePending({ showLoader: true }));
-    expect(dispatched[1]).toEqual(actions.verifyCodeSuccess({ showLoader: false }));
+    expect(dispatched[0]).toEqual(store.userActions.verifyCodePending({ showLoader: true }));
+    expect(dispatched[1]).toEqual(store.userActions.verifyCodeSuccess({ showLoader: false }));
     expect(callback).toHaveBeenCalledTimes(1);
     expect(callback).toHaveBeenCalledWith(null);
   });
 
   it("[failed] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
-    expect(dispatched[1]).toEqual(actions.verifyCodeFailure(new Error("BAD"), { showLoader: false }));
+    const dispatched = testStore.getActions();
+    expect(dispatched[1]).toEqual(store.userActions.verifyCodeFailure(new Error("BAD"), { showLoader: false }));
     expect(callback).toHaveBeenCalledWith(new Error("BAD"));
   });
 });
@@ -235,7 +234,7 @@ describe("async-actions: user.verifyCode", () => {
 // tests for user.checkUsernameUniqueness
 // prettier-ignore
 describe("async-actions: user.checkUsernameUniqueness", () => {
-  let store: ReturnType<typeof initTestStore>;
+  let testStore: ReturnType<typeof initTestStore>;
   let apiMethod: jest.Mock;
   let callback: jest.Mock<ErrorFirstCallback<boolean>>;
 
@@ -244,30 +243,30 @@ describe("async-actions: user.checkUsernameUniqueness", () => {
       .mockImplementationOnce(() => false) // normal
       .mockImplementationOnce(() => { throw new Error("BAD"); }); // failed
     callback = jest.fn();
-    store = initTestStore({ user: { checkUsernameUniqueness: apiMethod } });
+    testStore = initTestStore({ user: { checkUsernameUniqueness: apiMethod } });
   });
 
   beforeEach(() => {
-    store.dispatch(asyncActions.checkUsernameUniqueness("Metropolis", callback));
+    testStore.dispatch(store.userAsyncActions.checkUsernameUniqueness("Metropolis", callback));
   });
 
   afterEach(() => {
-    store.clearActions();
+    testStore.clearActions();
     callback.mockClear();
   });
 
   it("[normal] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
+    const dispatched = testStore.getActions();
     expect(apiMethod).toHaveBeenCalledWith("Metropolis");
-    expect(dispatched[0]).toEqual(actions.checkUsernameUniquenessPending());
-    expect(dispatched[1]).toEqual(actions.checkUsernameUniquenessSuccess(false));
+    expect(dispatched[0]).toEqual(store.userActions.checkUsernameUniquenessPending());
+    expect(dispatched[1]).toEqual(store.userActions.checkUsernameUniquenessSuccess(false));
     expect(callback).toHaveBeenCalledTimes(1);
     expect(callback).toHaveBeenCalledWith(null, false);
   });
 
   it("[failed] dispatches correct actions in the right order, calls the right API method, and handles the return values", () => {
-    const dispatched = store.getActions();
-    expect(dispatched[1]).toEqual(actions.checkUsernameUniquenessFailure(new Error("BAD")));
+    const dispatched = testStore.getActions();
+    expect(dispatched[1]).toEqual(store.userActions.checkUsernameUniquenessFailure(new Error("BAD")));
     expect(callback).toHaveBeenCalledWith(new Error("BAD"));
   });
 });

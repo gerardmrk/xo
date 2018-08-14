@@ -20,9 +20,7 @@ export interface InjectedValidatorProps {
 }
 
 // prettier-ignore
-export const withInputValidator = <WrappedComponentProps extends InjectedValidatorProps>(
-  WrappedComponent: React.ComponentType<WrappedComponentProps>
-) => {
+export const withInputValidator = <WrappedComponentProps extends InjectedValidatorProps>(WrappedComponent: React.ComponentType<WrappedComponentProps>) => {
 
   type WrapperProps = Subtract<WrappedComponentProps, InjectedValidatorProps> & {
     required?: boolean;

@@ -12,7 +12,7 @@ const defaultState: State = {
   updated: true
 };
 
-const appStatuses = (state: State = defaultState, action: Action): State => {
+export const reducer = (state: State = defaultState, action: Action): State => {
   switch (action.type) {
     case getType(actions.updatesAvailable):
       return { updated: false };
@@ -25,4 +25,4 @@ const appStatuses = (state: State = defaultState, action: Action): State => {
   }
 };
 
-export default appStatuses;
+export { actions };

@@ -6,7 +6,12 @@
     "tslint-microsoft-contrib",
     "tslint-config-prettier"
   ],
+  "rulesDirectory": "./custom-rules",
+  "linterOptions": {
+    "exclude": ["./custom-rules/**/*"]
+  },
   "rules": {
+    "no-direct-store-import": true,
     "ban-comma-operator": false,
     "completed-docs": false,
     "curly": false,

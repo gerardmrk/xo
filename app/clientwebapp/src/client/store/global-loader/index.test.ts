@@ -1,4 +1,4 @@
-import reducer from "@client/store/global-loader";
+import { reducer } from "@client/store/global-loader";
 import * as actions from "@client/store/global-loader/actions";
 
 describe("reducer:global-loader", () => {

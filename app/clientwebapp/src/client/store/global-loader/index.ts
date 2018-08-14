@@ -5,7 +5,6 @@
  */
 import { DeepReadonly } from "utility-types";
 import { ActionType, getType } from "typesafe-actions";
-
 import * as actions from "@client/store/global-loader/actions";
 
 export type Action = ActionType<typeof actions>;
@@ -20,7 +19,7 @@ export const defaultState: State = {
   message: undefined
 };
 
-const globalLoader = (state: State = defaultState, action: Action): State => {
+export const reducer = (state: State = defaultState, action: Action): State => {
   switch (action.type) {
     case getType(actions.show):
       return {
@@ -37,4 +36,4 @@ const globalLoader = (state: State = defaultState, action: Action): State => {
   }
 };
 
-export default globalLoader;
+export { actions };

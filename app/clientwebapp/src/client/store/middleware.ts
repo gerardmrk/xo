@@ -10,10 +10,14 @@
 import * as debug from "debug";
 import { MiddlewareAPI } from "redux";
 import { GlobalMessage } from "@client/store/global-message/models";
-import * as globalLoaderActions from "@client/store/global-loader/actions";
-import * as globalMessageActions from "@client/store/global-message/actions";
-// import * as appStatusesActions from "@client/store/app-statuses/actions";
-import { StoreState, StoreAction, StoreDispatcher, StoreMiddleware } from "@client/store";
+import {
+  globalLoaderActions,
+  globalMessageActions,
+  StoreState,
+  StoreAction,
+  StoreDispatcher,
+  StoreMiddleware
+} from "@client/store";
 
 // initialize debuggers
 const debugGL = debug("store:middleware:globalLoader");
@@ -30,13 +34,7 @@ export type StoreMiddlewareFlags = {
 // - globalloadershow
 // - globalloaderhide
 // prettier-ignore
-export const globalLoaderMiddleware: StoreMiddleware = (
-  store: MiddlewareAPI<StoreDispatcher, StoreState>
-) => (
-  next: StoreDispatcher
-) => (
-  action: StoreAction
-): void => {
+export const globalLoaderMiddleware: StoreMiddleware = (store: MiddlewareAPI<StoreDispatcher, StoreState>) => (next: StoreDispatcher) => (action: StoreAction): void => {
 
   next(action);
 
@@ -55,24 +53,16 @@ export const globalLoaderMiddleware: StoreMiddleware = (
 
   const { showLoader } = (<ActionWithMeta>action).meta;
   if (!!showLoader) {
-    store.dispatch(
-      globalLoaderActions.show(
-        typeof showLoader === "string" ? showLoader : undefined
-      )
-    );
+    store.dispatch(globalLoaderActions.show(
+      typeof showLoader === "string" ? showLoader : undefined
+    ));
   } else {
     store.dispatch(globalLoaderActions.hide());
   }
 };
 
 // prettier-ignore
-export const globalMessageMiddleware: StoreMiddleware = (
-  store: MiddlewareAPI<StoreDispatcher, StoreState>
-) => (
-  next: StoreDispatcher
-) => (
-  action: StoreAction
-): void => {
+export const globalMessageMiddleware: StoreMiddleware = (store: MiddlewareAPI<StoreDispatcher, StoreState>) => (next: StoreDispatcher) => (action: StoreAction): void => {
 
   next(action);
 

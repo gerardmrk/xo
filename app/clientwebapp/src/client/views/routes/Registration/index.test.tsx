@@ -3,9 +3,9 @@ import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 import { MemoryRouter as Router } from "react-router-dom";
 
+import * as store from "@client/store";
 import { Registration } from "@client/views/routes/Registration";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
-import { RegistrationPayload } from "@client/store/user/models";
 
 describe("<Registration />", () => {
   const props = {
@@ -15,7 +15,7 @@ describe("<Registration />", () => {
     guarded: true
   };
 
-  const registerStub = (form: RegistrationPayload): void => {};
+  const registerStub = (form: store.userModels.RegistrationPayload): void => {};
   const checkUsernameUniquenessStub = (
     username: string,
     cb: ErrorFirstCallback<boolean>

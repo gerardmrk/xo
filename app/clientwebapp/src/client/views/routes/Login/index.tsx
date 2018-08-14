@@ -6,9 +6,8 @@ import { Form } from "semantic-ui-react";
 
 import styles from "./styles.less";
 import * as store from "@client/store";
-import { login } from "@client/store/session/async-actions";
 import queryParamsToObj from "@client/utils/query-params-to-obj";
-import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
+import NavLink from "@client/views/connected/NavLink";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 import { RouteProps, DEFAULT_PRIVATE_PATH, DEFAULT_AUTH_PATH } from "@client/views/routes";
 
@@ -109,9 +108,9 @@ export class Login extends React.Component<Props, State> {
 
           <Form.Group>
             <Form.Field className={styles.forgotPasswordLink}>
-              <UpdateAwareLink to={"/forgot-password"}>
+              <NavLink to={"/forgot-password"}>
                 <em>{intl.messages["route_links.forgot_password"]}</em>
-              </UpdateAwareLink>
+              </NavLink>
             </Form.Field>
           </Form.Group>
 
@@ -140,9 +139,9 @@ export class Login extends React.Component<Props, State> {
         </Form>
 
         <div className={styles.formFooter}>
-          <UpdateAwareLink to={"/register"}>
+          <NavLink to={"/register"}>
             <span>{intl.messages["route_links.dont_have_an_account"]}</span>
-          </UpdateAwareLink>
+          </NavLink>
         </div>
       </AuthRoutesContainer>
     );
@@ -156,7 +155,7 @@ const mapStateToProps = ({ session }: store.StoreState): StoreProps => ({
 
 const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   login: (usernameOrEmail: string, password: string, remember: boolean): void => {
-    dispatch(login(usernameOrEmail, password, remember));
+    dispatch(store.sessionAsyncActions.login(usernameOrEmail, password, remember));
   }
 });
 

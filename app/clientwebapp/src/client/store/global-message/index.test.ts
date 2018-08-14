@@ -1,4 +1,4 @@
-import reducer from "@client/store/global-message";
+import { reducer } from "@client/store/global-message";
 import * as actions from "@client/store/global-message/actions";
 import { GlobalMessage } from "@client/store/global-message/models";
 

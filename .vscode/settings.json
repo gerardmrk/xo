@@ -9,6 +9,7 @@
   "tslint.enable": true,
   "tslint.packageManager": "yarn",
   "tslint.configFile": "app/clientwebapp/config/syntax/tslint.json",
+  "tslint.exclude": "${rootPath}/config/syntax/custom-rules",
   "prettier.printWidth": 100,
   "go.lintTool": "gometalinter",
   "[go]": {},

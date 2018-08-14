@@ -1,4 +1,4 @@
-import reducer, { State } from "@client/store/session";
+import { reducer, State } from "@client/store/session";
 import * as actions from "@client/store/session/actions";
 import { AuthTokens } from "@client/store/session/models";
 

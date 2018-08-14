@@ -1,7 +1,5 @@
+import * as store from "@client/store";
 import { initTestStore } from "@client/utils/test-helpers/test-store";
-import { globalLoaderMiddleware } from "@client/store/middleware";
-import * as asyncActions from "@client/store/user/actions";
-import { StoreAction } from "@client/store";
 
 // important to note (for the sake of brevity) that there isn't any specific reason
 // user actions are being used here. It's being used only because the user store
@@ -11,24 +9,24 @@ import { StoreAction } from "@client/store";
 
 // tests for the global loading display middleware
 describe("store-middleware: globalLoaderMiddleware", () => {
-  let store: ReturnType<typeof initTestStore>;
-  let expectedAction: StoreAction;
+  let testStore: ReturnType<typeof initTestStore>;
+  let expectedAction: store.StoreAction;
 
   beforeAll(() => {
-    store = initTestStore({}, [globalLoaderMiddleware]);
-    expectedAction = asyncActions.getSettingsPending({ showLoader: true });
+    testStore = initTestStore({}, [store.middleware.globalLoaderMiddleware]);
+    expectedAction = store.userActions.getSettingsPending({ showLoader: true });
   });
 
   beforeEach(() => {
-    store.dispatch(expectedAction);
+    testStore.dispatch(expectedAction);
   });
 
   afterEach(() => {
-    store.clearActions();
+    testStore.clearActions();
   });
 
   it("should not intercept and modify any passing actions", () => {
-    const dispatched = store.getActions();
+    const dispatched = testStore.getActions();
     // testing that the action made it through
     expect(dispatched[0]).toEqual(expectedAction);
   });

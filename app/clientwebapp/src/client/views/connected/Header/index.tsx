@@ -5,8 +5,7 @@ import { Container, Menu, Dropdown, Divider } from "semantic-ui-react";
 
 import styles from "./styles.less";
 import * as store from "@client/store";
-import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
-import * as sessionActions from "@client/store/session/async-actions";
+import NavLink from "@client/views/connected/NavLink";
 import { DEFAULT_PUBLIC_PATH, DEFAULT_PRIVATE_PATH } from "@client/views/routes";
 import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/withSettings";
 
@@ -35,9 +34,9 @@ export class Header extends React.Component<Props, State> {
         <Container className={styles.container}>
           <div className={styles.colTitle}>
           <h1>
-            <UpdateAwareLink to={this.props.isLoggedIn ? DEFAULT_PRIVATE_PATH : DEFAULT_PUBLIC_PATH}>
+            <NavLink to={this.props.isLoggedIn ? DEFAULT_PRIVATE_PATH : DEFAULT_PUBLIC_PATH}>
               {name}
-            </UpdateAwareLink>
+            </NavLink>
           </h1>
           </div>
 
@@ -45,7 +44,7 @@ export class Header extends React.Component<Props, State> {
             {this.props.isLoggedIn ? (
               <Menu borderless={true} as={'nav'}>
                 <Menu.Item>
-                  <UpdateAwareLink to={"/dashboard"}>{messages["route_links.dashboard"]}</UpdateAwareLink>
+                  <NavLink to={"/dashboard"}>{messages["route_links.dashboard"]}</NavLink>
                 </Menu.Item>
 
 
@@ -54,17 +53,17 @@ export class Header extends React.Component<Props, State> {
                     <Dropdown.Menu>
                       <Dropdown.Header>{messages["sections.settings"]}</Dropdown.Header>
 
-                      <UpdateAwareLink to={'/profile'}>
+                      <NavLink to={'/profile'}>
                         <Dropdown.Item>
                           {messages["route_links.profile"]}
                         </Dropdown.Item>
-                      </UpdateAwareLink>
+                      </NavLink>
 
-                      <UpdateAwareLink to={'/account'}>
+                      <NavLink to={'/account'}>
                         <Dropdown.Item>
                           {messages["route_links.account"]}
                         </Dropdown.Item>
-                      </UpdateAwareLink>
+                      </NavLink>
 
                       <Dropdown.Item
                         icon={'sign out'}
@@ -78,15 +77,15 @@ export class Header extends React.Component<Props, State> {
             ) : (
               <Menu>
                 <Menu.Item>
-                  <UpdateAwareLink to={"/login"}>
+                  <NavLink to={"/login"}>
                     {messages["route_links.login"]}
-                  </UpdateAwareLink>
+                  </NavLink>
                 </Menu.Item>
                 <Divider />
                 <Menu.Item>
-                  <UpdateAwareLink to={"/register"}>
+                  <NavLink to={"/register"}>
                     {messages["route_links.register"]}
-                  </UpdateAwareLink>
+                  </NavLink>
                 </Menu.Item>
               </Menu>
             )}
@@ -103,7 +102,7 @@ const mapStateToProps = ({ session }: store.StoreState): StoreProps => ({
 
 const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   logout: (): void => {
-    dispatch(sessionActions.logout());
+    dispatch(store.sessionAsyncActions.logout());
   }
 });
 

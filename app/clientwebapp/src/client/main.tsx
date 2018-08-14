@@ -12,8 +12,7 @@ import * as OfflinePluginRuntime from "offline-plugin/runtime";
 import API from "@client/api";
 import App from "@client/views/App";
 import IntlProvider from "@client/views/wrappers/IntlProvider";
-import initStore, { Store, StoreState } from "@client/store";
-import { updatesAvailable } from "@client/store/app-statuses/actions";
+import initStore, { appStatusesActions, Store, StoreState } from "@client/store";
 import SettingsProvider from "@client/views/wrappers/SettingsProvider";
 import IntlSettingsProvider from "@client/views/wrappers/IntlSettingsProvider";
 import TopLevelErrorCatcher from "@client/views/connected/TopLevelErrorCatcher";
@@ -50,7 +49,7 @@ import TopLevelErrorCatcher from "@client/views/connected/TopLevelErrorCatcher";
         debugSW("[event] onUpdated");
         // Updates will not be reflected in the app until the next refresh.
         // either prompt the user for a refresh, or set a 'update-available' event on the store
-        store.dispatch(updatesAvailable());
+        store.dispatch(appStatusesActions.updatesAvailable());
       },
       onUpdateFailed: (): void => {
         debugSW("[event] onUpdatedFailed");

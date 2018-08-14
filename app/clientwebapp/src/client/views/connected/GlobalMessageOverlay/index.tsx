@@ -4,15 +4,13 @@ import { Message } from "semantic-ui-react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
-import presets from "@client/views/connected/GlobalMessageOverlay/preset-options";
 import * as store from "@client/store";
-import { hide } from "@client/store/global-message/actions";
-import { GlobalMessage } from "@client/store/global-message/models";
+import presets from "@client/views/connected/GlobalMessageOverlay/preset-options";
 
 export interface LocalProps {}
 
 export interface StoreProps {
-  message: GlobalMessage;
+  message: store.globalMessageModels.GlobalMessage;
 }
 
 export interface DispatchProps {
@@ -80,7 +78,7 @@ const mapStateToProps = ({ globalMessage: { message } }: store.StoreState): Stor
 
 const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   dismissMessage: (): void => {
-    dispatch(hide());
+    dispatch(store.globalMessageActions.hide());
   }
 });
 

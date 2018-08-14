@@ -1,4 +1,4 @@
-import reducer from "@client/store/user";
+import { reducer } from "@client/store/user";
 import * as actions from "@client/store/user/actions";
 import { UserSettings } from "@client/store/user/models";
 import { userSettings } from "@client/utils/test-helpers/mocks";

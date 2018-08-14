@@ -5,7 +5,6 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 // import styles from "./styles.less";
 import * as store from "@client/store";
-import { resetPassword } from "@client/store/user/async-actions";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 
 export interface LocalProps {}
@@ -86,7 +85,7 @@ const mapStateToProps = ({ session }: store.StoreState): StoreProps => ({});
 
 const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
   resetPassword: (newPassword: string, callback: ErrorFirstCallback): void => {
-    dispatch(resetPassword(newPassword, callback));
+    dispatch(store.userAsyncActions.resetPassword(newPassword, callback));
   }
 });
 

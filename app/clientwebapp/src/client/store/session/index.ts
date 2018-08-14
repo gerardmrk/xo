@@ -8,6 +8,7 @@ import { ActionType, getType } from "typesafe-actions";
 
 import * as models from "@client/store/session/models";
 import * as actions from "@client/store/session/actions";
+import * as asyncActions from "@client/store/session/async-actions";
 
 export type Action = ActionType<typeof actions>;
 
@@ -24,7 +25,7 @@ const defaultState: State = {
 };
 
 // prettier-ignore
-const session = (state: State = defaultState, action: Action): State => {
+export const reducer = (state: State = defaultState, action: Action): State => {
   switch (action.type) {
     case getType(actions.loginPending):
       return <State>(set("authenticating", true, state));
@@ -60,4 +61,6 @@ const session = (state: State = defaultState, action: Action): State => {
   }
 };
 
-export default session;
+export { actions };
+export { asyncActions };
+export { models };

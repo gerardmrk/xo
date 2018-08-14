@@ -5,10 +5,8 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 import * as store from "@client/store";
-import { register, checkUsernameUniqueness } from "@client/store/user/async-actions";
-import { RegistrationPayload } from "@client/store/user/models";
 import RegisterForm from "@client/views/routes/Registration/RegisterForm";
-import UpdateAwareLink from "@client/views/connected/UpdateAwareLink";
+import NavLink from "@client/views/connected/NavLink";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 import {
   RegistrationError,
@@ -20,7 +18,7 @@ export interface LocalProps {}
 export type StoreProps = {};
 
 export interface DispatchProps {
-  register(form: RegistrationPayload, callback: ErrorFirstCallback): void;
+  register(form: store.userModels.RegistrationPayload, callback: ErrorFirstCallback): void;
   checkUsernameUniqueness(username: string, callback: ErrorFirstCallback<boolean>): void;
 }
 
@@ -40,7 +38,7 @@ export class Registration extends React.Component<Props, State> {
     this.props.checkUsernameUniqueness(username, callback);
   };
 
-  private handleFormSubmit = (form: RegistrationPayload): void => {
+  private handleFormSubmit = (form: store.userModels.RegistrationPayload): void => {
     this.props.register(form, (error: Error | null) => {
       if (!!!error) {
         // registration successful.
@@ -80,9 +78,9 @@ export class Registration extends React.Component<Props, State> {
         />
 
         <div className={styles.formFooter}>
-          <UpdateAwareLink to={"/login"}>
+          <NavLink to={"/login"}>
             <span>{messages["route_links.already_have_an_account"]}</span>
-          </UpdateAwareLink>
+          </NavLink>
         </div>
       </AuthRoutesContainer>
     );
@@ -92,11 +90,11 @@ export class Registration extends React.Component<Props, State> {
 const mapStateToProps = (state: store.StoreState) => ({});
 
 const mapDispatchToProps = (dispatch: store.StoreDispatcher) => ({
-  register: (form: RegistrationPayload, callback: ErrorFirstCallback) => {
-    dispatch(register(form, callback));
+  register: (form: store.userModels.RegistrationPayload, callback: ErrorFirstCallback) => {
+    dispatch(store.userAsyncActions.register(form, callback));
   },
   checkUsernameUniqueness: (username: string, callback: ErrorFirstCallback<boolean>) => {
-    dispatch(checkUsernameUniqueness(username, callback));
+    dispatch(store.userAsyncActions.checkUsernameUniqueness(username, callback));
   }
 });
 

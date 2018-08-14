@@ -1,4 +1,4 @@
-import reducer from "@client/store/app-statuses";
+import { reducer } from "@client/store/app-statuses";
 import * as actions from "@client/store/app-statuses/actions";
 
 describe("reducer:app-statuses", () => {

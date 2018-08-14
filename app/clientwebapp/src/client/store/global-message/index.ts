@@ -20,7 +20,7 @@ const defaultState: State = {
   message: undefined
 };
 
-const globalMessage = (state: State = defaultState, action: Action): State => {
+export const reducer = (state: State = defaultState, action: Action): State => {
   switch (action.type) {
     case getType(actions.show):
       return set("message", action.payload, state);
@@ -33,4 +33,5 @@ const globalMessage = (state: State = defaultState, action: Action): State => {
   }
 };
 
-export default globalMessage;
+export { actions };
+export { models };
