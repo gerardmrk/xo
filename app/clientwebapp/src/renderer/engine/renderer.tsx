@@ -11,9 +11,8 @@ import { StaticRouter as Router } from "react-router-dom";
 import API from "@client/api";
 import App from "@client/views/App";
 import initStore, { Store, StoreState } from "@client/store";
-import IntlProvider from "@client/views/wrappers/IntlProvider";
-import SettingsProvider from "@client/views/wrappers/SettingsProvider";
-import IntlSettingsProvider from "@client/views/wrappers/IntlSettingsProvider";
+import { SettingsProvider } from "@client/views/contexts/SettingsContext";
+import { TranslationsEtAlProvider, IntlProvider } from "@client/views/contexts/I18nContext";
 import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 
 // REQUEST PARAMS
@@ -59,7 +58,7 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
           appSettings={INJECTED_APP_SETTINGS}
           buildSettings={INJECTED_BUILD_SETTINGS}
         >
-          <IntlSettingsProvider settings={INJECTED_INTL_SETTINGS}>
+          <TranslationsEtAlProvider settings={INJECTED_I18N_SETTINGS}>
             <MainErrorCatcher errorServiceDSN={""}>
               <IntlProvider>
                 <StoreProvider store={store}>
@@ -69,7 +68,7 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
                 </StoreProvider>
               </IntlProvider>
             </MainErrorCatcher>
-          </IntlSettingsProvider>
+          </TranslationsEtAlProvider>
         </SettingsProvider>
       </AsyncModuleLoader.Capture>
     );

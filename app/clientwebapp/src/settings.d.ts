@@ -18,7 +18,7 @@ declare const INJECTED_APP_SETTINGS: {
   };
 };
 
-declare const INJECTED_INTL_SETTINGS: {
+declare const INJECTED_I18N_SETTINGS: {
   readonly defaultLanguage: string;
   readonly supportedLanguages: string[];
 };

@@ -29,11 +29,7 @@ export const SettingsContext: React.Context<Settings> = React.createContext<Sett
     name: "",
     description: "",
     browsers: [],
-    urls: {
-      development: "",
-      staging: "",
-      production: ""
-    }
+    urls: { development: "", staging: "", production: "" }
   },
   buildSettings: {
     devMode: false,
@@ -42,5 +38,19 @@ export const SettingsContext: React.Context<Settings> = React.createContext<Sett
     enableSourceMaps: false
   }
 });
+
+// prettier-ignore
+export class SettingsProvider extends React.PureComponent<{
+  appSettings: typeof INJECTED_APP_SETTINGS;
+  buildSettings: typeof INJECTED_BUILD_SETTINGS;
+}> {
+  public render(): React.ReactNode {
+    return (
+      <SettingsContext.Provider value={this.props}>
+        {this.props.children}
+      </SettingsContext.Provider>
+    );
+  }
+}
 
 export default SettingsContext;

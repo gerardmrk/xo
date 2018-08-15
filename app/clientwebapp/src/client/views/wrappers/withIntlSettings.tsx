@@ -2,10 +2,10 @@
 import * as React from "react";
 import { Subtract } from "utility-types";
 
-import IntlContext, { IntlSettings } from "@client/views/contexts/IntlSettingsContext";
+import IntlContext, { I18n } from "@client/views/contexts/I18nContext";
 
 export interface InjectedIntlSettingsProps {
-  intlSettings: IntlSettings;
+  intlSettings: I18n;
 }
 
 // prettier-ignore
@@ -18,7 +18,7 @@ export const withIntlSettings = <WrappedProps extends InjectedIntlSettingsProps>
     public static displayName = `withIntlSettings(${WrappedComponent.name})`;
     public static readonly WrappedComponent = WrappedComponent;
 
-    public renderWithIntlSettings = (settings: IntlSettings): JSX.Element => (
+    public renderWithIntlSettings = (settings: I18n): JSX.Element => (
       <WrappedComponent {...this.props} intlSettings={settings} />
     )
 

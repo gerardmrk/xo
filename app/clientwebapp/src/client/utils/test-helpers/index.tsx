@@ -10,10 +10,13 @@ import { IntlProvider, intlShape } from "react-intl";
  * English-locale intl context around them.
  */
 
-import messages from "@translations/en.json";
+import defaultTranslations from "@translations/en.json";
 
 // Create the IntlProvider to retrieve context for wrapping around.
-const intlProvider: IntlProvider = new IntlProvider({ locale: "en", messages }, {});
+const intlProvider: IntlProvider = new IntlProvider(
+  { locale: "en", messages: defaultTranslations },
+  {}
+);
 export const { intl } = intlProvider.getChildContext();
 
 /**

@@ -6,10 +6,11 @@ import { MemoryRouter as Router } from "react-router-dom";
 import App from "@client/views/App";
 
 describe("<App />", () => {
-  const props = {};
-
+  let props: {};
   let component: ShallowWrapper;
+
   beforeEach(() => {
+    props = {};
     component = shallow(
       <Router>
         <App {...props} />

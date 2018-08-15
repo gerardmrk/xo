@@ -11,11 +11,10 @@ import * as OfflinePluginRuntime from "offline-plugin/runtime";
 
 import API from "@client/api";
 import App from "@client/views/App";
-import IntlProvider from "@client/views/wrappers/IntlProvider";
-import initStore, { appStatusesActions, Store, StoreState } from "@client/store";
-import SettingsProvider from "@client/views/wrappers/SettingsProvider";
-import IntlSettingsProvider from "@client/views/wrappers/IntlSettingsProvider";
+import { SettingsProvider } from "@client/views/contexts/SettingsContext";
 import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
+import { TranslationsEtAlProvider, IntlProvider } from "@client/views/contexts/I18nContext";
+import initStore, { appStatusesActions, Store, StoreState } from "@client/store";
 // include the semantic-ui theme files and configs
 // import "@client/views/theme/semantic.less";
 
@@ -66,8 +65,8 @@ import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
     // Render the whole app into the DOM at the specified mount point.
     renderIntoDOM(
       <SettingsProvider appSettings={INJECTED_APP_SETTINGS} buildSettings={INJECTED_BUILD_SETTINGS}>
-        <IntlSettingsProvider settings={INJECTED_INTL_SETTINGS}>
-          <MainErrorCatcher errorServiceDSN={""}>
+        <MainErrorCatcher errorServiceDSN={""}>
+          <TranslationsEtAlProvider settings={INJECTED_I18N_SETTINGS}>
             <IntlProvider>
               <StoreProvider store={store}>
                 <Router>
@@ -75,8 +74,8 @@ import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
                 </Router>
               </StoreProvider>
             </IntlProvider>
-          </MainErrorCatcher>
-        </IntlSettingsProvider>
+          </TranslationsEtAlProvider>
+        </MainErrorCatcher>
       </SettingsProvider>,
       document.getElementById("app-mount-point")
     );

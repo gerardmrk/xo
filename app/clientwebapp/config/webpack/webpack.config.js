@@ -250,7 +250,7 @@ conf.addPlugin(({ devMode, projectSettings, ...other }) => {
   };
   return new webpack.DefinePlugin({
     INJECTED_APP_SETTINGS: JSON.stringify(projectSettings.app),
-    INJECTED_INTL_SETTINGS: JSON.stringify(projectSettings.intl),
+    INJECTED_I18N_SETTINGS: JSON.stringify(projectSettings.intl),
     INJECTED_BUILD_SETTINGS: JSON.stringify(injectedBuildSettings),
     AUTH_SERVICE_CONF: JSON.stringify(projectSettings.services.auth),
     USER_SERVICE_CONF: JSON.stringify(projectSettings.services.user)
@@ -443,11 +443,11 @@ conf.addPlugin(PRO, CLIENT, ({ paths, projectSettings }) => {
       appleStartup: true,
       coast: false,
       favicons: true,
-      firefox: true,
+      firefox: false,
       opengraph: true,
-      twitter: true,
+      twitter: false,
       yandex: false,
-      windows: true
+      windows: false
     }
   });
 });

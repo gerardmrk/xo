@@ -1,17 +1,16 @@
 import * as React from "react";
 import { ShallowWrapper } from "enzyme";
 
-import Footer from "@client/views/connected/RootFooter";
+import RootFooter from "@client/views/connected/RootFooter";
 import { intl, shallowWithIntl } from "@client/utils/test-helpers";
 
 describe("<Footer />", () => {
-  const props = {
-    intl
-  };
+  let props: {};
 
   let component: ShallowWrapper;
   beforeEach(() => {
-    component = shallowWithIntl(<Footer {...props} />);
+    props = { intl };
+    component = shallowWithIntl(<RootFooter {...props} />);
   });
 
   it("renders OK", () => {

@@ -16,10 +16,9 @@
     "i18n:sync": "node ./scripts/update-translations.js",
     "proto:gen": "./node_modules/.bin/pbjs -t static-module -w commonjs -o ./src/renderer/proto/js/index.js ./src/renderer/renderer.proto",
     "proto:types": "./node_modules/.bin/pbts -o ./src/renderer/proto/js/index.ts ./src/renderer/renderer.proto",
-    "run:renderer": "node --experimental-modules ./server.renderer.mjs wew lad"
+    "tmp:renderer": "node_modules/.bin/ts-node -e ./src/renderer/index.ts"
   },
   "dependencies": {
-    "@types/debug": "^0.0.30",
     "debug": "^3.1.0",
     "isomorphic-fetch": "^2.2.1",
     "normalize.css": "^8.0.0",
@@ -39,10 +38,10 @@
     "semantic-ui-less": "^2.3.3",
     "semantic-ui-react": "^0.82.0",
     "source-map-support": "^0.5.6",
-    "unchanged": "^1.3.2"
+    "unchanged": "^1.3.2",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@7rulnik/react-loadable": "^5.3.4",
     "@babel/core": "^7.0.0-beta.53",
     "@babel/plugin-syntax-decorators": "^7.0.0-beta.53",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.53",
@@ -53,9 +52,11 @@
     "@babel/preset-env": "^7.0.0-beta.53",
     "@babel/preset-react": "^7.0.0-beta.53",
     "@babel/preset-typescript": "^7.0.0-beta.53",
+    "@types/debug": "^0.0.30",
     "@types/enzyme": "^3.1.11",
     "@types/history": "^4.6.2",
     "@types/jest": "^23.1.6",
+    "@types/minimist": "^1.2.0",
     "@types/node": "^10.5.2",
     "@types/react": "^16.4.6",
     "@types/react-dom": "^16.0.6",
@@ -66,7 +67,9 @@
     "@types/react-redux": "^6.0.4",
     "@types/react-router-dom": "^4.2.7",
     "@types/redux-mock-store": "^1.0.0",
+    "@types/signale": "^1.2.0",
     "@types/source-map-support": "^0.4.1",
+    "@types/uuid": "^3.4.3",
     "@types/webpack-env": "^1.13.6",
     "autoprefixer": "^8.6.5",
     "babel-eslint": "^8.2.6",
@@ -106,6 +109,7 @@
     "less-plugin-clean-css": "^1.5.1",
     "lodash-webpack-plugin": "^0.11.5",
     "mini-css-extract-plugin": "^0.4.1",
+    "minimist": "^1.2.0",
     "offline-plugin": "^5.0.5",
     "postcss-loader": "^2.1.6",
     "prepack-webpack-plugin": "^1.1.1",

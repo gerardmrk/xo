@@ -13,7 +13,9 @@ import EnhancedRoute from "@client/views/connected/EnhancedRoute";
 import GlobalLoader from "@client/views/connected/GlobalLoader";
 import GlobalMessageOverlay from "@client/views/connected/GlobalMessageOverlay";
 
-export interface Props extends RouteComponentProps<{}, {}> {}
+export type LocalProps = RouteComponentProps<{}, {}> & {};
+
+export type Props = LocalProps & {};
 
 export type State = {};
 
