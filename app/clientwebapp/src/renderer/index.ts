@@ -32,13 +32,13 @@ const main = async (settings: parseargs.ParsedArgs) => {
       if ((<NodeJS.ErrnoException>error).code !== "ENOENT") {
         throw error;
       }
-      debugSrv("socket file will be created by server", socketfile);
+      debugSrv("socket file does not exist, will be created by server");
     }
 
     const server = createServer(connections);
     server.listen(socketfile);
 
-    debugSrv("UDS server listening on %s", socketfile);
+    debugSrv("server listening on %s", socketfile);
 
     process.on("SIGINT", () => {
       debugSrv("performing cleanup..");
