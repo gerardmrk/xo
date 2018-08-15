@@ -15,12 +15,12 @@ export interface DispatchProps {
   resetPassword(newPassword: string, callback: ErrorFirstCallback): void;
 }
 
-export type Props = LocalProps & StoreProps & DispatchProps;
+export interface Props extends LocalProps, StoreProps, DispatchProps {}
 
-export type State = {
+export interface State {
   password: string;
   passwordRepeat: string;
-};
+}
 
 export class ResetPassword extends React.Component<Props & InjectedIntlProps, State> {
   public state = {

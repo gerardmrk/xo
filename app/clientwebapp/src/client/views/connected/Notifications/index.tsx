@@ -10,9 +10,9 @@ export interface StoreProps {}
 
 export interface DispatchProps {}
 
-export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
+export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
 
-export type State = {};
+export interface State {}
 
 export class Notifications extends React.Component<Props, State> {
   public render(): React.ReactNode {

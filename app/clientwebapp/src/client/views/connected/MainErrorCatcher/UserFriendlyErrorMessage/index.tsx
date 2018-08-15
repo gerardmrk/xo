@@ -3,9 +3,9 @@ import { Container } from "semantic-ui-react";
 
 import styles from "./styles.less";
 
-export type Props = {};
+export interface Props {}
 
-export type State = {};
+export interface State {}
 
 export class UserFriendlyErrorMessage extends React.Component<Props, State> {
   public render(): React.ReactNode {

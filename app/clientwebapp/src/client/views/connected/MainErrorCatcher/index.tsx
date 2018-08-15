@@ -16,12 +16,12 @@ export interface LocalProps extends InjectedSettingsProps {
   errorServiceDSN: string;
 }
 
-export type Props = LocalProps;
+export interface Props extends LocalProps {}
 
-export type State = {
+export interface State {
   error?: Error;
   errorInfo?: React.ErrorInfo;
-};
+}
 
 export class MainErrorCatcher extends React.PureComponent<Props, State> {
   public constructor(props: Props) {

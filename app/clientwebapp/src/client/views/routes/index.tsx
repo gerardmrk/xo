@@ -1,5 +1,5 @@
 // tslint:disable:typedef promise-function-async
-import * as Loadable from "react-loadable";
+import Loadable from "react-loadable";
 import { RouteProps as BaseRouteProps } from "react-router-dom";
 
 import { SeoProps } from "@client/views/connected/EnhancedRoute/SeoElements";
@@ -11,9 +11,9 @@ export interface RouteProps extends BaseRouteProps {
   readonly routes?: RouteProps[];
 }
 
-export const DEFAULT_AUTH_PATH: string = "/login";
-export const DEFAULT_PUBLIC_PATH: string = "/";
-export const DEFAULT_PRIVATE_PATH: string = "/dashboard";
+export const DEFAULT_AUTH_PATH = "/login";
+export const DEFAULT_PUBLIC_PATH = "/";
+export const DEFAULT_PRIVATE_PATH = "/dashboard";
 
 export const POST_VERIFICATION_SUCCESS_REDIRECTION_RULES = {
   email: "/instructions?preset=emailconfirmed",

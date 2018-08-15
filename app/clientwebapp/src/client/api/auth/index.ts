@@ -49,7 +49,7 @@ class AuthAPI implements AbstractAuthAPI {
       localStorage.getItem("access_token") !== undefined &&
       localStorage.getItem("refresh_token") !== undefined;
 
-    const isFreshSession: boolean = true;
+    const isFreshSession = true;
 
     return isAuthenticatedSession && isFreshSession;
   }

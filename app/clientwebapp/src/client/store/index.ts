@@ -35,13 +35,7 @@ type RootAction =
   | appStatuses.Action;
 
 // prettier-ignore
-const rootReducer = combineReducers<{
-  user: user.State;
-  session: session.State;
-  globalLoader: globalLoader.State;
-  globalMessage: globalMessage.State;
-  appStatuses: appStatuses.State;
-}, RootAction>({
+const rootReducer = combineReducers({
   user: user.reducer,
   session: session.reducer,
   globalLoader: globalLoader.reducer,

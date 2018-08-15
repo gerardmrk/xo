@@ -17,12 +17,12 @@ export interface DispatchProps {
   requestPasswordReset(usernameOrEmail: string, callback: ErrorFirstCallback): void;
 }
 
-export type Props = LocalProps & InjectedIntlProps & StoreProps & DispatchProps;
+export interface Props extends LocalProps, InjectedIntlProps, StoreProps, DispatchProps {}
 
-export type State = {
+export interface State {
   usernameOrEmail: string;
   redirect: boolean;
-};
+}
 
 export class ForgotPassword extends React.Component<Props, State> {
   public state = {

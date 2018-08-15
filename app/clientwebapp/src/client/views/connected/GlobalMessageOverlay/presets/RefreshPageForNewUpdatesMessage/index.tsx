@@ -4,13 +4,13 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 
-export interface LocalProps {
+export interface LocalProps extends InjectedIntlProps {
   onDismiss(): void;
 }
 
-export type Props = LocalProps & InjectedIntlProps & {};
+export interface Props extends LocalProps {}
 
-export type State = {};
+export interface State {}
 
 export class RefreshPageForNewUpdatesMessage extends React.PureComponent<Props, State> {
   private onRefreshClick = (e: React.MouseEvent<HTMLSpanElement>): void => {

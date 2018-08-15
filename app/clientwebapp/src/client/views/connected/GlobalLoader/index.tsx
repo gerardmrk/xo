@@ -15,9 +15,9 @@ export interface StoreProps {
 
 export interface DispatchProps {}
 
-export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
+export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
 
-export type State = {};
+export interface State {}
 
 export class GlobalLoader extends React.PureComponent<Props, State> {
   public render(): React.ReactNode {

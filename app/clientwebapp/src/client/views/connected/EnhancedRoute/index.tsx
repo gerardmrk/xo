@@ -15,9 +15,9 @@ export interface StoreProps {
 
 export interface DispatchProps {}
 
-export type Props = LocalProps & StoreProps & DispatchProps;
+export interface Props extends LocalProps, StoreProps, DispatchProps {}
 
-export type State = {};
+export interface State {}
 
 export class Route extends React.Component<Props, State> {
   private targetRoute: LocationDescriptorObject = {

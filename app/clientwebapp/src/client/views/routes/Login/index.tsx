@@ -22,7 +22,7 @@ export interface DispatchProps {
   login(usernameOrEmail: string, password: string, remember: boolean): void;
 }
 
-export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
+export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
 
 export interface State {
   usernameOrEmail: string;

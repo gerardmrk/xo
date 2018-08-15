@@ -17,9 +17,9 @@ export interface DispatchProps {
   dismissMessage(): void;
 }
 
-export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
+export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
 
-export type State = {};
+export interface State {}
 
 export class GlobalMessageOverlay extends React.PureComponent<Props, State> {
   public render(): React.ReactNode {

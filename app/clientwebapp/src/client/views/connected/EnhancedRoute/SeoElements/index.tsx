@@ -16,9 +16,9 @@ export interface SeoProps {
 
 export interface LocalProps extends SeoProps, InjectedSettingsProps {}
 
-export type Props = LocalProps;
+export interface Props extends LocalProps {}
 
-export type State = {};
+export interface State {}
 
 export class SeoElements extends React.PureComponent<Props, State> {
   private titleTemplate: string;

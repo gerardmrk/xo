@@ -22,11 +22,11 @@ export interface DispatchProps {
   checkUsernameUniqueness(username: string, callback: ErrorFirstCallback<boolean>): void;
 }
 
-export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
+export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
 
-export type State = {
+export interface State {
   registrationCompleted: boolean;
-};
+}
 
 export class Registration extends React.Component<Props, State> {
   public state = {

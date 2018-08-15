@@ -13,11 +13,11 @@ import EnhancedRoute from "@client/views/connected/EnhancedRoute";
 import GlobalLoader from "@client/views/connected/GlobalLoader";
 import GlobalMessageOverlay from "@client/views/connected/GlobalMessageOverlay";
 
-export type LocalProps = RouteComponentProps<{}, {}> & {};
+export interface LocalProps extends RouteComponentProps<{}, {}> {}
 
-export type Props = LocalProps & {};
+export interface Props extends LocalProps {}
 
-export type State = {};
+export interface State {}
 
 export class App extends React.PureComponent<Props, State> {
   public componentDidUpdate(prevProps: Props): void {
@@ -41,7 +41,9 @@ export class App extends React.PureComponent<Props, State> {
         {/* This is where the routes go. Routes are defined in "@client/routes". */}
         <main className={styles.container}>
           <RouteSwitcher>
-            {routes.map((r: RouteProps, i: number) => <EnhancedRoute key={i} {...r} />)}
+            {routes.map((r: RouteProps, i: number) => (
+              <EnhancedRoute key={i} {...r} />
+            ))}
           </RouteSwitcher>
         </main>
 

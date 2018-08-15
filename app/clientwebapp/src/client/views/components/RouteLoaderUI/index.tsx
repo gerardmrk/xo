@@ -6,12 +6,11 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 
-export type Props = LoadingComponentProps &
-  InjectedIntlProps & {
-    pastDelay: boolean;
-  };
+export interface Props extends LoadingComponentProps, InjectedIntlProps {
+  pastDelay: boolean;
+}
 
-export type State = {};
+export interface State {}
 
 export class RouteLoaderUI extends React.Component<Props, State> {
   public render(): React.ReactNode {

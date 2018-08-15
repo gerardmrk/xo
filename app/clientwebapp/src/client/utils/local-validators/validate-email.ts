@@ -32,13 +32,13 @@ export interface Options {
  */
 export const emailValidator = (opts?: FieldValidatorOptions): FieldValidator => {
   const pattern = DFLT_PATTERN;
-  let isRequired: boolean = false;
+  let isRequired = false;
 
   if (opts && opts.required) {
     isRequired = true;
   }
 
-  return function validateEmail(email: string): FieldValidationResult {
+  return (email: string): FieldValidationResult => {
     if (isRequired && email.length === 0) {
       return {
         valid: false,

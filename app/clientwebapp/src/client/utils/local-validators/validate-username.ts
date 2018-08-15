@@ -16,7 +16,7 @@ export const usernameValidator = (opts?: FieldValidatorOptions): FieldValidator 
     isRequired = opts.required || false;
   }
 
-  return function validateUsername(username: string): FieldValidationResult {
+  return (username: string): FieldValidationResult => {
     if (isRequired && username.length === 0) {
       return {
         valid: false,

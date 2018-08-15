@@ -3,9 +3,9 @@ import * as React from "react";
 
 import styles from "./styles.less";
 
-export type Props = {};
+export interface Props {}
 
-export type State = {};
+export interface State {}
 
 export class PasswordChange extends React.Component<Props, State> {
   public render(): React.ReactNode {

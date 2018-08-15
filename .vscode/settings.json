@@ -1,5 +1,4 @@
 {
-  "explorer.sortOrder": "type",
   "npm.packageManager": "yarn",
   "eslint.enable": true,
   "eslint.options": {

@@ -30,11 +30,11 @@ export interface LocalProps extends InjectedIntlProps, InjectedValidatorProps, S
   onChangeProxy(value: string, isValid: boolean): void;
 }
 
-export type Props = LocalProps;
+export interface Props extends LocalProps {}
 
-export type State = FieldValidationResult & {
+export interface State extends FieldValidationResult {
   showInvalidReason: boolean;
-};
+}
 
 export class InputWithValidator extends React.Component<Props, State> {
   // tslint:disable-next-line:function-name

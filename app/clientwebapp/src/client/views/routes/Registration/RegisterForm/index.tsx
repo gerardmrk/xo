@@ -11,9 +11,9 @@ export interface LocalProps {
   checkUsernameUniqueness(username: string, cb: ErrorFirstCallback<boolean>): void;
 }
 
-export type Props = LocalProps & InjectedIntlProps;
+export interface Props extends LocalProps, InjectedIntlProps {}
 
-export type State = {
+export interface State {
   // form fields
   username: string;
   email: string;
@@ -24,7 +24,7 @@ export type State = {
   forceValidate: boolean;
   usernameNotUniqueMessage?: string;
   checkingUsernameUniqueness: boolean;
-};
+}
 
 export class RegisterForm extends React.Component<Props, State> {
   // keep "isValid" flags out of local state;

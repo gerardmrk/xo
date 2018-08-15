@@ -16,12 +16,12 @@ export interface DispatchProps {
   verifyCode(code: string, scope: store.userModels.VerificationScope, cb: ErrorFirstCallback): void;
 }
 
-export type Props = LocalProps & StoreProps & DispatchProps;
+export interface Props extends LocalProps, StoreProps, DispatchProps {}
 
-export type State = {
+export interface State {
   error?: Error;
   verifying: boolean;
-};
+}
 
 export class Verification extends React.Component<Props, State> {
   public state = {

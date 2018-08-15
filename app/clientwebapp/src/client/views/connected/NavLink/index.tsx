@@ -4,19 +4,19 @@ import { NavLink as BaseNavLink, NavLinkProps } from "react-router-dom";
 
 import * as store from "@client/store";
 
-export type LocalProps = NavLinkProps & {};
+export interface LocalProps extends NavLinkProps {}
 
-export type StoreProps = {
+export interface StoreProps {
   updated: boolean;
-};
+}
 
-export type DispatchProps = {
+export interface DispatchProps {
   notifyUpdated(): void;
-};
+}
 
-export type Props = LocalProps & StoreProps & DispatchProps & {};
+export interface Props extends LocalProps, StoreProps, DispatchProps {}
 
-export type State = {};
+export interface State {}
 
 export class NavLink extends React.Component<Props, State> {
   private onClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
