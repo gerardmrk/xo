@@ -16,7 +16,7 @@
     "i18n:sync": "node ./scripts/update-translations.js",
     "proto:gen": "./node_modules/.bin/pbjs -t static-module -w commonjs -o ./src/renderer/proto/js/index.js ./src/renderer/renderer.proto",
     "proto:types": "./node_modules/.bin/pbts -o ./src/renderer/proto/js/index.ts ./src/renderer/renderer.proto",
-    "tmp:renderer": "node_modules/.bin/ts-node -e ./src/renderer/index.ts"
+    "tmp:renderer": "node ./dist/renderer/renderer.ts --socketfile /tmp/server.sock"
   },
   "dependencies": {
     "debug": "^3.1.0",

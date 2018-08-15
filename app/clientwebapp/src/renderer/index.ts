@@ -1,23 +1,65 @@
+import * as fs from "fs";
+import * as util from "util";
 import * as process from "process";
+import * as debug from "debug";
 import * as parseargs from "minimist";
 
-import * as serverErrors from "./errors";
+import { ServerSettingsError } from "./errors";
 import { validateSettings } from "./settings";
-import { createServer } from "./create-server";
+import { createServer, ConnectionsCache } from "./create-server";
 
-(async (settings: parseargs.ParsedArgs) => {
+const statAsync = util.promisify(fs.stat);
+const unlinkAsync = util.promisify(fs.unlink);
+
+const debugSrv = debug("server");
+
+const main = async (settings: parseargs.ParsedArgs) => {
+  const connections: ConnectionsCache = {};
+
   try {
+    debugSrv("settings: %O", settings);
     validateSettings(settings);
-    const { socketfile } = settings;
 
-    const server = createServer();
+    const { socketfile }: { [k: string]: string } = settings;
+
+    try {
+      debugSrv("checking for pre-existing socket file..");
+      await statAsync(socketfile);
+
+      debugSrv("unlinking previous socket file..", socketfile);
+      await unlinkAsync(socketfile);
+    } catch (error) {
+      if ((<NodeJS.ErrnoException>error).code !== "ENOENT") {
+        throw error;
+      }
+      debugSrv("socket file will be created by server", socketfile);
+    }
+
+    const server = createServer(connections);
     server.listen(socketfile);
+
+    debugSrv("UDS server listening on %s", socketfile);
+
+    process.on("SIGINT", () => {
+      debugSrv("performing cleanup..");
+
+      for (const [id, conn] of Object.entries(connections)) {
+        debugSrv("draining connection for %s", id); // well not really.. will implement soon
+        conn.end();
+      }
+
+      server.close();
+      debugSrv("server closed");
+      process.exit(0);
+    });
   } catch (error) {
-    if (error instanceof serverErrors.ServerSettingsError) {
+    if (error instanceof ServerSettingsError) {
       error.printUsage();
       process.exit(1);
     } else {
       throw error;
     }
   }
-})(parseargs(process.argv.slice(2)));
+};
+
+main(parseargs(process.argv.slice(2)));

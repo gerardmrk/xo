@@ -18,7 +18,7 @@ const baseConfig = ({ paths, buildSettings, devMode, clientBuild, enableSourceMa
 
   entry: clientBuild
     ? { app: [`${paths.clientSource}/main.tsx`] }
-    : { renderer: [`${paths.rendererSource}/index.tsx`] },
+    : { renderer: [`${paths.rendererSource}/index.ts`] },
 
   output: clientBuild
     ? {
