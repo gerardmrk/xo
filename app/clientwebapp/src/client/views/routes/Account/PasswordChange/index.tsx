@@ -3,7 +3,7 @@ import * as React from "react";
 
 import styles from "./styles.less";
 
-export interface Props {}
+export type Props = {};
 
 export type State = {};
 

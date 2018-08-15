@@ -15,7 +15,6 @@
     "noImplicitAny": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
     "paths": {
       "@translations/*": ["config/i18n/translations/*"],

@@ -6,9 +6,10 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 
-export interface Props extends LoadingComponentProps, InjectedIntlProps {
-  pastDelay: boolean;
-}
+export type Props = LoadingComponentProps &
+  InjectedIntlProps & {
+    pastDelay: boolean;
+  };
 
 export type State = {};
 

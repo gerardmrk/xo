@@ -3,7 +3,7 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 
-export interface Props extends InjectedIntlProps {}
+export type Props = InjectedIntlProps & {};
 
 export type State = {};
 
