@@ -15,7 +15,7 @@ import * as React from "react";
 import { addLocaleData, Locale, IntlProvider as BaseIntlProvider } from "react-intl";
 
 import * as defaultLocaleData from "react-intl/locale-data/en";
-import * as defaultTranslations from "@translations/en.json";
+import defaultTranslations from "@translations/en.json";
 import flattenTranslations from "@client/utils/flatten-translations";
 import deriveLangFromLocale from "@client/utils/derive-lang-from-locale";
 

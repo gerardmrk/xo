@@ -1,3 +1,4 @@
+import AppTypes from "AppTypes";
 import * as store from "@client/store";
 import { initTestStore } from "@client/utils/test-helpers/test-store";
 
@@ -10,7 +11,7 @@ import { initTestStore } from "@client/utils/test-helpers/test-store";
 // tests for the global loading display middleware
 describe("store-middleware: globalLoaderMiddleware", () => {
   let testStore: ReturnType<typeof initTestStore>;
-  let expectedAction: store.StoreAction;
+  let expectedAction: AppTypes.Store.Action;
 
   beforeAll(() => {
     testStore = initTestStore({}, [store.middleware.globalLoaderMiddleware]);

@@ -3,13 +3,11 @@
  */
 import { createAction } from "typesafe-actions";
 
-import { UserSettings } from "@client/store/user/models";
+import AppTypes from "AppTypes";
 import { StoreMiddlewareFlags } from "@client/store/middleware";
 import { TEST_ACTION } from "@client/store/global-loader/actions";
 
 export { TEST_ACTION };
-
-// tslint:disable:typedef
 
 // getSettings
 
@@ -20,7 +18,8 @@ export const getSettingsPending = createAction(
 
 export const getSettingsSuccess = createAction(
   "user.getSettingsSuccess",
-  resolve => (settings: UserSettings, flags: StoreMiddlewareFlags) => resolve(settings, flags)
+  resolve => (settings: AppTypes.UserModels.Settings, flags: StoreMiddlewareFlags) =>
+    resolve(settings, flags)
 );
 
 export const getSettingsFailure = createAction(

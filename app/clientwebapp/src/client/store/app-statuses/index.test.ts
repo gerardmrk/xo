@@ -1,5 +1,5 @@
-import { reducer } from "@client/store/app-statuses";
 import * as actions from "@client/store/app-statuses/actions";
+import { appStatusesReducer as reducer } from "@client/store/app-statuses";
 
 describe("reducer:app-statuses", () => {
   it("has a correct default state", () => {

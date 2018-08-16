@@ -20,12 +20,12 @@ export class Notifications extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: store.StoreState): StoreProps => ({});
+const mapStateToProps = (state: store.StoreState, localProps?: LocalProps) => ({});
 
-const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({});
+const mapDispatchToProps = (dispatch: store.StoreDispatcher, localProps?: LocalProps) => ({});
 
 export default injectIntl<Props>(
-  connect<StoreProps, DispatchProps, LocalProps>(
+  connect(
     mapStateToProps,
     mapDispatchToProps
   )(Notifications)

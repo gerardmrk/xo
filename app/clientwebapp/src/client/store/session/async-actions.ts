@@ -2,22 +2,17 @@
  * async actions for the session state
  */
 import API from "@client/api";
-import { AuthTokens } from "@client/store/session/models";
+import AppTypes from "AppTypes";
 import * as actions from "@client/store/session/actions";
-import { StoreState, StoreDispatcher, StoreAsyncAction } from "@client/store";
 
 // prettier-ignore
-export const login = (
-  usernameOrEmail: string,
-  password: string,
-  remember: boolean
-): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const login = (usernameOrEmail: string, password: string, remember: boolean) => async (dispatch: AppTypes.Store.Dispatcher, getState: () => AppTypes.Store.State, api: API) => {
   dispatch(actions.loginPending({
     showLoader: "progress.logging_in"
   }));
 
   try {
-    const authTokens: AuthTokens = await api.auth.authenticate(
+    const authTokens = await api.auth.authenticate(
       usernameOrEmail,
       password,
       remember
@@ -36,7 +31,7 @@ export const login = (
 };
 
 // prettier-ignore
-export const logout = (): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const logout = () => async (dispatch: AppTypes.Store.Dispatcher, getState: () => AppTypes.Store.State, api: API) => {
   dispatch(actions.logoutPending({
     showLoader: "progress.logging_out"
   }));

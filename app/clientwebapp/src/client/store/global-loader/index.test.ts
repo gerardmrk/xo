@@ -1,5 +1,5 @@
-import { reducer } from "@client/store/global-loader";
 import * as actions from "@client/store/global-loader/actions";
+import { globalLoaderReducer as reducer } from "@client/store/global-loader";
 
 describe("reducer:global-loader", () => {
   it("has a correct default state", () => {

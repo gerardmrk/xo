@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as util from "util";
 import * as process from "process";
-import * as debug from "debug";
-import * as parseargs from "minimist";
+import debug from "debug";
+import parseargs from "minimist";
 
 import { ServerSettingsError } from "./errors";
 import { validateSettings } from "./settings";

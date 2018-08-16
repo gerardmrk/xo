@@ -3,15 +3,13 @@
  *
  * responsible for making any calls to the user service
  */
+import AppTypes from "AppTypes";
 import sleep from "@client/utils/sleep";
 import { AbstractUserAPI } from "@client/api/user/type";
-import { UserSettings, RegistrationPayload, VerificationScope } from "@client/store/user/models";
 import userSettings from "@client/utils/test-helpers/mocks/user-settings";
 
-export interface Config {}
-
 class UserAPI implements AbstractUserAPI {
-  public constructor(config: Config) {}
+  public constructor(config: AppTypes.Injected.UserServiceConf) {}
 
   // *******************************************************************************************************************
   //    UNAUTHENTICATED ENDPOINTS
@@ -32,12 +30,15 @@ class UserAPI implements AbstractUserAPI {
     return;
   }
 
-  public async register(formValues: RegistrationPayload): Promise<void> {
+  public async register(formValues: AppTypes.UserModels.RegistrationPayload): Promise<void> {
     await sleep(2000);
     return;
   }
 
-  public async verifyCode(code: string, scope: VerificationScope): Promise<void> {
+  public async verifyCode(
+    code: string,
+    scope: AppTypes.UserModels.VerificationScope
+  ): Promise<void> {
     await sleep(2000);
     return;
   }
@@ -51,7 +52,7 @@ class UserAPI implements AbstractUserAPI {
   //    AUTHENTICATED ENDPOINTS
   // *******************************************************************************************************************
 
-  public async getSettings(): Promise<UserSettings> {
+  public async getSettings(): Promise<AppTypes.UserModels.Settings> {
     await sleep(2000);
 
     return userSettings;

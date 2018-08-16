@@ -1,4 +1,4 @@
-import { AuthTokens } from "@client/store/session/models";
+import AppTypes from "AppTypes";
 
 /**
  * The AuthAPI must implement this abstract class
@@ -9,7 +9,7 @@ export abstract class AbstractAuthAPI {
     username: string,
     password: string,
     remember: boolean
-  ): Promise<AuthTokens>;
+  ): Promise<AppTypes.AuthModels.AuthTokens>;
 
   public abstract async unauthenticate(): Promise<void>;
 }

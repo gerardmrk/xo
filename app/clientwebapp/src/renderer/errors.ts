@@ -2,8 +2,8 @@
 import { settingOptions, requiredSettings } from "./settings";
 
 export class ServerSettingsError extends Error {
-  private settingOptions: typeof settingOptions;
-  private requiredSettings: typeof requiredSettings;
+  private settingOptions: typeof settingOptions = settingOptions;
+  private requiredSettings: typeof requiredSettings = requiredSettings;
 
   public constructor(msg: string) {
     super(msg);

@@ -1,6 +1,6 @@
-import { reducer } from "@client/store/global-message";
+import AppTypes from "AppTypes";
 import * as actions from "@client/store/global-message/actions";
-import { GlobalMessage } from "@client/store/global-message/models";
+import { globalMessageReducer as reducer } from "@client/store/global-message";
 
 describe("reducer:global-message", () => {
   it("has the correct default state", () => {
@@ -10,7 +10,7 @@ describe("reducer:global-message", () => {
   });
 
   it("uses the provided state", () => {
-    const message: GlobalMessage = {
+    const message: AppTypes.GlobalMessage = {
       header: "clockworkorange",
       color: "red",
       content: "a",
@@ -21,7 +21,7 @@ describe("reducer:global-message", () => {
 
   describe("with action types", () => {
     it("handles 'show'", () => {
-      const message: GlobalMessage = {
+      const message: AppTypes.GlobalMessage = {
         header: "aruba",
         color: "olive",
         content: undefined,

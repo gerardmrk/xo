@@ -28,7 +28,7 @@ export class RootFooter extends React.PureComponent<Props, State> {
   }
 
   // prettier-ignore
-  private onLanguageChange = (e: React.SyntheticEvent, { value: locale }: DropdownOnSearchChangeData): void => {
+  private onLanguageChange = (e: React.SyntheticEvent<HTMLElement>, { value: locale }: DropdownOnSearchChangeData): void => {
     this.props.intlSettings.setLocale(locale as string);
   };
 

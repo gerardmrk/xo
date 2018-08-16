@@ -2,11 +2,9 @@
  * action types for the session state
  */
 
-// tslint:disable:typedef
-
 import { createAction } from "typesafe-actions";
 
-import { AuthTokens } from "@client/store/session/models";
+import AppTypes from "AppTypes";
 import { StoreMiddlewareFlags } from "@client/store/middleware";
 import { TEST_ACTION } from "@client/store/global-loader/actions";
 
@@ -19,7 +17,8 @@ export const loginPending = createAction(
 
 export const loginSuccess = createAction(
   "session.loginSuccess",
-  resolve => (tokens: AuthTokens, flags: StoreMiddlewareFlags) => resolve(tokens, flags)
+  resolve => (tokens: AppTypes.AuthModels.AuthTokens, flags: StoreMiddlewareFlags) =>
+    resolve(tokens, flags)
 );
 
 export const loginFailure = createAction(
