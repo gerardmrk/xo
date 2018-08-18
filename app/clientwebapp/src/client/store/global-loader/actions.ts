@@ -5,9 +5,8 @@
 // tslint:disable:typedef
 
 import { createAction } from "typesafe-actions";
-import { TEST_ACTION } from "@client/utils/test-helpers/test-action";
 
-export { TEST_ACTION };
+export { TEST_ACTION } from "@client/utils/test-helpers/test-action";
 
 // show the global loading display
 // optionally display a message with it

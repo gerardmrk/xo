@@ -89,7 +89,6 @@ declare module "AppTypes" {
       name: string;
       description: string;
       supportedBrowsers: string[];
-      supportedLanguages: string[];
       appURL: {
         development: string;
         staging: string;

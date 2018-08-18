@@ -4,7 +4,6 @@ export const appSettings: AppTypes.Injected.AppSettings = {
   name: "Arkansas",
   description: "No country for old men",
   supportedBrowsers: ["last 2 versions"],
-  supportedLanguages: ["en", "zh", "de"],
   appURL: {
     development: "http://localhost:4200",
     staging: "https://app-staging.arkansas.com",

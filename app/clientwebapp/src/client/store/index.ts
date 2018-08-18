@@ -4,7 +4,7 @@
 // tslint:disable:no-direct-store-import no-non-null-assertion
 import asyncMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createStore, combineReducers, applyMiddleware, Reducer } from "redux";
 
 import API from "@client/api";
 import AppTypes from "AppTypes";
@@ -39,7 +39,7 @@ export type RootState = {
   appStatuses: appStatuses.AppStatusesState;
 };
 
-export const rootReducer = combineReducers({
+export const rootReducer: Reducer<RootState, RootAction> = combineReducers({
   user: user.userReducer,
   session: session.sessionReducer,
   globalLoader: globalLoader.globalLoaderReducer,

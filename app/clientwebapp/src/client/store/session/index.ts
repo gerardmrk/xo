@@ -1,6 +1,7 @@
 /**
  * Session state
  */
+import { Reducer } from "redux";
 import { set, merge } from "unchanged";
 import { DeepReadonly } from "utility-types";
 import { getType, ActionType, StateType } from "typesafe-actions";
@@ -24,7 +25,7 @@ const defaultState: State = {
 };
 
 // prettier-ignore
-const reducer = (state: State = defaultState, action: Action) => {
+const reducer: Reducer<State, Action> = (state = defaultState, action) => {
   switch (action.type) {
     case getType(actions.loginPending):
       return set("authenticating", true, state);

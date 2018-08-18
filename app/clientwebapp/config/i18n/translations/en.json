@@ -76,8 +76,7 @@
   },
 
   "affirmations": {
-    "verification_email_sent":
-      "An email with your password reset instructions has been sent to your inbox. Check your spam folder if it hasn't appeared in your inbox after a few minutes.",
+    "verification_email_sent": "An email with your password reset instructions has been sent to your inbox. Check your spam folder if it hasn't appeared in your inbox after a few minutes.",
     "email_verified": "Your email has been successfully verified."
   },
 

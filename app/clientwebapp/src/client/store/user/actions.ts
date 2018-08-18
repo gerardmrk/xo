@@ -5,9 +5,8 @@ import { createAction } from "typesafe-actions";
 
 import AppTypes from "AppTypes";
 import { StoreMiddlewareFlags } from "@client/store/middleware";
-import { TEST_ACTION } from "@client/store/global-loader/actions";
 
-export { TEST_ACTION };
+export { TEST_ACTION } from "@client/utils/test-helpers/test-action";
 
 // getSettings
 

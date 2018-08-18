@@ -1,3 +1,4 @@
+import { Reducer } from "redux";
 import { DeepReadonly } from "utility-types";
 import { getType, ActionType, StateType } from "typesafe-actions";
 
@@ -13,7 +14,7 @@ const defaultState: State = {
   updated: true
 };
 
-const reducer = (state: State = defaultState, action: Action) => {
+const reducer: Reducer<State, Action> = (state = defaultState, action) => {
   switch (action.type) {
     case getType(actions.updatesAvailable):
       return { updated: false };

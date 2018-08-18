@@ -12,7 +12,6 @@ export const SettingsContext: React.Context<Settings> = React.createContext<Sett
     name: "",
     description: "",
     supportedBrowsers: [],
-    supportedLanguages: [],
     appURL: { development: "", staging: "", production: "" },
     sitemap: {}
   },
