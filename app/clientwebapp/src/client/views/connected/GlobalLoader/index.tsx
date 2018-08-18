@@ -6,18 +6,16 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 import AppTypes from "AppTypes";
 import styles from "./styles.less";
 
-export interface LocalProps {}
-
-export interface StoreProps {
+export type StoreProps = {
   show: boolean;
   loadingMessage?: string;
-}
+};
 
-export interface DispatchProps {}
+export type DispatchProps = {};
 
-export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
+export type Props = StoreProps & DispatchProps & InjectedIntlProps & {};
 
-export interface State {}
+export type State = {};
 
 export class GlobalLoader extends React.PureComponent<Props, State> {
   public render(): React.ReactNode {
@@ -47,9 +45,7 @@ const mapStateToProps = (state: AppTypes.Store.State): StoreProps => ({
 
 const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps => ({});
 
-export default injectIntl<LocalProps>(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(GlobalLoader)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(GlobalLoader));

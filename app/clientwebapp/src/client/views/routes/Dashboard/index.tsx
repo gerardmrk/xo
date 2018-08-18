@@ -4,9 +4,9 @@ import { Menu, Input } from "semantic-ui-react";
 
 import styles from "./styles.less";
 
-export interface Props {}
+export type Props = {};
 
-export interface State {}
+export type State = {};
 
 export class Dashboard extends React.Component<Props, State> {
   public render(): React.ReactNode {

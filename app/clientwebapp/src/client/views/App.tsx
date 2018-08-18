@@ -17,7 +17,7 @@ export interface LocalProps extends RouteComponentProps<{}, {}> {}
 
 export interface Props extends LocalProps {}
 
-export interface State {}
+export type State = {};
 
 export class App extends React.PureComponent<Props, State> {
   public componentDidUpdate(prevProps: Props): void {

@@ -29,15 +29,15 @@ export class ResetPassword extends React.Component<Props & InjectedIntlProps, St
     passwordRepeat: ""
   };
 
-  private onPasswordChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
+  private onPasswordChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     this.setState({ password: e.currentTarget.value });
   };
 
-  private onPasswordRepeatChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
+  private onPasswordRepeatChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     this.setState({ passwordRepeat: e.currentTarget.value });
   };
 
-  private onFormSubmit = (e: React.SyntheticEvent): void => {
+  private onFormSubmit = (e: React.SyntheticEvent) => {
     this.props.resetPassword(this.state.password, (error: Error | null) => {});
   };
 
@@ -90,9 +90,7 @@ const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps 
   }
 });
 
-export default injectIntl<LocalProps>(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ResetPassword)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(ResetPassword));

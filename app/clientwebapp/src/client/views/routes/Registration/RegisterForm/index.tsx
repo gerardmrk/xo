@@ -6,14 +6,12 @@ import AppTypes from "AppTypes";
 import styles from "./styles.less";
 import Input from "@client/views/components/InputWithValidator";
 
-export interface LocalProps {
+export type Props = InjectedIntlProps & {
   onFormSubmit(form: AppTypes.UserModels.RegistrationPayload): void;
   checkUsernameUniqueness(username: string, cb: ErrorFirstCallback<boolean>): void;
-}
+};
 
-export interface Props extends LocalProps, InjectedIntlProps {}
-
-export interface State {
+export type State = {
   // form fields
   username: string;
   email: string;
@@ -24,7 +22,7 @@ export interface State {
   forceValidate: boolean;
   usernameNotUniqueMessage?: string;
   checkingUsernameUniqueness: boolean;
-}
+};
 
 export class RegisterForm extends React.Component<Props, State> {
   // keep "isValid" flags out of local state;
@@ -196,4 +194,4 @@ export class RegisterForm extends React.Component<Props, State> {
   }
 }
 
-export default injectIntl<LocalProps>(RegisterForm);
+export default injectIntl(RegisterForm);

@@ -10,20 +10,18 @@ import * as store from "@client/store";
 import NavLink from "@client/views/connected/NavLink";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 
-export interface LocalProps {}
+export type StoreProps = {};
 
-export interface StoreProps {}
-
-export interface DispatchProps {
+export type DispatchProps = {
   requestPasswordReset(usernameOrEmail: string, callback: ErrorFirstCallback): void;
-}
+};
 
-export interface Props extends LocalProps, InjectedIntlProps, StoreProps, DispatchProps {}
+export type Props = InjectedIntlProps & StoreProps & DispatchProps & {};
 
-export interface State {
+export type State = {
   usernameOrEmail: string;
   redirect: boolean;
-}
+};
 
 export class ForgotPassword extends React.Component<Props, State> {
   public state = {
@@ -92,9 +90,7 @@ const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps 
   }
 });
 
-export default injectIntl<LocalProps>(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ForgotPassword)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(ForgotPassword));

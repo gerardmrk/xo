@@ -16,11 +16,11 @@ export type DispatchProps = {
   dismissMessage(): void;
 };
 
-export type Props = StoreProps & DispatchProps & InjectedIntlProps;
+export type Props = StoreProps & DispatchProps & InjectedIntlProps & {};
 
-export interface State {}
+export type State = {};
 
-class GlobalMessageOverlay extends React.PureComponent<Props, State> {
+export class GlobalMessageOverlay extends React.PureComponent<Props, State> {
   public render(): React.ReactNode {
     const { intl, message } = this.props;
 

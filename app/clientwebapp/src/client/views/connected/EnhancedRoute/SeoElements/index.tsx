@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import appLogo from "@client/logo.png?noembed";
 import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/withSettings";
 
-export interface SeoProps {
+export type SeoProps = {
   readonly routePath?: string;
   readonly title?: string;
   readonly description?: string;
@@ -12,13 +12,11 @@ export interface SeoProps {
   readonly imageURL?: string;
   readonly imageAlt?: string;
   readonly twitterCardType?: "summary" | "summary_large_image" | "app" | "player";
-}
+};
 
-export interface LocalProps extends SeoProps, InjectedSettingsProps {}
+export type Props = SeoProps & InjectedSettingsProps & {};
 
-export interface Props extends LocalProps {}
-
-export interface State {}
+export type State = {};
 
 export class SeoElements extends React.PureComponent<Props, State> {
   private titleTemplate: string;
@@ -82,4 +80,4 @@ export class SeoElements extends React.PureComponent<Props, State> {
   }
 }
 
-export default withSettings<LocalProps>(SeoElements);
+export default withSettings(SeoElements);

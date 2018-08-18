@@ -6,7 +6,7 @@ import styles from "./styles.less";
 import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/withSettings";
 import withIntlSettings, { InjectedIntlSettingsProps } from "@client/views/wrappers/withIntlSettings"; // prettier-ignore
 
-export type Props = InjectedIntlProps & InjectedSettingsProps & InjectedIntlSettingsProps;
+export type Props = InjectedIntlProps & InjectedSettingsProps & InjectedIntlSettingsProps & {};
 
 export type State = {};
 

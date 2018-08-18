@@ -10,16 +10,17 @@ import NavLink from "@client/views/connected/NavLink";
 import { DEFAULT_PUBLIC_PATH, DEFAULT_PRIVATE_PATH } from "@client/views/routes";
 import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/withSettings";
 
-export interface LocalProps extends InjectedSettingsProps {}
-export interface StoreProps {
+export type StoreProps = {
   isLoggedIn: boolean;
-}
-export interface DispatchProps {
-  logout(): void;
-}
-export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
+};
 
-export interface State {}
+export type DispatchProps = {
+  logout(): void;
+};
+
+export type Props = StoreProps & DispatchProps & InjectedIntlProps & InjectedSettingsProps & {};
+
+export type State = {};
 
 export class RootHeader extends React.Component<Props, State> {
   private onLogoutClick = (): void => {
@@ -107,11 +108,9 @@ const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps 
   }
 });
 
-export default withSettings<LocalProps>(
-  injectIntl<LocalProps>(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(RootHeader)
-  )
+export default withSettings(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(injectIntl(RootHeader))
 );

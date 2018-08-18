@@ -12,16 +12,14 @@ import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/with
 import DevErrorDisplay from "@client/views/connected/MainErrorCatcher/DevErrorDisplay";
 import UserFriendlyErrorMessage from "@client/views/connected/MainErrorCatcher/UserFriendlyErrorMessage";
 
-export interface LocalProps extends InjectedSettingsProps {
+export type Props = InjectedSettingsProps & {
   errorServiceDSN: string;
-}
+};
 
-export interface Props extends LocalProps {}
-
-export interface State {
+export type State = {
   error?: Error;
   errorInfo?: React.ErrorInfo;
-}
+};
 
 export class MainErrorCatcher extends React.PureComponent<Props, State> {
   public constructor(props: Props) {

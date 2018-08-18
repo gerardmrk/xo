@@ -5,15 +5,13 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import AppTypes from "AppTypes";
 
-export interface LocalProps {}
+export type StoreProps = {};
 
-export interface StoreProps {}
+export type DispatchProps = {};
 
-export interface DispatchProps {}
+export type Props = StoreProps & DispatchProps & InjectedIntlProps & {};
 
-export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
-
-export interface State {}
+export type State = {};
 
 export class Notifications extends React.Component<Props, State> {
   public render(): React.ReactNode {
@@ -21,13 +19,11 @@ export class Notifications extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: AppTypes.Store.State, localProps?: LocalProps) => ({});
+const mapStateToProps = (state: AppTypes.Store.State): StoreProps => ({});
 
-const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher, localProps?: LocalProps) => ({});
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps => ({});
 
-export default injectIntl<Props>(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Notifications)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(Notifications));

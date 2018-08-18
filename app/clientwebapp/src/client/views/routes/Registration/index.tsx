@@ -14,20 +14,18 @@ import {
   AlreadyRegisteredError
 } from "@client/utils/custom-errors/registration-errors";
 
-export interface LocalProps {}
-
 export type StoreProps = {};
 
-export interface DispatchProps {
+export type DispatchProps = {
   register(form: AppTypes.UserModels.RegistrationPayload, callback: ErrorFirstCallback): void;
   checkUsernameUniqueness(username: string, callback: ErrorFirstCallback<boolean>): void;
-}
+};
 
-export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
+export type Props = StoreProps & DispatchProps & InjectedIntlProps & {};
 
-export interface State {
+export type State = {
   registrationCompleted: boolean;
-}
+};
 
 export class Registration extends React.Component<Props, State> {
   public state = {
@@ -99,9 +97,7 @@ const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher) => ({
   }
 });
 
-export default injectIntl(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Registration)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(Registration));

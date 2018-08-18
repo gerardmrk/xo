@@ -12,24 +12,22 @@ import queryParamsToObj from "@client/utils/query-params-to-obj";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 import { RouteProps, DEFAULT_PRIVATE_PATH, DEFAULT_AUTH_PATH } from "@client/views/routes";
 
-export interface LocalProps extends RouteProps {}
-
-export interface StoreProps {
+export type StoreProps = {
   isLoggedIn: boolean;
   isAuthenticating: boolean;
-}
+};
 
-export interface DispatchProps {
+export type DispatchProps = {
   login(usernameOrEmail: string, password: string, remember: boolean): void;
-}
+};
 
-export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
+export type Props = InjectedIntlProps & RouteProps & StoreProps & DispatchProps & {};
 
-export interface State {
+export type State = {
   usernameOrEmail: string;
   password: string;
   remember: boolean;
-}
+};
 
 export class Login extends React.Component<Props, State> {
   private referrerRoute: RedirectProps["to"] = {
@@ -61,20 +59,25 @@ export class Login extends React.Component<Props, State> {
     }
   }
 
-  private onUsernameOrEmailChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
+  private onUsernameOrEmailChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     this.setState({ usernameOrEmail: e.currentTarget.value });
   };
 
-  private onPasswordChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
+  private onPasswordChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     this.setState({ password: e.currentTarget.value });
   };
 
-  private onRememberChange = (e: React.SyntheticEvent): void => {
+  private onRememberChange = (e: React.SyntheticEvent) => {
     this.setState({ remember: !this.state.remember });
   };
 
-  private onFormSubmit = (): void => {
-    this.props.login(this.state.usernameOrEmail, this.state.password, this.state.remember);
+  // prettier-ignore
+  private onFormSubmit = () => {
+    this.props.login(
+      this.state.usernameOrEmail,
+      this.state.password,
+      this.state.remember
+    );
   };
 
   public render(): React.ReactNode {
@@ -160,9 +163,7 @@ const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps 
   }
 });
 
-export default injectIntl(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Login)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(Login));

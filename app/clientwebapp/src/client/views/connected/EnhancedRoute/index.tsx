@@ -7,17 +7,15 @@ import AppTypes from "AppTypes";
 import SeoElements from "@client/views/connected/EnhancedRoute/SeoElements";
 import { RouteProps, DEFAULT_PRIVATE_PATH, DEFAULT_AUTH_PATH } from "@client/views/routes";
 
-export interface LocalProps extends RouteProps {}
-
-export interface StoreProps {
+export type StoreProps = {
   isLoggedIn: boolean;
-}
+};
 
-export interface DispatchProps {}
+export type DispatchProps = {};
 
-export interface Props extends LocalProps, StoreProps, DispatchProps {}
+export type Props = StoreProps & DispatchProps & RouteProps & {};
 
-export interface State {}
+export type State = {};
 
 export class Route extends React.Component<Props, State> {
   private targetRoute: LocationDescriptorObject = {

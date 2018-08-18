@@ -3,9 +3,9 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 
-export interface Props extends InjectedIntlProps {}
+export type Props = InjectedIntlProps & {};
 
-export interface State {}
+export type State = {};
 
 export class NotFound extends React.Component<Props, State> {
   public render(): React.ReactNode {
@@ -17,4 +17,4 @@ export class NotFound extends React.Component<Props, State> {
   }
 }
 
-export default injectIntl<Props>(NotFound);
+export default injectIntl(NotFound);

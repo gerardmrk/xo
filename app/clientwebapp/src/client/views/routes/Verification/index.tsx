@@ -10,20 +10,20 @@ import queryParamsToObj from "@client/utils/query-params-to-obj";
 
 type VerificationScope = AppTypes.UserModels.VerificationScope;
 
-export interface LocalProps extends RouteComponentProps<{ scope: VerificationScope }> {}
+export type StoreProps = {};
 
-export interface StoreProps {}
-
-export interface DispatchProps {
+export type DispatchProps = {
   verifyCode(code: string, scope: VerificationScope, cb: ErrorFirstCallback): void;
-}
+};
 
-export interface Props extends LocalProps, StoreProps, DispatchProps {}
+export type Props = StoreProps &
+  DispatchProps &
+  RouteComponentProps<{ scope: VerificationScope }> & {};
 
-export interface State {
+export type State = {
   error?: Error;
   verifying: boolean;
-}
+};
 
 export class Verification extends React.Component<Props, State> {
   public state = {

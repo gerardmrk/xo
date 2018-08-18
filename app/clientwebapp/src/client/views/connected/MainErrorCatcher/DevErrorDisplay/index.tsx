@@ -3,14 +3,12 @@ import { Header } from "semantic-ui-react";
 
 import styles from "./styles.less";
 
-export interface LocalProps {
+export type Props = {
   error: Error;
   errorInfo?: React.ErrorInfo;
-}
+};
 
-export interface Props extends LocalProps {}
-
-export interface State {}
+export type State = {};
 
 export class DevErrorDisplay extends React.Component<Props, State> {
   public render(): React.ReactNode {

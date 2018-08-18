@@ -14,30 +14,26 @@ import styles from "./styles.less";
 import { FieldValidationResult } from "@client/utils/local-validators";
 import withInputValidator, { InjectedValidatorProps } from "@client/views/wrappers/withInputValidator"; // prettier-ignore
 
-interface ProxiedInputProps {
+type ProxiedInputProps = {
   error?: boolean;
   onChange?(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData): void;
-}
+};
 
-export interface LocalProps {
-  // useful when you want to force-display the error message of this input externally.
-  forceValidate?: false;
-  // if you're additionally performing external validations and would like to display it
-  // note that this will take precedence over the local invalidation message.
-  externalInvalidationMessage?: string;
-  // the input handler itself. value validity is passed as a second argument in case it's needed externally.
-  onChangeProxy(value: string, isValid: boolean): void;
-}
+export type Props = InjectedIntlProps &
+  InjectedValidatorProps &
+  Subtract<FormInputProps, ProxiedInputProps> & {
+    // useful when you want to force-display the error message of this input externally.
+    forceValidate?: false;
+    // if you're additionally performing external validations and would like to display it
+    // note that this will take precedence over the local invalidation message.
+    externalInvalidationMessage?: string;
+    // the input handler itself. value validity is passed as a second argument in case it's needed externally.
+    onChangeProxy(value: string, isValid: boolean): void;
+  };
 
-export interface Props
-  extends LocalProps,
-    InjectedIntlProps,
-    InjectedValidatorProps,
-    Subtract<FormInputProps, ProxiedInputProps> {}
-
-export interface State extends FieldValidationResult {
+export type State = FieldValidationResult & {
   showInvalidReason: boolean;
-}
+};
 
 export class InputWithValidator extends React.Component<Props, State> {
   // tslint:disable-next-line:function-name
@@ -133,4 +129,4 @@ export class InputWithValidator extends React.Component<Props, State> {
   }
 }
 
-export default withInputValidator<Props>(injectIntl<Props>(InputWithValidator));
+export default withInputValidator(injectIntl(InputWithValidator));

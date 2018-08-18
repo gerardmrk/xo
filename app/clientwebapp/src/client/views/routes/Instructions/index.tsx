@@ -11,14 +11,12 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 import styles from "./styles.less";
 import queryParamsToObj from "@client/utils/query-params-to-obj";
 
-export interface LocalProps extends InjectedIntlProps, RouteComponentProps<{ preset: string }> {}
+export type Props = InjectedIntlProps & RouteComponentProps<{ preset: string }> & {};
 
-export interface Props extends LocalProps {}
-
-export interface State {
+export type State = {
   messagePreset?: JSX.Element;
   textMessage?: string;
-}
+};
 
 const messageElementPresets: {
   [presetName: string]: (translatedMessage: string) => JSX.Element;
@@ -61,4 +59,4 @@ export class Instructions extends React.PureComponent<Props, State> {
   }
 }
 
-export default injectIntl<LocalProps>(Instructions);
+export default injectIntl(Instructions);
