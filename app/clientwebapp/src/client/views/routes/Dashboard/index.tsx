@@ -21,6 +21,7 @@ export class Dashboard extends React.Component<Props, State> {
               </Menu.Item>
             </Menu.Menu>
           </Menu.Item>
+
           <Menu.Item>
             <Menu.Header>{"Users"}</Menu.Header>
             <Menu.Menu>
@@ -29,6 +30,7 @@ export class Dashboard extends React.Component<Props, State> {
               <Menu.Item>{"Dead"}</Menu.Item>
             </Menu.Menu>
           </Menu.Item>
+
           <Menu.Item>
             <Menu.Header>{"Monitoring"}</Menu.Header>
             <Menu.Menu>
@@ -37,6 +39,7 @@ export class Dashboard extends React.Component<Props, State> {
               <Menu.Item>{"Metrics"}</Menu.Item>
             </Menu.Menu>
           </Menu.Item>
+
           <Menu.Item>
             <Menu.Header>{"Cloud Services"}</Menu.Header>
             <Menu.Menu>
@@ -46,6 +49,7 @@ export class Dashboard extends React.Component<Props, State> {
               <Menu.Item>{"Consul Cluster"}</Menu.Item>
             </Menu.Menu>
           </Menu.Item>
+
           <Menu.Item>
             <Menu.Header>{"Inventory"}</Menu.Header>
             <Menu.Menu>
@@ -55,6 +59,7 @@ export class Dashboard extends React.Component<Props, State> {
               <Menu.Item>{"Ramen"}</Menu.Item>
             </Menu.Menu>
           </Menu.Item>
+
           <Menu.Item>
             <Menu.Header>{"Food"}</Menu.Header>
             <Menu.Menu>

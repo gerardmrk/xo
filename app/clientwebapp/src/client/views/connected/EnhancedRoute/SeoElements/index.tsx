@@ -34,7 +34,7 @@ export class SeoElements extends React.PureComponent<Props, State> {
 
     this.titleTemplate = `${appSettings.name} | %s`;
     this.pageLink = routePath
-      ? `${appSettings.appURL[process.env.APP_STAGE as string]}${routePath}`
+      ? `${appSettings[process.env.APP_STAGE as string]}${routePath}`
       : undefined;
   }
 

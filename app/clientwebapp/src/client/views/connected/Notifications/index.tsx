@@ -1,8 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { injectIntl, InjectedIntlProps } from "react-intl";
 import { Sidebar } from "semantic-ui-react";
-import * as store from "@client/store";
+import { injectIntl, InjectedIntlProps } from "react-intl";
+
+import AppTypes from "AppTypes";
 
 export interface LocalProps {}
 
@@ -20,9 +21,9 @@ export class Notifications extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: store.StoreState, localProps?: LocalProps) => ({});
+const mapStateToProps = (state: AppTypes.Store.State, localProps?: LocalProps) => ({});
 
-const mapDispatchToProps = (dispatch: store.StoreDispatcher, localProps?: LocalProps) => ({});
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher, localProps?: LocalProps) => ({});
 
 export default injectIntl<Props>(
   connect(

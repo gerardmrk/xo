@@ -96,7 +96,7 @@ declare module "AppTypes" {
         production: string;
       };
       sitemap: {
-        [category: string]: { label: string; link: string };
+        [category: string]: { label: string; link: string }[];
       };
     }
 

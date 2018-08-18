@@ -52,7 +52,7 @@ export const initStore = (api: API) => (
 ): AppTypes.Store.Store => {
   return createStore(
     rootReducer,
-    initialState!,
+    initialState,
     composeWithDevTools(
       applyMiddleware(asyncMiddleware.withExtraArgument(api), ...Object.values(middleware))
     )

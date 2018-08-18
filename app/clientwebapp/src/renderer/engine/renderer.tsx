@@ -9,11 +9,12 @@ import { Provider as StoreProvider } from "react-redux";
 import { StaticRouter as Router } from "react-router-dom";
 
 import API from "@client/api";
+import AppTypes from "AppTypes";
 import App from "@client/views/App";
-import initStore, { Store, StoreState } from "@client/store";
+import initStore from "@client/store";
+import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 import { SettingsProvider } from "@client/views/contexts/SettingsContext";
 import { TranslationsEtAlProvider, IntlProvider } from "@client/views/contexts/I18nContext";
-import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 
 // REQUEST PARAMS
 export type Params = {
@@ -41,9 +42,9 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
 
   try {
     // Initialize store
-    const store: Store = initStore(
-      await API.BUILD({ stub: true, authConf: AUTH_SERVICE_CONF, userConf: USER_SERVICE_CONF })
-    )({} as StoreState); // tslint:disable-line
+    const store: AppTypes.Store.Store = initStore(
+      await API.BUILD({ stub: true, authConf: AUTH_SVC_CONF, userConf: USER_SVC_CONF })
+    )({} as AppTypes.Store.State); // tslint:disable-line
 
     const renderedModules: string[] = [];
     const captureModules = (moduleName: string): void => {

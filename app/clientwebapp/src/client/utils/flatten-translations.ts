@@ -7,7 +7,7 @@
  */
 
 // tslint:disable:no-unsafe-any
-export function flattenTranslations(nestedTrans: object, prefix: string = ""): Messages {
+export function flattenTranslations(nestedTrans: object, prefix: string = "") {
   return Object.keys(nestedTrans).reduce((messages: { [k: string]: string }, key: string) => {
     const value: string = nestedTrans[key];
     const prefixedKey: string = !!prefix ? `${prefix}.${key}` : key;

@@ -4,7 +4,7 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 
-export interface LocalProps extends InjectedIntlProps {
+export interface LocalProps {
   onDismiss(): void;
 }
 
@@ -12,7 +12,10 @@ export interface Props extends LocalProps {}
 
 export interface State {}
 
-export class RefreshPageForNewUpdatesMessage extends React.PureComponent<Props, State> {
+export class RefreshPageForNewUpdatesMessage extends React.PureComponent<
+  Props & InjectedIntlProps,
+  State
+> {
   private onRefreshClick = (e: React.MouseEvent<HTMLSpanElement>): void => {
     window.location.reload(true);
   };
@@ -40,4 +43,4 @@ export class RefreshPageForNewUpdatesMessage extends React.PureComponent<Props, 
   }
 }
 
-export default injectIntl<LocalProps>(RefreshPageForNewUpdatesMessage);
+export default injectIntl<Props>(RefreshPageForNewUpdatesMessage);

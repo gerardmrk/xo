@@ -1,4 +1,3 @@
-// tslint:disable:no-string-literal
 import * as React from "react";
 import { Loader } from "semantic-ui-react";
 import { LoadingComponentProps } from "react-loadable";

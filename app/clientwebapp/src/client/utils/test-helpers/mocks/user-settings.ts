@@ -1,10 +1,10 @@
-import { UserSettings } from "@client/store/user/models";
+import AppTypes from "AppTypes";
 
 /**
  * exports a valid UserSettings object
  */
 
-export const userSettings: UserSettings = {
+export const userSettings: AppTypes.UserModels.Settings = {
   preferences: {
     notificationsEnabled: false
   },

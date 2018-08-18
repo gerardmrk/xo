@@ -1,6 +1,6 @@
-import { AuthTokens } from "@client/store/session/models";
+import AppTypes from "AppTypes";
 
-export const authTokens: AuthTokens = {
+export const authTokens: AppTypes.AuthModels.AuthTokens = {
   idToken: "idtoken",
   accessToken: "accessToken",
   refreshToken: "refreshToken",

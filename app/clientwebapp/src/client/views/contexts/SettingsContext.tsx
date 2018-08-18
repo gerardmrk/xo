@@ -1,41 +1,26 @@
 import * as React from "react";
 
-export interface AppSettings {
-  readonly name: string;
-  readonly description: string;
-  readonly browsers: string[];
-  readonly urls: {
-    readonly [stage: string]: string;
-    readonly development: string;
-    readonly staging: string;
-    readonly production: string;
-  };
-}
-
-export interface BuildSettings {
-  readonly devMode: boolean;
-  readonly enableDevTools: boolean;
-  readonly enableDebugger: boolean;
-  readonly enableSourceMaps: boolean;
-}
+import AppTypes from "AppTypes";
 
 export interface Settings {
-  appSettings: AppSettings;
-  buildSettings: BuildSettings;
+  appSettings: AppTypes.Injected.AppSettings;
+  buildSettings: AppTypes.Injected.BuildSettings;
 }
 
 export const SettingsContext: React.Context<Settings> = React.createContext<Settings>({
   appSettings: {
     name: "",
     description: "",
-    browsers: [],
-    urls: { development: "", staging: "", production: "" }
+    supportedBrowsers: [],
+    supportedLanguages: [],
+    appURL: { development: "", staging: "", production: "" },
+    sitemap: {}
   },
   buildSettings: {
     devMode: false,
     enableDevTools: false,
     enableDebugger: false,
-    enableSourceMaps: false
+    enableSourcemaps: false
   }
 });
 

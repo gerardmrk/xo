@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
+import AppTypes from "AppTypes";
 import styles from "./styles.less";
 import * as store from "@client/store";
-import RegisterForm from "@client/views/routes/Registration/RegisterForm";
 import NavLink from "@client/views/connected/NavLink";
+import RegisterForm from "@client/views/routes/Registration/RegisterForm";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 import {
   RegistrationError,
@@ -18,7 +19,7 @@ export interface LocalProps {}
 export type StoreProps = {};
 
 export interface DispatchProps {
-  register(form: store.userModels.RegistrationPayload, callback: ErrorFirstCallback): void;
+  register(form: AppTypes.UserModels.RegistrationPayload, callback: ErrorFirstCallback): void;
   checkUsernameUniqueness(username: string, callback: ErrorFirstCallback<boolean>): void;
 }
 
@@ -38,7 +39,7 @@ export class Registration extends React.Component<Props, State> {
     this.props.checkUsernameUniqueness(username, callback);
   };
 
-  private handleFormSubmit = (form: store.userModels.RegistrationPayload): void => {
+  private handleFormSubmit = (form: AppTypes.UserModels.RegistrationPayload): void => {
     this.props.register(form, (error: Error | null) => {
       if (!!!error) {
         // registration successful.
@@ -87,10 +88,10 @@ export class Registration extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: store.StoreState) => ({});
+const mapStateToProps = (state: AppTypes.Store.State) => ({});
 
-const mapDispatchToProps = (dispatch: store.StoreDispatcher) => ({
-  register: (form: store.userModels.RegistrationPayload, callback: ErrorFirstCallback) => {
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher) => ({
+  register: (form: AppTypes.UserModels.RegistrationPayload, callback: ErrorFirstCallback) => {
     dispatch(store.userAsyncActions.register(form, callback));
   },
   checkUsernameUniqueness: (username: string, callback: ErrorFirstCallback<boolean>) => {
@@ -99,7 +100,7 @@ const mapDispatchToProps = (dispatch: store.StoreDispatcher) => ({
 });
 
 export default injectIntl(
-  connect<StoreProps, DispatchProps, LocalProps>(
+  connect(
     mapStateToProps,
     mapDispatchToProps
   )(Registration)

@@ -69,7 +69,10 @@ import { initStore, appStatusesActions } from "@client/store";
 
     // Render the whole app into the DOM at the specified mount point.
     renderIntoDOM(
-      <SettingsProvider appSettings={INJECTED_APP_SETTINGS} buildSettings={INJECTED_BUILD_SETTINGS}>
+      <SettingsProvider
+        appSettings={INJECTED_APP_SETTINGS}
+        buildSettings={INJECTED_BUILD_SETTINGS}
+      >
         <MainErrorCatcher errorServiceDSN={""}>
           <TranslationsEtAlProvider settings={INJECTED_I18N_SETTINGS}>
             <IntlProvider>
