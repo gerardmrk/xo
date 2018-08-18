@@ -3,24 +3,25 @@
  * only responsible for one thing:
  * to show or hide the global message overlay
  */
-// tslint:disable:no-unsafe-any
+import { Reducer } from "redux";
 import { set } from "unchanged";
-import { ActionType, getType } from "typesafe-actions";
+import { DeepReadonly } from "utility-types";
+import { getType, ActionType, StateType } from "typesafe-actions";
 
-import * as models from "@client/store/global-message/models";
+import AppTypes from "AppTypes";
 import * as actions from "@client/store/global-message/actions";
 
-export type Action = ActionType<typeof actions>;
+type Action = ActionType<typeof actions>;
 
-export type State = {
-  message: models.GlobalMessage;
-};
+type State = DeepReadonly<{
+  message: AppTypes.GlobalMessage;
+}>;
 
 const defaultState: State = {
   message: undefined
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+const reducer: Reducer<State, Action> = (state = defaultState, action) => {
   switch (action.type) {
     case getType(actions.show):
       return set("message", action.payload, state);
@@ -33,5 +34,7 @@ export const reducer = (state: State = defaultState, action: Action): State => {
   }
 };
 
-export { actions };
-export { models };
+export { reducer as globalMessageReducer };
+export { actions as globalMessageActions };
+export type GlobalMessageAction = Action;
+export type GlobalMessageState = StateType<typeof reducer>;

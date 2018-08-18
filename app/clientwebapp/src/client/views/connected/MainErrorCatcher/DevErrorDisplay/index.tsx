@@ -8,9 +8,9 @@ export interface LocalProps {
   errorInfo?: React.ErrorInfo;
 }
 
-export type Props = LocalProps;
+export interface Props extends LocalProps {}
 
-export type State = {};
+export interface State {}
 
 export class DevErrorDisplay extends React.Component<Props, State> {
   public render(): React.ReactNode {

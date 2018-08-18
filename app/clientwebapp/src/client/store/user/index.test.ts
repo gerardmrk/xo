@@ -1,10 +1,10 @@
-import { reducer } from "@client/store/user";
+import AppTypes from "AppTypes";
 import * as actions from "@client/store/user/actions";
-import { UserSettings } from "@client/store/user/models";
+import { userReducer as reducer } from "@client/store/user";
 import { userSettings } from "@client/utils/test-helpers/mocks";
 
 describe("reducer:user", () => {
-  let settings: UserSettings;
+  let settings: AppTypes.UserModels.Settings;
   beforeAll(() => {
     settings = userSettings;
   });

@@ -1,7 +1,7 @@
 /**
  * main application entrypoint
  */
-import * as debug from "debug";
+import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as AsyncLoader from "react-loadable";
@@ -10,25 +10,30 @@ import { BrowserRouter as Router } from "react-router-dom";
 import * as OfflinePluginRuntime from "offline-plugin/runtime";
 
 import API from "@client/api";
+import AppTypes from "AppTypes";
 import App from "@client/views/App";
 import { SettingsProvider } from "@client/views/contexts/SettingsContext";
 import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 import { TranslationsEtAlProvider, IntlProvider } from "@client/views/contexts/I18nContext";
-import initStore, { appStatusesActions, Store, StoreState } from "@client/store";
+import { initStore, appStatusesActions } from "@client/store";
 // include the semantic-ui theme files and configs
 // import "@client/views/theme/semantic.less";
 
+// prettier-ignore
 (async (): Promise<void> => {
   const debugSW = debug("serviceworker");
 
   try {
     // Get the initial store state, if any, from the global variable.
-    const initialState: StoreState = window["_INITIAL_STATE_"] || {}; // tslint:disable-line
+    const initialState: AppTypes.Store.State | {} = { ...window._INITIAL_STATE_ };
+    window._INITIAL_STATE_ = undefined;
 
     // Initialize the app store with the API instance.
-    const store: Store = initStore(
-      await API.BUILD({ stub: true, authConf: AUTH_SERVICE_CONF, userConf: USER_SERVICE_CONF })
-    )(initialState);
+    const store = initStore(await API.BUILD({
+      stub: true,
+      authConf: AUTH_SVC_CONF,
+      userConf: USER_SVC_CONF
+    }))(initialState);
 
     // Ensure all required components that are marked async are already preloaded.
     await AsyncLoader.preloadReady();
@@ -64,7 +69,10 @@ import initStore, { appStatusesActions, Store, StoreState } from "@client/store"
 
     // Render the whole app into the DOM at the specified mount point.
     renderIntoDOM(
-      <SettingsProvider appSettings={INJECTED_APP_SETTINGS} buildSettings={INJECTED_BUILD_SETTINGS}>
+      <SettingsProvider
+        appSettings={INJECTED_APP_SETTINGS}
+        buildSettings={INJECTED_BUILD_SETTINGS}
+      >
         <MainErrorCatcher errorServiceDSN={""}>
           <TranslationsEtAlProvider settings={INJECTED_I18N_SETTINGS}>
             <IntlProvider>

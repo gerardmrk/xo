@@ -16,9 +16,9 @@ export interface SeoProps {
 
 export interface LocalProps extends SeoProps, InjectedSettingsProps {}
 
-export type Props = LocalProps;
+export interface Props extends LocalProps {}
 
-export type State = {};
+export interface State {}
 
 export class SeoElements extends React.PureComponent<Props, State> {
   private titleTemplate: string;
@@ -34,7 +34,7 @@ export class SeoElements extends React.PureComponent<Props, State> {
 
     this.titleTemplate = `${appSettings.name} | %s`;
     this.pageLink = routePath
-      ? `${appSettings.urls[process.env.APP_STAGE as string]}${routePath}`
+      ? `${appSettings[process.env.APP_STAGE as string]}${routePath}`
       : undefined;
   }
 

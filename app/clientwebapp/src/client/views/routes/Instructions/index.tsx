@@ -13,12 +13,12 @@ import queryParamsToObj from "@client/utils/query-params-to-obj";
 
 export interface LocalProps extends InjectedIntlProps, RouteComponentProps<{ preset: string }> {}
 
-export type Props = LocalProps;
+export interface Props extends LocalProps {}
 
-export type State = {
+export interface State {
   messagePreset?: JSX.Element;
   textMessage?: string;
-};
+}
 
 const messageElementPresets: {
   [presetName: string]: (translatedMessage: string) => JSX.Element;

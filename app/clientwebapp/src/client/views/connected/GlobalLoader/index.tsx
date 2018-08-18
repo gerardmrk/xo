@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { Loader } from "semantic-ui-react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
+import AppTypes from "AppTypes";
 import styles from "./styles.less";
-import * as store from "@client/store";
 
 export interface LocalProps {}
 
@@ -15,9 +15,9 @@ export interface StoreProps {
 
 export interface DispatchProps {}
 
-export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
+export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
 
-export type State = {};
+export interface State {}
 
 export class GlobalLoader extends React.PureComponent<Props, State> {
   public render(): React.ReactNode {
@@ -40,15 +40,15 @@ export class GlobalLoader extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: store.StoreState): StoreProps => ({
+const mapStateToProps = (state: AppTypes.Store.State): StoreProps => ({
   show: state.globalLoader.loading,
   loadingMessage: state.globalLoader.message
 });
 
-const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({});
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps => ({});
 
 export default injectIntl<LocalProps>(
-  connect<StoreProps, DispatchProps, LocalProps>(
+  connect(
     mapStateToProps,
     mapDispatchToProps
   )(GlobalLoader)

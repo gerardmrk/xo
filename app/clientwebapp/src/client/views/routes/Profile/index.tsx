@@ -1,12 +1,11 @@
 import * as React from "react";
-// import { connect } from "react-redux";
 import { Container } from "semantic-ui-react";
 
 import styles from "./styles.less";
 
 export interface Props {}
 
-export type State = {};
+export interface State {}
 
 export class Profile extends React.Component<Props, State> {
   public render(): React.ReactNode {

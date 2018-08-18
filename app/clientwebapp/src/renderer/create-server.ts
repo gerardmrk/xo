@@ -1,6 +1,6 @@
 import * as net from "net";
-import * as debug from "debug";
-import * as uuidv4 from "uuid/v4";
+import debug from "debug";
+import uuidv4 from "uuid/v4";
 
 const debugConn = debug("server:conn");
 

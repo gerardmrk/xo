@@ -63,7 +63,7 @@ conf.addModuleRule(({ paths, devMode, clientBuild, projectSettings }) => ({
               modules: false,
               loose: true,
               useBuiltIns: "usage",
-              targets: clientBuild ? { browsers: projectSettings.app.browsers } : { node: "current" }
+              targets: clientBuild ? { browsers: projectSettings.app.supportedBrowsers } : { node: "current" }
           }],
           "@babel/preset-react",
           "@babel/preset-typescript"
@@ -252,8 +252,8 @@ conf.addPlugin(({ devMode, projectSettings, ...other }) => {
     INJECTED_APP_SETTINGS: JSON.stringify(projectSettings.app),
     INJECTED_I18N_SETTINGS: JSON.stringify(projectSettings.intl),
     INJECTED_BUILD_SETTINGS: JSON.stringify(injectedBuildSettings),
-    AUTH_SERVICE_CONF: JSON.stringify(projectSettings.services.auth),
-    USER_SERVICE_CONF: JSON.stringify(projectSettings.services.user)
+    AUTH_SVC_CONF: JSON.stringify(projectSettings.services.auth),
+    USER_SVC_CONF: JSON.stringify(projectSettings.services.user)
   });
 });
 

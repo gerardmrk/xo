@@ -3,16 +3,15 @@
  */
 // tslint:disable: typedef
 import API from "@client/api";
+import AppTypes from "AppTypes";
 import * as actions from "@client/store/user/actions";
-import { StoreState, StoreDispatcher, StoreAsyncAction } from "@client/store";
-import { UserSettings, VerificationScope, RegistrationPayload } from "@client/store/user/models";
 
 // prettier-ignore
-export const getSettings = (): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const getSettings = () => async (dispatch: AppTypes.Store.Dispatcher, getState: () => AppTypes.Store.State, api: API): Promise<void> => {
   dispatch(actions.getSettingsPending({ showLoader: 'progress.fetching_settings' }));
 
   try {
-    const settings: UserSettings = await api.user.getSettings();
+    const settings: AppTypes.UserModels.Settings = await api.user.getSettings();
     dispatch(actions.getSettingsSuccess(settings, { showLoader: false }));
   } catch (error) {
     dispatch(actions.getSettingsFailure(<Error>error, { showLoader: false }));
@@ -20,7 +19,7 @@ export const getSettings = (): StoreAsyncAction => async (dispatch: StoreDispatc
 };
 
 // prettier-ignore
-export const register = (formObject: RegistrationPayload, callback: ErrorFirstCallback): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const register = (formObject: AppTypes.UserModels.RegistrationPayload, callback: ErrorFirstCallback) => async (dispatch: AppTypes.Store.Dispatcher, getState: () => AppTypes.Store.State, api: API): Promise<void> => {
   dispatch(actions.registerPending({ showLoader: true }));
 
   try {
@@ -35,7 +34,7 @@ export const register = (formObject: RegistrationPayload, callback: ErrorFirstCa
 };
 
 // prettier-ignore
-export const changePassword = (oldPassword: string, newPassword: string): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const changePassword = (oldPassword: string, newPassword: string) => async (dispatch: AppTypes.Store.Dispatcher, getState: () => AppTypes.Store.State, api: API): Promise<void> => {
   dispatch(actions.changePasswordPending({ showLoader: true }));
 
   try {
@@ -48,7 +47,7 @@ export const changePassword = (oldPassword: string, newPassword: string): StoreA
 };
 
 // prettier-ignore
-export const requestPasswordReset = (usernameOrEmail: string, callback: ErrorFirstCallback): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const requestPasswordReset = (usernameOrEmail: string, callback: ErrorFirstCallback) => async (dispatch: AppTypes.Store.Dispatcher, getState: () => AppTypes.Store.State, api: API): Promise<void> => {
   dispatch(actions.requestPasswordResetPending({ showLoader: true }));
 
   try {
@@ -63,7 +62,7 @@ export const requestPasswordReset = (usernameOrEmail: string, callback: ErrorFir
 };
 
 // prettier-ignore
-export const resetPassword = (newPassword: string, callback: ErrorFirstCallback): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const resetPassword = (newPassword: string, callback: ErrorFirstCallback) => async (dispatch: AppTypes.Store.Dispatcher, getState: () => AppTypes.Store.State, api: API): Promise<void> => {
   dispatch(actions.resetPasswordPending({ showLoader: true }));
 
   try {
@@ -78,7 +77,7 @@ export const resetPassword = (newPassword: string, callback: ErrorFirstCallback)
 };
 
 // prettier-ignore
-export const verifyCode = (code: string, scope: VerificationScope, callback: ErrorFirstCallback): StoreAsyncAction => async (dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const verifyCode = (code: string, scope: AppTypes.UserModels.VerificationScope, callback: ErrorFirstCallback) => async (dispatch: AppTypes.Store.Dispatcher, getState: () => AppTypes.Store.State, api: API): Promise<void> => {
   dispatch(actions.verifyCodePending({ showLoader: true }));
 
   try {
@@ -92,7 +91,7 @@ export const verifyCode = (code: string, scope: VerificationScope, callback: Err
 }
 
 // prettier-ignore
-export const checkUsernameUniqueness = (username: string, callback: ErrorFirstCallback<boolean>): StoreAsyncAction => async(dispatch: StoreDispatcher, getState: () => StoreState, api: API): Promise<void> => {
+export const checkUsernameUniqueness = (username: string, callback: ErrorFirstCallback<boolean>) => async(dispatch: AppTypes.Store.Dispatcher, getState: () => AppTypes.Store.State, api: API): Promise<void> => {
   dispatch(actions.checkUsernameUniquenessPending());  
 
   try {

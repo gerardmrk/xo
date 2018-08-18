@@ -3,23 +3,25 @@
  * only responsible for one thing:
  * to toggle the global loading indicator ui
  */
+import { Reducer } from "redux";
 import { DeepReadonly } from "utility-types";
-import { ActionType, getType } from "typesafe-actions";
+import { getType, ActionType, StateType } from "typesafe-actions";
+
 import * as actions from "@client/store/global-loader/actions";
 
-export type Action = ActionType<typeof actions>;
+type Action = ActionType<typeof actions>;
 
-export type State = DeepReadonly<{
+type State = DeepReadonly<{
   loading: boolean;
   message?: string;
 }>;
 
-export const defaultState: State = {
+const defaultState: State = {
   loading: false,
   message: undefined
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+const reducer: Reducer<State, Action> = (state = defaultState, action) => {
   switch (action.type) {
     case getType(actions.show):
       return {
@@ -36,4 +38,7 @@ export const reducer = (state: State = defaultState, action: Action): State => {
   }
 };
 
-export { actions };
+export { reducer as globalLoaderReducer };
+export { actions as globalLoaderActions };
+export type GlobalLoaderAction = Action;
+export type GlobalLoaderState = StateType<typeof reducer>;

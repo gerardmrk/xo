@@ -8,11 +8,14 @@ export interface LocalProps {
   onDismiss(): void;
 }
 
-export type Props = LocalProps & InjectedIntlProps & {};
+export interface Props extends LocalProps {}
 
-export type State = {};
+export interface State {}
 
-export class RefreshPageForNewUpdatesMessage extends React.PureComponent<Props, State> {
+export class RefreshPageForNewUpdatesMessage extends React.PureComponent<
+  Props & InjectedIntlProps,
+  State
+> {
   private onRefreshClick = (e: React.MouseEvent<HTMLSpanElement>): void => {
     window.location.reload(true);
   };
@@ -40,4 +43,4 @@ export class RefreshPageForNewUpdatesMessage extends React.PureComponent<Props, 
   }
 }
 
-export default injectIntl<LocalProps>(RefreshPageForNewUpdatesMessage);
+export default injectIntl<Props>(RefreshPageForNewUpdatesMessage);

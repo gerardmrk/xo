@@ -12,7 +12,7 @@ export const passwordRepeatValidator = (opts?: FieldValidatorOptions): FieldVali
     isRequired = opts.required || false;
   }
 
-  return function validatePasswordRepeat(value: string, pswd?: string): FieldValidationResult {
+  return (value: string, pswd?: string): FieldValidationResult => {
     if (isRequired && value.length === 0) {
       return {
         valid: false,

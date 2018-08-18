@@ -19,11 +19,11 @@ import defaultTranslations from "@translations/en.json";
 import flattenTranslations from "@client/utils/flatten-translations";
 import deriveLangFromLocale from "@client/utils/derive-lang-from-locale";
 
-const defaultMessages: Messages = flattenTranslations(defaultTranslations as object);
+const defaultMessages = flattenTranslations(defaultTranslations as object);
 
 export interface I18n {
   readonly locale: string;
-  readonly messages: Messages;
+  readonly messages: { [k: string]: string };
   readonly defaultLanguage: string;
   readonly supportedLanguages: string[];
   setLocale(locale: string): Promise<void>;

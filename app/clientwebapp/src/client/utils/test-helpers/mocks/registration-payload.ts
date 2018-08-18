@@ -1,6 +1,6 @@
-import { RegistrationPayload } from "@client/store/user/models";
+import AppTypes from "AppTypes";
 
-export const registrationPayload: RegistrationPayload = {
+export const registrationPayload: AppTypes.UserModels.RegistrationPayload = {
   username: "Aurelie Blanche",
   email: "aurelie.blanch@havanamail.com",
   password: "vAultSkad1",

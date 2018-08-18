@@ -1,7 +1,7 @@
 /**
  * The UserAPI must implement this abstract class
  */
-import { RegistrationPayload, VerificationScope, UserSettings } from "@client/store/user/models";
+import AppTypes from "AppTypes";
 
 export abstract class AbstractUserAPI {
   // *******************************************************************************************************************
@@ -35,7 +35,9 @@ export abstract class AbstractUserAPI {
    * Unauthenticated endpoint for user registration.
    * @param formValues the rego form object in key-value pairs
    */
-  public abstract async register(formValues: RegistrationPayload): Promise<void>;
+  public abstract async register(
+    formValues: AppTypes.UserModels.RegistrationPayload
+  ): Promise<void>;
 
   /**
    * Unauthenticated endpoint for verifying code. The process flow goes like this:
@@ -48,7 +50,10 @@ export abstract class AbstractUserAPI {
    * @param code the code to verify
    * @param scope  the scope of the code (as of writing, either 'email' or 'passwordreset')
    */
-  public abstract async verifyCode(code: string, scope: VerificationScope): Promise<void>;
+  public abstract async verifyCode(
+    code: string,
+    scope: AppTypes.UserModels.VerificationScope
+  ): Promise<void>;
 
   /**
    * Unauthenticated endpoint for dynamically validating username. E.G.
@@ -69,7 +74,7 @@ export abstract class AbstractUserAPI {
   /**
    * Authenticated endpoint for retrieving user settings.
    */
-  public abstract async getSettings(): Promise<UserSettings>;
+  public abstract async getSettings(): Promise<AppTypes.UserModels.Settings>;
 
   /**
    * Authenticated endpoint for changing the user's password.

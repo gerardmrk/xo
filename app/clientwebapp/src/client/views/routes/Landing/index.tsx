@@ -3,7 +3,7 @@ import styles from "./styles.less";
 
 export interface Props {}
 
-export type State = {};
+export interface State {}
 
 export class Landing extends React.Component<Props, State> {
   public render(): React.ReactNode {

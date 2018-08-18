@@ -1,6 +1,6 @@
 {
   "extends": [
-    "tslint:latest",
+    "tslint:recommended",
     "tslint-react",
     "tslint-eslint-rules",
     "tslint-microsoft-contrib",
@@ -8,9 +8,23 @@
   ],
   "rulesDirectory": "./custom-rules",
   "linterOptions": {
-    "exclude": ["./custom-rules/**/*"]
+    "exclude": ["./custom-rules/**/*", "**/*.json", "*.json", "../../**/*.json"]
   },
   "rules": {
+    "arrow-parens": false,
+    "arrow-return-shorthand": [false],
+    "comment-format": [true, "check-space"],
+    "member-access": false,
+    "no-any": false,
+    "no-import-side-effect": [true],
+    "no-inferrable-types": [true, "ignore-params", "ignore-properties"],
+    "no-invalid-this": [true, "check-function-in-method"],
+    "no-null-keyword": false,
+    "no-this-assignment": [true, { "allow-destructuring": true }],
+    "object-literal-shorthand": false,
+    "only-arrow-functions": [true, "allow-declarations"],
+    "prefer-method-signature": false,
+    "prefer-template": [true, "allow-single-concat"],
     "no-direct-store-import": true,
     "ban-comma-operator": false,
     "completed-docs": false,
@@ -57,10 +71,14 @@
     "one-variable-per-declaration": false,
     "prefer-for-of": false,
     "strict-boolean-expressions": false,
-    "typedef": {
-      "severity": "warning",
-      "options": ["parameter", "arrow-parameter", "property-declaration", "call-signature"]
-    },
-    "variable-name": false
+    "triple-equals": [true, "allow-null-check"],
+    "typedef": [true, "parameter", "property-declaration"],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case",
+      "allow-leading-underscore"
+    ]
   }
 }

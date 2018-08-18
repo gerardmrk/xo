@@ -1,8 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { injectIntl, InjectedIntlProps } from "react-intl";
 import { Sidebar } from "semantic-ui-react";
-import * as store from "@client/store";
+import { injectIntl, InjectedIntlProps } from "react-intl";
+
+import AppTypes from "AppTypes";
 
 export interface LocalProps {}
 
@@ -10,9 +11,9 @@ export interface StoreProps {}
 
 export interface DispatchProps {}
 
-export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
+export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
 
-export type State = {};
+export interface State {}
 
 export class Notifications extends React.Component<Props, State> {
   public render(): React.ReactNode {
@@ -20,12 +21,12 @@ export class Notifications extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: store.StoreState): StoreProps => ({});
+const mapStateToProps = (state: AppTypes.Store.State, localProps?: LocalProps) => ({});
 
-const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({});
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher, localProps?: LocalProps) => ({});
 
 export default injectIntl<Props>(
-  connect<StoreProps, DispatchProps, LocalProps>(
+  connect(
     mapStateToProps,
     mapDispatchToProps
   )(Notifications)

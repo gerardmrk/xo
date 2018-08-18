@@ -2,21 +2,22 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { NavLink as BaseNavLink, NavLinkProps } from "react-router-dom";
 
+import AppTypes from "AppTypes";
 import * as store from "@client/store";
 
-export type LocalProps = NavLinkProps & {};
+export interface LocalProps extends NavLinkProps {}
 
-export type StoreProps = {
+export interface StoreProps {
   updated: boolean;
-};
+}
 
-export type DispatchProps = {
+export interface DispatchProps {
   notifyUpdated(): void;
-};
+}
 
-export type Props = LocalProps & StoreProps & DispatchProps & {};
+export interface Props extends LocalProps, StoreProps, DispatchProps {}
 
-export type State = {};
+export interface State {}
 
 export class NavLink extends React.Component<Props, State> {
   private onClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
@@ -44,17 +45,17 @@ export class NavLink extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: store.StoreState): StoreProps => ({
+const mapStateToProps = (state: AppTypes.Store.State): StoreProps => ({
   updated: state.appStatuses.updated
 });
 
-const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps => ({
   notifyUpdated: (): void => {
     dispatch(store.appStatusesActions.updatesApplied());
   }
 });
 
-export default connect<StoreProps, DispatchProps, LocalProps>(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(NavLink);

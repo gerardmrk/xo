@@ -1,10 +1,10 @@
-import { reducer, State } from "@client/store/session";
+import AppTypes from "AppTypes";
 import * as actions from "@client/store/session/actions";
-import { AuthTokens } from "@client/store/session/models";
+import { sessionReducer as reducer, SessionState } from "@client/store/session";
 
 describe("reducer:session", () => {
-  let authTokens: AuthTokens;
-  let authenticatedState: State;
+  let authTokens: AppTypes.AuthModels.AuthTokens;
+  let authenticatedState: SessionState;
   beforeAll(() => {
     authTokens = {
       idToken: "minsk",

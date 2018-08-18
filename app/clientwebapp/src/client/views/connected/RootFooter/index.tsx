@@ -1,14 +1,12 @@
 import * as React from "react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
-import { Header, Select, Container, DropdownOnSearchChangeData } from "semantic-ui-react";
+import { Header, Select, Container, DropdownProps } from "semantic-ui-react";
 
 import styles from "./styles.less";
 import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/withSettings";
 import withIntlSettings, { InjectedIntlSettingsProps } from "@client/views/wrappers/withIntlSettings"; // prettier-ignore
 
-export type LocalProps = InjectedIntlProps & InjectedSettingsProps & InjectedIntlSettingsProps;
-
-export type Props = LocalProps & {};
+export type Props = InjectedIntlProps & InjectedSettingsProps & InjectedIntlSettingsProps;
 
 export type State = {};
 
@@ -25,8 +23,8 @@ export class RootFooter extends React.PureComponent<Props, State> {
   }
 
   // prettier-ignore
-  private onLanguageChange = (e: React.SyntheticEvent, { value: locale }: DropdownOnSearchChangeData): void => {
-    this.props.intlSettings.setLocale(locale as string);
+  private onLanguageChange = (e: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
+    this.props.intlSettings.setLocale(value as string);
   };
 
   public render(): React.ReactNode {

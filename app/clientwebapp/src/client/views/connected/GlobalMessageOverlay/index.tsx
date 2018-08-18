@@ -3,25 +3,24 @@ import { connect } from "react-redux";
 import { Message } from "semantic-ui-react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
+import AppTypes from "AppTypes";
 import styles from "./styles.less";
 import * as store from "@client/store";
 import presets from "@client/views/connected/GlobalMessageOverlay/preset-options";
 
-export interface LocalProps {}
+export type StoreProps = {
+  message: AppTypes.GlobalMessage;
+};
 
-export interface StoreProps {
-  message: store.globalMessageModels.GlobalMessage;
-}
-
-export interface DispatchProps {
+export type DispatchProps = {
   dismissMessage(): void;
-}
+};
 
-export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
+export type Props = StoreProps & DispatchProps & InjectedIntlProps;
 
-export type State = {};
+export interface State {}
 
-export class GlobalMessageOverlay extends React.PureComponent<Props, State> {
+class GlobalMessageOverlay extends React.PureComponent<Props, State> {
   public render(): React.ReactNode {
     const { intl, message } = this.props;
 
@@ -72,19 +71,17 @@ export class GlobalMessageOverlay extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = ({ globalMessage: { message } }: store.StoreState): StoreProps => ({
+const mapStateToProps = ({ globalMessage: { message } }: AppTypes.Store.State) => ({
   message
 });
 
-const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher) => ({
   dismissMessage: (): void => {
     dispatch(store.globalMessageActions.hide());
   }
 });
 
-export default injectIntl<LocalProps>(
-  connect<StoreProps, DispatchProps, LocalProps>(
-    mapStateToProps,
-    mapDispatchToProps
-  )(GlobalMessageOverlay)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(GlobalMessageOverlay));

@@ -1,19 +1,20 @@
 [app]
 name = "xo"
 description = "slide on your block like danny glover with a lethal weapon"
-browsers = ["> 10%", "not ie < 11"]
+supportedBrowsers = ["> 10%", "not ie < 11"]
 
-[app.urls]
+[app.appURL]
 development = "localhost:4200" # change this to '0.0.0.0:4200' for external access
 staging = "uat.app.xo.com" # set this to your actual UAT URL
 production = "app.xo.com" # set this to your actual production URL
-
 
 [intl]
 defaultLanguage = "en"
 supportedLanguages = ["en", "zh", "es", "de", "hi", "ar"]
 
 [services.auth]
+external = false
+provider = ""
 domain = ""
 clientID = ""
 redirectUri = ""
@@ -22,12 +23,16 @@ responseType = "token id_token"
 scope = "openid"
 
 [services.user]
-name = "dsd"
+external = false
+provider = ""
 
 # IP Stack
 [services.geolocator]
-api = ""
+external = true
+provider = "IP Stack"
 
 # Sentry 
 [services.error_reporter]
-dsn = ""
+external = true
+provider = "Sentry"
+dsn = "https://41cafee025a94b98aca6b945f5b3070b@sentry.io/1253685"

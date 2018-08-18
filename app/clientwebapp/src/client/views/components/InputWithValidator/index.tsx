@@ -19,8 +19,7 @@ interface ProxiedInputProps {
   onChange?(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData): void;
 }
 
-// prettier-ignore
-export interface LocalProps extends InjectedIntlProps, InjectedValidatorProps, Subtract<FormInputProps, ProxiedInputProps> {
+export interface LocalProps {
   // useful when you want to force-display the error message of this input externally.
   forceValidate?: false;
   // if you're additionally performing external validations and would like to display it
@@ -30,11 +29,15 @@ export interface LocalProps extends InjectedIntlProps, InjectedValidatorProps, S
   onChangeProxy(value: string, isValid: boolean): void;
 }
 
-export type Props = LocalProps;
+export interface Props
+  extends LocalProps,
+    InjectedIntlProps,
+    InjectedValidatorProps,
+    Subtract<FormInputProps, ProxiedInputProps> {}
 
-export type State = FieldValidationResult & {
+export interface State extends FieldValidationResult {
   showInvalidReason: boolean;
-};
+}
 
 export class InputWithValidator extends React.Component<Props, State> {
   // tslint:disable-next-line:function-name

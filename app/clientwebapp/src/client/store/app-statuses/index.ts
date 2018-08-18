@@ -1,18 +1,20 @@
-import { ActionType, getType } from "typesafe-actions";
+import { Reducer } from "redux";
+import { DeepReadonly } from "utility-types";
+import { getType, ActionType, StateType } from "typesafe-actions";
 
 import * as actions from "@client/store/app-statuses/actions";
 
-export type Action = ActionType<typeof actions>;
+type Action = ActionType<typeof actions>;
 
-export type State = {
+type State = DeepReadonly<{
   updated: boolean;
-};
+}>;
 
 const defaultState: State = {
   updated: true
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+const reducer: Reducer<State, Action> = (state = defaultState, action) => {
   switch (action.type) {
     case getType(actions.updatesAvailable):
       return { updated: false };
@@ -25,4 +27,7 @@ export const reducer = (state: State = defaultState, action: Action): State => {
   }
 };
 
-export { actions };
+export { reducer as appStatusesReducer };
+export { actions as appStatusesActions };
+export type AppStatusesAction = Action;
+export type AppStatusesState = StateType<typeof reducer>;

@@ -7,34 +7,28 @@
  * Not doing so means any action passing through this middleware will never reach the store.
  *
  */
-import * as debug from "debug";
+import debug from "debug";
 import { MiddlewareAPI } from "redux";
-import { GlobalMessage } from "@client/store/global-message/models";
-import {
-  globalLoaderActions,
-  globalMessageActions,
-  StoreState,
-  StoreAction,
-  StoreDispatcher,
-  StoreMiddleware
-} from "@client/store";
+
+import AppTypes from "AppTypes";
+import { globalLoaderActions, globalMessageActions } from "@client/store";
 
 // initialize debuggers
 const debugGL = debug("store:middleware:globalLoader");
 const debugGM = debug("store:middleware:globalMessage");
 
-type ActionWithMeta = StoreAction & { meta: StoreMiddlewareFlags };
+type ActionWithMeta = AppTypes.Store.Action & { meta: StoreMiddlewareFlags };
 
 export type StoreMiddlewareFlags = {
   showLoader?: boolean | string;
-  showMessage?: GlobalMessage;
+  showMessage?: AppTypes.GlobalMessage;
 };
 
 // This middleware checks all passing actions for two different flags:
 // - globalloadershow
 // - globalloaderhide
 // prettier-ignore
-export const globalLoaderMiddleware: StoreMiddleware = (store: MiddlewareAPI<StoreDispatcher, StoreState>) => (next: StoreDispatcher) => (action: StoreAction): void => {
+export const globalLoaderMiddleware: AppTypes.Store.Middleware = (store: MiddlewareAPI<AppTypes.Store.Dispatcher, AppTypes.Store.State>) => (next: AppTypes.Store.Dispatcher) => (action: AppTypes.Store.Action): void => {
 
   next(action);
 
@@ -62,7 +56,7 @@ export const globalLoaderMiddleware: StoreMiddleware = (store: MiddlewareAPI<Sto
 };
 
 // prettier-ignore
-export const globalMessageMiddleware: StoreMiddleware = (store: MiddlewareAPI<StoreDispatcher, StoreState>) => (next: StoreDispatcher) => (action: StoreAction): void => {
+export const globalMessageMiddleware: AppTypes.Store.Middleware = (store: MiddlewareAPI<AppTypes.Store.Dispatcher, AppTypes.Store.State>) => (next: AppTypes.Store.Dispatcher) => (action: AppTypes.Store.Action): void => {
 
   next(action);
 

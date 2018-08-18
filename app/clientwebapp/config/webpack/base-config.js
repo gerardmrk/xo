@@ -57,8 +57,8 @@ const baseConfig = ({ paths, buildSettings, devMode, clientBuild, enableSourceMa
             vendors: {
               test: /[\\/]node_modules[\\/]/,
               name: "vendors",
-              chunks: "all",
-              maxSize: devMode ? undefined : 80000
+              chunks: "all"
+              // ,maxSize: devMode ? undefined : 80000
             }
           }
         }

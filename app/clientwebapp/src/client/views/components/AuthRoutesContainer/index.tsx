@@ -4,16 +4,13 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 
 import styles from "./styles.less";
 
-export type Props = {
+export interface Props {
   title: string;
-};
+}
 
-export type State = {};
+export interface State {}
 
-export class AuthRoutesContainer extends React.Component<
-  Props & InjectedIntlProps,
-  State
-> {
+export class AuthRoutesContainer extends React.Component<Props & InjectedIntlProps, State> {
   public render(): JSX.Element {
     const {
       title,

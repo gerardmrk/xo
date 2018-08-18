@@ -27,7 +27,7 @@ export const passwordValidator = (opts?: FieldValidatorOptions): FieldValidator 
     isRequired = opts.required || false;
   }
 
-  return function validatePassword(password: string): FieldValidationResult {
+  return (password: string): FieldValidationResult => {
     if (isRequired && password.length === 0) {
       return {
         valid: false,

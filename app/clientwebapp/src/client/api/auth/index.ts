@@ -1,21 +1,19 @@
 /**
  * Auth API
  */
+import AppTypes from "AppTypes";
 import sleep from "@client/utils/sleep";
-import { AuthTokens } from "@client/store/session/models";
 import { AbstractAuthAPI } from "@client/api/auth/type";
 import { isBrowserEnv } from "@client/utils/is-browser-env";
 
-export interface Config {}
-
 class AuthAPI implements AbstractAuthAPI {
-  public constructor(config: Config) {}
+  public constructor(config: AppTypes.Injected.AuthServiceConf) {}
 
   public async authenticate(
     username: string,
     password: string,
     remember: boolean
-  ): Promise<AuthTokens> {
+  ): Promise<AppTypes.AuthModels.AuthTokens> {
     await sleep(2000);
 
     const authTokens = {
@@ -49,13 +47,13 @@ class AuthAPI implements AbstractAuthAPI {
       localStorage.getItem("access_token") !== undefined &&
       localStorage.getItem("refresh_token") !== undefined;
 
-    const isFreshSession: boolean = true;
+    const isFreshSession = true;
 
     return isAuthenticatedSession && isFreshSession;
   }
 
   // prettier-ignore
-  public cacheLocalSession(decodedHash: AuthTokens): void {
+  public cacheLocalSession(decodedHash: AppTypes.AuthModels.AuthTokens): void {
     const { idToken, accessToken, refreshToken, expiresIn } = decodedHash;
 
     if (idToken !== undefined) localStorage.setItem("id_token", idToken);

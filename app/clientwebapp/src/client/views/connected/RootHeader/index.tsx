@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 import { Container, Menu, Dropdown, Divider } from "semantic-ui-react";
 
+import AppTypes from "AppTypes";
 import styles from "./styles.less";
 import * as store from "@client/store";
 import NavLink from "@client/views/connected/NavLink";
@@ -16,9 +17,9 @@ export interface StoreProps {
 export interface DispatchProps {
   logout(): void;
 }
-export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
+export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
 
-export type State = {};
+export interface State {}
 
 export class RootHeader extends React.Component<Props, State> {
   private onLogoutClick = (): void => {
@@ -96,11 +97,11 @@ export class RootHeader extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = ({ session }: store.StoreState): StoreProps => ({
+const mapStateToProps = ({ session }: AppTypes.Store.State): StoreProps => ({
   isLoggedIn: session.authenticated
 });
 
-const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps => ({
   logout: (): void => {
     dispatch(store.sessionAsyncActions.logout());
   }
@@ -108,7 +109,7 @@ const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => (
 
 export default withSettings<LocalProps>(
   injectIntl<LocalProps>(
-    connect<StoreProps, DispatchProps, LocalProps>(
+    connect(
       mapStateToProps,
       mapDispatchToProps
     )(RootHeader)

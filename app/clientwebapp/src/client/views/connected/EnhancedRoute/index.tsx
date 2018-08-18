@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { LocationDescriptorObject } from "history";
 import { Route as BaseRoute, Redirect, RouteComponentProps } from "react-router-dom";
 
-import * as store from "@client/store";
+import AppTypes from "AppTypes";
 import SeoElements from "@client/views/connected/EnhancedRoute/SeoElements";
 import { RouteProps, DEFAULT_PRIVATE_PATH, DEFAULT_AUTH_PATH } from "@client/views/routes";
 
@@ -15,9 +15,9 @@ export interface StoreProps {
 
 export interface DispatchProps {}
 
-export type Props = LocalProps & StoreProps & DispatchProps;
+export interface Props extends LocalProps, StoreProps, DispatchProps {}
 
-export type State = {};
+export interface State {}
 
 export class Route extends React.Component<Props, State> {
   private targetRoute: LocationDescriptorObject = {
@@ -67,7 +67,7 @@ export class Route extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: store.StoreState): StoreProps => ({
+const mapStateToProps = (state: AppTypes.Store.State): StoreProps => ({
   isLoggedIn: state.session.authenticated
 });
 

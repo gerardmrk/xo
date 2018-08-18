@@ -1,21 +1,21 @@
 /**
  * Session state
  */
-// tslint:disable:no-unsafe-any
+import { Reducer } from "redux";
 import { set, merge } from "unchanged";
 import { DeepReadonly } from "utility-types";
-import { ActionType, getType } from "typesafe-actions";
+import { getType, ActionType, StateType } from "typesafe-actions";
 
-import * as models from "@client/store/session/models";
+import AppTypes from "AppTypes";
 import * as actions from "@client/store/session/actions";
 import * as asyncActions from "@client/store/session/async-actions";
 
-export type Action = ActionType<typeof actions>;
+type Action = ActionType<typeof actions>;
 
-export type State = DeepReadonly<{
+type State = DeepReadonly<{
   authenticated: boolean;
   authenticating: boolean;
-  authTokens?: models.AuthTokens;
+  authTokens: AppTypes.AuthModels.AuthTokens | undefined;
 }>;
 
 const defaultState: State = {
@@ -25,24 +25,24 @@ const defaultState: State = {
 };
 
 // prettier-ignore
-export const reducer = (state: State = defaultState, action: Action): State => {
+const reducer: Reducer<State, Action> = (state = defaultState, action) => {
   switch (action.type) {
     case getType(actions.loginPending):
-      return <State>(set("authenticating", true, state));
+      return set("authenticating", true, state);
 
     case getType(actions.loginSuccess):
-      return <State>(merge(null, {
+      return merge(null, {
           authenticating: false,
           authenticated: true,
           authTokens: action.payload
-      }, state));
+      }, state);
 
     case getType(actions.loginFailure):
-      return <State>(merge(null, {
+      return merge(null, {
         authenticating: false,
         authenticated: false,
         authTokens: undefined
-      }, state));
+      }, state);
 
     case getType(actions.logoutPending):
       return state;
@@ -51,16 +51,18 @@ export const reducer = (state: State = defaultState, action: Action): State => {
       return state;
 
     case getType(actions.logoutSuccess):
-      return <State>(merge(null, {
+      return merge(null, {
         authenticated: false,
         authTokens: undefined
-      }, state));
+      }, state);
 
     default:
       return state;
   }
 };
 
-export { actions };
-export { asyncActions };
-export { models };
+export { reducer as sessionReducer };
+export { actions as sessionActions };
+export { asyncActions as sessionAsyncActions };
+export type SessionAction = Action;
+export type SessionState = StateType<typeof reducer>;

@@ -3,6 +3,4 @@
  * or to simulate slow loading ui
  */
 export default async (ms: number): Promise<void> =>
-  new Promise(
-    (resolve: (value: void) => void): NodeJS.Timer => setTimeout(resolve, ms)
-  );
+  new Promise((resolve: (value: void) => void): number => setTimeout(resolve, ms));

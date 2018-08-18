@@ -4,10 +4,11 @@ import { injectIntl, InjectedIntlProps } from "react-intl";
 import { Redirect, RedirectProps } from "react-router-dom";
 import { Form } from "semantic-ui-react";
 
+import AppTypes from "AppTypes";
 import styles from "./styles.less";
 import * as store from "@client/store";
-import queryParamsToObj from "@client/utils/query-params-to-obj";
 import NavLink from "@client/views/connected/NavLink";
+import queryParamsToObj from "@client/utils/query-params-to-obj";
 import AuthRoutesContainer from "@client/views/components/AuthRoutesContainer";
 import { RouteProps, DEFAULT_PRIVATE_PATH, DEFAULT_AUTH_PATH } from "@client/views/routes";
 
@@ -22,7 +23,7 @@ export interface DispatchProps {
   login(usernameOrEmail: string, password: string, remember: boolean): void;
 }
 
-export type Props = InjectedIntlProps & LocalProps & StoreProps & DispatchProps;
+export interface Props extends InjectedIntlProps, LocalProps, StoreProps, DispatchProps {}
 
 export interface State {
   usernameOrEmail: string;
@@ -148,19 +149,19 @@ export class Login extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = ({ session }: store.StoreState): StoreProps => ({
+const mapStateToProps = ({ session }: AppTypes.Store.State): StoreProps => ({
   isLoggedIn: session.authenticated,
   isAuthenticating: session.authenticating
 });
 
-const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps => ({
   login: (usernameOrEmail: string, password: string, remember: boolean): void => {
     dispatch(store.sessionAsyncActions.login(usernameOrEmail, password, remember));
   }
 });
 
 export default injectIntl(
-  connect<StoreProps, DispatchProps, LocalProps>(
+  connect(
     mapStateToProps,
     mapDispatchToProps
   )(Login)

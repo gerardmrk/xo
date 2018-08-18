@@ -3,25 +3,27 @@ import { connect } from "react-redux";
 import { Container } from "semantic-ui-react";
 import { Redirect, RouteComponentProps } from "react-router-dom";
 
+import AppTypes from "AppTypes";
 import styles from "./styles.less";
 import * as store from "@client/store";
 import queryParamsToObj from "@client/utils/query-params-to-obj";
 
-export interface LocalProps
-  extends RouteComponentProps<{ scope: store.userModels.VerificationScope }> {}
+type VerificationScope = AppTypes.UserModels.VerificationScope;
+
+export interface LocalProps extends RouteComponentProps<{ scope: VerificationScope }> {}
 
 export interface StoreProps {}
 
 export interface DispatchProps {
-  verifyCode(code: string, scope: store.userModels.VerificationScope, cb: ErrorFirstCallback): void;
+  verifyCode(code: string, scope: VerificationScope, cb: ErrorFirstCallback): void;
 }
 
-export type Props = LocalProps & StoreProps & DispatchProps;
+export interface Props extends LocalProps, StoreProps, DispatchProps {}
 
-export type State = {
+export interface State {
   error?: Error;
   verifying: boolean;
-};
+}
 
 export class Verification extends React.Component<Props, State> {
   public state = {
@@ -62,19 +64,15 @@ export class Verification extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: store.StoreState): StoreProps => ({});
+const mapStateToProps = (state: AppTypes.Store.State): StoreProps => ({});
 
-const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
-  verifyCode: (
-    code: string,
-    scope: store.userModels.VerificationScope,
-    cb: ErrorFirstCallback
-  ): void => {
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps => ({
+  verifyCode: (code: string, scope: VerificationScope, cb: ErrorFirstCallback): void => {
     dispatch(store.userAsyncActions.verifyCode(code, scope, cb));
   }
 });
 
-export default connect<StoreProps, DispatchProps, LocalProps>(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Verification);

@@ -1,27 +1,27 @@
 /**
  * user state
  */
-// tslint:disable:no-unsafe-any
-
-import { DeepReadonly } from "utility-types";
-import { ActionType, getType } from "typesafe-actions";
+import { Reducer } from "redux";
 import { set } from "unchanged";
+import { DeepReadonly } from "utility-types";
+import { getType, ActionType, StateType } from "typesafe-actions";
 
-import * as models from "@client/store/user/models";
+import AppTypes from "AppTypes";
 import * as actions from "@client/store/user/actions";
 import * as asyncActions from "@client/store/user/async-actions";
 
-export type Action = ActionType<typeof actions>;
-export type State = DeepReadonly<{ settings?: models.UserSettings }>;
+type Action = ActionType<typeof actions>;
 
-const defaultState: State = {
+type State = DeepReadonly<{ settings: AppTypes.UserModels.Settings | undefined }>;
+
+const defaultState = {
   settings: undefined
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+const reducer: Reducer<State, Action> = (state = defaultState, action) => {
   switch (action.type) {
     case getType(actions.getSettingsSuccess):
-      return <State>set("settings", action.payload, state);
+      return set("settings", action.payload, state);
 
     case getType(actions.getSettingsPending):
     case getType(actions.getSettingsFailure):
@@ -48,6 +48,8 @@ export const reducer = (state: State = defaultState, action: Action): State => {
   }
 };
 
-export { actions };
-export { asyncActions };
-export { models };
+export { reducer as userReducer };
+export { actions as userActions };
+export { asyncActions as userAsyncActions };
+export type UserAction = Action;
+export type UserState = StateType<typeof reducer>;
