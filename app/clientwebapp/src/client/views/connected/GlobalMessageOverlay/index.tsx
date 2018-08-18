@@ -8,21 +8,19 @@ import styles from "./styles.less";
 import * as store from "@client/store";
 import presets from "@client/views/connected/GlobalMessageOverlay/preset-options";
 
-export interface LocalProps extends InjectedIntlProps {}
-
-export interface StoreProps {
+export type StoreProps = {
   message: AppTypes.GlobalMessage;
-}
+};
 
-export interface DispatchProps {
+export type DispatchProps = {
   dismissMessage(): void;
-}
+};
 
-export interface Props extends LocalProps, StoreProps, DispatchProps {}
+export type Props = StoreProps & DispatchProps & InjectedIntlProps;
 
 export interface State {}
 
-export class GlobalMessageOverlay extends React.PureComponent<Props, State> {
+class GlobalMessageOverlay extends React.PureComponent<Props, State> {
   public render(): React.ReactNode {
     const { intl, message } = this.props;
 
@@ -73,19 +71,17 @@ export class GlobalMessageOverlay extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = ({ globalMessage: { message } }: AppTypes.Store.State): StoreProps => ({
+const mapStateToProps = ({ globalMessage: { message } }: AppTypes.Store.State) => ({
   message
 });
 
-const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher) => ({
   dismissMessage: (): void => {
     dispatch(store.globalMessageActions.hide());
   }
 });
 
-export default injectIntl<LocalProps>(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(GlobalMessageOverlay)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(GlobalMessageOverlay));

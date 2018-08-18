@@ -27,21 +27,21 @@ const defaultState: State = {
 const reducer = (state: State = defaultState, action: Action) => {
   switch (action.type) {
     case getType(actions.loginPending):
-      return <State>(set("authenticating", true, state));
+      return set("authenticating", true, state);
 
     case getType(actions.loginSuccess):
-      return <State>(merge(null, {
+      return merge(null, {
           authenticating: false,
           authenticated: true,
           authTokens: action.payload
-      }, state));
+      }, state);
 
     case getType(actions.loginFailure):
-      return <State>(merge(null, {
+      return merge(null, {
         authenticating: false,
         authenticated: false,
         authTokens: undefined
-      }, state));
+      }, state);
 
     case getType(actions.logoutPending):
       return state;
@@ -50,10 +50,10 @@ const reducer = (state: State = defaultState, action: Action) => {
       return state;
 
     case getType(actions.logoutSuccess):
-      return <State>(merge(null, {
+      return merge(null, {
         authenticated: false,
         authTokens: undefined
-      }, state));
+      }, state);
 
     default:
       return state;

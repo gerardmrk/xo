@@ -31,10 +31,10 @@ declare module "*.sass" {
    These types allow TypeScript to recognize import statements for markups files
    which translates to a plain JS object.
 --------------------------------------------------------------------------------------------------------------------- */
-declare module "*.json" {
-  const content: object;
-  export default content;
-}
+// declare module "*.json" {
+//   const content: any;
+//   export default content;
+// }
 
 declare module "*.yml" {
   const content: object;

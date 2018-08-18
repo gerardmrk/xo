@@ -17,6 +17,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "declaration": false,
+    "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "importHelpers": true,
     "noEmitHelpers": true,
@@ -25,6 +26,7 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "removeComments": true,
+    "resolveJsonModule": true,
     "paths": {
       "@translations/*": ["config/i18n/translations/*"],
       "@client/*": [

@@ -21,7 +21,7 @@ const defaultState = {
 const reducer: Reducer<State, Action> = (state = defaultState, action) => {
   switch (action.type) {
     case getType(actions.getSettingsSuccess):
-      return <State>set("settings", action.payload, state);
+      return set("settings", action.payload, state);
 
     case getType(actions.getSettingsPending):
     case getType(actions.getSettingsFailure):

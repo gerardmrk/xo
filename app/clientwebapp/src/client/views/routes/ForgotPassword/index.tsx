@@ -4,6 +4,7 @@ import { Form } from "semantic-ui-react";
 import { Redirect } from "react-router-dom";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
+import AppTypes from "AppTypes";
 import styles from "./styles.less";
 import * as store from "@client/store";
 import NavLink from "@client/views/connected/NavLink";
@@ -83,16 +84,16 @@ export class ForgotPassword extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: store.StoreState): StoreProps => ({});
+const mapStateToProps = (state: AppTypes.Store.State): StoreProps => ({});
 
-const mapDispatchToProps = (dispatch: store.StoreDispatcher): DispatchProps => ({
+const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps => ({
   requestPasswordReset: (usernameOrEmail: string, callback: ErrorFirstCallback): void => {
     dispatch(store.userAsyncActions.requestPasswordReset(usernameOrEmail, callback));
   }
 });
 
 export default injectIntl<LocalProps>(
-  connect<StoreProps, DispatchProps, LocalProps>(
+  connect(
     mapStateToProps,
     mapDispatchToProps
   )(ForgotPassword)

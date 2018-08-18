@@ -6,14 +6,9 @@ import styles from "./styles.less";
 import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/withSettings";
 import withIntlSettings, { InjectedIntlSettingsProps } from "@client/views/wrappers/withIntlSettings"; // prettier-ignore
 
-export interface LocalProps
-  extends InjectedIntlProps,
-    InjectedSettingsProps,
-    InjectedIntlSettingsProps {}
+export type Props = InjectedIntlProps & InjectedSettingsProps & InjectedIntlSettingsProps;
 
-export interface Props extends LocalProps {}
-
-export interface State {}
+export type State = {};
 
 export class RootFooter extends React.PureComponent<Props, State> {
   private languageOptions: { text: string; value: string }[];

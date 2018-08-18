@@ -2,12 +2,12 @@ import * as React from "react";
 import { Form } from "semantic-ui-react";
 import { injectIntl, InjectedIntlProps } from "react-intl";
 
+import AppTypes from "AppTypes";
 import styles from "./styles.less";
-import * as store from "@client/store";
 import Input from "@client/views/components/InputWithValidator";
 
 export interface LocalProps {
-  onFormSubmit(form: store.userModels.RegistrationPayload): void;
+  onFormSubmit(form: AppTypes.UserModels.RegistrationPayload): void;
   checkUsernameUniqueness(username: string, cb: ErrorFirstCallback<boolean>): void;
 }
 
@@ -93,8 +93,8 @@ export class RegisterForm extends React.Component<Props, State> {
     if (this.state.username !== "" && this.formValidity.username === true) {
       this.setState({ checkingUsernameUniqueness: true }, () => {
         // prettier-ignore
-        this.props.checkUsernameUniqueness(this.state.username, (error: Error | null, isValid: boolean) => {
-          const isUsernameUnique = !!!error && isValid;
+        this.props.checkUsernameUniqueness(this.state.username, (error: Error | null, isValid: boolean | undefined) => {
+          const isUsernameUnique = !!!error && !!isValid;
           this.formValidity.username = isUsernameUnique;
           this.setState({
             checkingUsernameUniqueness: false,

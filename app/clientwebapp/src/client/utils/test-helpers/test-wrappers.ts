@@ -1,5 +1,5 @@
 import * as React from "react";
-import { intlShape, IntlProvider, InjectedIntlProps } from "react-intl";
+import { intlShape, IntlProvider } from "react-intl";
 import {
   mount,
   shallow,

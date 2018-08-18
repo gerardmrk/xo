@@ -50,7 +50,7 @@ export const rootReducer = combineReducers({
 export const initStore = (api: API) => (
   initialState: AppTypes.Store.State | {}
 ): AppTypes.Store.Store => {
-  return createStore(
+  return createStore<AppTypes.Store.State, AppTypes.Store.Action, AppTypes.Store.Dispatcher, void>(
     rootReducer,
     initialState,
     composeWithDevTools(
