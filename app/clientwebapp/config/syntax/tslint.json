@@ -8,7 +8,7 @@
   ],
   "rulesDirectory": "./custom-rules",
   "linterOptions": {
-    "exclude": ["./custom-rules/**/*"]
+    "exclude": ["./custom-rules/**/*", "**/*.json", "*.json", "../../**/*.json"]
   },
   "rules": {
     "arrow-parens": false,

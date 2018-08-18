@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "build/dist",
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es5",
     "lib": ["es6", "es2017", "dom", "scripthost"],
     "sourceMap": true,
@@ -26,7 +26,6 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "removeComments": true,
-    "resolveJsonModule": true,
     "paths": {
       "@translations/*": ["config/i18n/translations/*"],
       "@client/*": [
