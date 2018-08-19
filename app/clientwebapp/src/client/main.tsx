@@ -1,27 +1,27 @@
 /**
  * main application entrypoint
  */
-import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as AsyncLoader from "react-loadable";
 import { Provider as StoreProvider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import * as OfflinePluginRuntime from "offline-plugin/runtime";
 
 import API from "@client/api";
 import AppTypes from "AppTypes";
 import App from "@client/views/App";
-import { SettingsProvider } from "@client/views/contexts/SettingsContext";
-import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
-import { TranslationsEtAlProvider, IntlProvider } from "@client/views/contexts/I18nContext";
+import { configureServiceWorker } from "@client/offline";
+import { isBrowserEnv } from "@client/utils/is-browser-env";
 import { initStore, appStatusesActions } from "@client/store";
+import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
+import { SettingsProvider } from "@client/views/contexts/SettingsContext";
+import { TranslationsEtAlProvider, IntlProvider } from "@client/views/contexts/I18nContext";
 // include the semantic-ui theme files and configs
 // import "@client/views/theme/semantic.less";
 
 // prettier-ignore
 (async (): Promise<void> => {
-  const debugSW = debug("serviceworker");
+  const isBrowser = isBrowserEnv();
 
   try {
     // Get the initial store state, if any, from the global variable.
@@ -35,40 +35,26 @@ import { initStore, appStatusesActions } from "@client/store";
       userConf: USER_SVC_CONF
     }))(initialState);
 
-    // Ensure all required components that are marked async are already preloaded.
-    await AsyncLoader.preloadReady();
+    if (isBrowser) {
+      // Ensure all required components that are marked async are already preloaded.
+      await AsyncLoader.preloadReady();
+    }
 
-    // Install the offline-plugin (caches assets in service-workers or app-cache).
-    OfflinePluginRuntime.install({
-      onUpdating: (): void => {
-        debugSW("[event] onUpdating");
-      },
-      onUpdateReady: (): void => {
-        // Force the new service worker to be immediately updated.
-        // this won't happen by default until all tabs of yours sites are closed.
-        debugSW("[event] onUpdateReady");
-        OfflinePluginRuntime.applyUpdate();
-      },
-      onUpdated: (): void => {
-        // Updates will not be reflected in the app until the next refresh.
-        // either prompt the user for a refresh, or set a 'update-available' event on the store
-        debugSW("[event] onUpdated");
+    if (isBrowser) {
+      // Configure app for offline-usage. we don't want to await this.
+      configureServiceWorker((error: Error | null) => {
+        if (!!error) throw error;
         store.dispatch(appStatusesActions.updatesAvailable());
-      },
-      onUpdateFailed: (): void => {
-        // This should be a `Retryable` error.
-        // Handle accordingly - todo
-        debugSW("[event] onUpdatedFailed");
-      }
-    });
+      });
+    }
 
-    // Set the renderer to the hydrate function for isomorphic rendering.
-    const renderIntoDOM: ReactDOM.Renderer = INJECTED_BUILD_SETTINGS.devMode
-      ? ReactDOM.render
-      : ReactDOM.hydrate;
+    let render: ReactDOM.Renderer = ReactDOM.render;
+    if (isBrowser && !INJECTED_BUILD_SETTINGS.devMode) {
+      // Set renderer fn as hydrate for isomorphism
+      render = ReactDOM.hydrate;
+    }
 
-    // Render the whole app into the DOM at the specified mount point.
-    renderIntoDOM(
+    render(
       <SettingsProvider
         appSettings={INJECTED_APP_SETTINGS}
         buildSettings={INJECTED_BUILD_SETTINGS}

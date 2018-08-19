@@ -14,20 +14,16 @@ import messages from "@translations/en.json";
 const intlProvder = new IntlProvider({ locale: "en", messages });
 const { intl } = intlProvder.getChildContext();
 
-export const shallowWithIntl = <P, S>(
-  vnode: React.ReactElement<P>,
-  { context, ...additionalOptions }: ShallowRendererProps
-): ShallowWrapper<P, S> => {
+// prettier-ignore
+export const shallowWithIntl = <P, S>(vnode: React.ReactElement<P>, { context, ...additionalOptions }: ShallowRendererProps = {}): ShallowWrapper<P, S> => {
   return shallow<P, S>(React.cloneElement<P>(vnode, <any>{ intl }), {
     context: { ...context, ...{ intl } },
     ...additionalOptions
   });
 };
 
-export const mountWithIntl = <P, S>(
-  vnode: React.ReactElement<P>,
-  { context, childContextTypes, ...additionalOptions }: MountRendererProps
-): ReactWrapper<P, S> => {
+// prettier-ignore
+export const mountWithIntl = <P, S>(vnode: React.ReactElement<P>, { context, childContextTypes, ...additionalOptions }: MountRendererProps = {}): ReactWrapper<P, S> => {
   return mount<P, S>(React.cloneElement<P>(vnode, <any>{ intl }), {
     context: { ...context, ...{ intl } },
     childContextTypes: { ...{ intl: intlShape }, ...childContextTypes },
