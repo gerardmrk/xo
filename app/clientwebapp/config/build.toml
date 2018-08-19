@@ -1,0 +1,31 @@
+# Build Settings
+# --------------
+#
+#
+
+[targets]
+node = "current"
+browsers = [
+  "last 1 version",
+  "> 1%",
+  "maintained node versions",
+  "not dead"
+]
+
+[envs.development]
+url = "http://localhost:4200"
+enableDevtools = true
+enableDebugger = true
+enableSourcemaps = true
+
+[envs.staging]
+url = "http://localhost:4200"
+enableDevtools = true
+enableDebugger = true
+enableSourcemaps = true
+
+[envs.production]
+url = "http://localhost:4200"
+enableDevtools = false
+enableDebugger = false
+enableSourcemaps = true

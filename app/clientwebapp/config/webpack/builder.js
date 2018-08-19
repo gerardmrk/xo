@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
 const fs = require("fs");
-
 const toml = require("toml");
 const dotenv = require("dotenv");
 
-const paths = require("./paths");
 const Logger = require("./logger");
 const baseConfig = require("./base-config");
+const loadPaths = require("../_helpers_/load-paths");
+
+const paths = loadPaths();
 
 const projectSettings = toml.parse(fs.readFileSync(paths.projectSettings, "utf8"));
 

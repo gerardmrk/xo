@@ -1,0 +1,37 @@
+# App Settings
+# ------------
+#
+# Example output:
+# {
+#   "name": "XO",
+#   "description": "blablabla",
+#   "intl": {
+#     "defaultLanguage": "en",
+#     "supportedLanguages": ["en", "zh", "es"] 
+#   }
+#
+
+# Name of the app/product. Primarily used in:
+#   - main <Header>
+#   - <title>{name + " | " + route_name}</title>
+#   - <meta name="og:title" content={name + " | " + route_name}>
+#   - <meta name="twitter:title" content={name + " | " + route_name}>
+#   - <meta item-prop="name" content={name + " | " + route_name}>
+name = "xo"
+
+# Generic description of the app. Primarily used in:
+#   - <description>{description}</description>
+#   - <meta name="og:description" content={description}>
+#   - <meta name="twitter:description" content={description}>
+#   - <meta item-prop="description" content={description}>
+description = "Slide on your block like danny glover with a lethal weapon"
+
+[intl]
+# The default language of the app.
+# NOTE: must be included in `supportedLanguages`.
+defaultLanguage = "en"
+# Other supported languages.
+# NOTE: specified language codes must be in valid ISO 639-2 format.
+supportedLanguages = ["en", "zh", "es", "de", "hi", "ar"]
+
+

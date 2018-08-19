@@ -4,7 +4,9 @@ const toml = require("toml");
 const jsonfile = require("jsonfile");
 const unchanged = require("unchanged");
 
-const paths = require("../config/webpack/paths");
+const loadPaths = require("../../config/_helpers_/load-paths");
+
+const paths = loadPaths();
 
 // const readFile = util.promisify(fs.readFileSync);
 const readJSON = util.promisify(jsonfile.readFile);
@@ -18,17 +20,13 @@ const writeJSON = util.promisify(jsonfile.writeFile);
     // get the default language
     // this is assumed to be the most recently updated file
     const defaultLang = projectSettings.app.language;
-    const defaultTranslations = await readJSON(
-      `${paths.translationsDir}/${defaultLang}.json`
-    );
+    const defaultTranslations = await readJSON(`${paths.translationsDir}/${defaultLang}.json`);
 
     // fetch the other translations
     let translations = await Promise.all(
-      projectSettings.intl.supportedLanguages
-        .filter(lang => lang !== defaultLang)
-        .map(lang => {
-          return [lang, readJSON(`${paths.translationsDir}/${lang}.json`)];
-        })
+      projectSettings.intl.supportedLanguages.filter(lang => lang !== defaultLang).map(lang => {
+        return [lang, readJSON(`${paths.translationsDir}/${lang}.json`)];
+      })
     );
 
     // perform deep-merge on all other translation files
