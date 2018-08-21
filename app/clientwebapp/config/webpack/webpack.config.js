@@ -371,7 +371,7 @@ conf.addPlugin(PRO, () => {
 // --
 // This plugin copies over normalize.css into our build directory, then subsequently
 // referenced from the root HTML file via HtmlWebpackIncludeAssetsPlugin.
-conf.addPlugin(undefined, CLIENT, ({ paths }) => {
+conf.addPlugin(CLIENT, ({ paths }) => {
   return new CopyWebpackPlugin([
     {
       from: "node_modules/normalize.css/normalize.css",
@@ -396,7 +396,7 @@ conf.addPlugin(PRO, CLIENT, () => {
 // This plugin is used to generate the final root index.html with the resulting compiled
 // filenames included in script and style tags; as with CleanWebpackPlugin, this can't
 // be manually written due to the file hashes which is only determined after compilation.
-conf.addPlugin(undefined, CLIENT, ({ paths }) => {
+conf.addPlugin(CLIENT, ({ paths }) => {
   return new HtmlWebpackPlugin({
     filename: "index.html",
     template: paths.rootHTMLTemplate,
@@ -456,7 +456,7 @@ conf.addPlugin(PRO, CLIENT, ({ paths, projectSettings }) => {
 // -- https://github.com/jharris4/html-webpack-include-assets-plugin
 // This plugin works in conjunction with HtmlWebpackPlugin and includes references
 // to resources not under webpack control, but included with CopyWebpackPlugin
-conf.addPlugin(undefined, CLIENT, () => {
+conf.addPlugin(CLIENT, () => {
   return new HtmlWebpackIncludeAssetsPlugin({
     append: false,
     assets: []
@@ -489,14 +489,14 @@ conf.addPlugin(PRO, CLIENT, () => {
 // -- RemoveServiceWorkerPlugin
 // -- https://github.com/NekR/self-destroying-sw/tree/master/packages/webpack-remove-serviceworker-plugin
 // This plugin essentially invalidates service worker caches during development
-conf.addPlugin(undefined, CLIENT, () => {
+conf.addPlugin(CLIENT, () => {
   return new RemoveServiceWorkerPlugin();
 });
 
 // -- OfflinePlugin
 // -- https://github.com/NekR/offline-plugin
 // This plugin creates a service worker script specifically for SPAs.
-conf.addPlugin(undefined, CLIENT, ({ devMode }) => {
+conf.addPlugin(CLIENT, ({ devMode }) => {
   return new OfflinePlugin({
     caches: "all",
     appShell: "/",
@@ -516,7 +516,7 @@ conf.addPlugin(undefined, CLIENT, ({ devMode }) => {
 // -- https://github.com/webpack-contrib/webpack-bundle-analyzer
 // This plugin will output a HTML file containing stats of the build output
 // the information is useful for analysing bundle sizes and bloat culprits
-conf.addPlugin(PRO, undefined, ({ paths, buildSettings }) => {
+conf.addPlugin(PRO, ({ paths, buildSettings }) => {
   return new BundleAnalyzerPlugin({
     analyzerMode: "static",
     openAnalyzer: !!!process.env.CI,
@@ -541,4 +541,4 @@ conf.addPlugin(PRO, undefined, ({ paths, buildSettings }) => {
 // see the link above for a full example of what the object looks like
 // alternatively, start here to get a proper grasp of the webpack tool itself
 // https://webpack.js.org/concepts/
-module.exports = settings => conf.build(settings);
+module.exports = async settings => await conf.build(settings);
