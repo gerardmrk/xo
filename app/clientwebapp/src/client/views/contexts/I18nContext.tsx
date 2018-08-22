@@ -38,7 +38,7 @@ export const I18nContext: React.Context<I18n> = React.createContext<I18n>({
 });
 
 export type ProviderProps = {
-  settings: typeof INJECTED_I18N_SETTINGS;
+  settings: typeof INJECTED_SETTINGS.app.intl;
 };
 
 export class TranslationsEtAlProvider extends React.Component<ProviderProps, I18n> {

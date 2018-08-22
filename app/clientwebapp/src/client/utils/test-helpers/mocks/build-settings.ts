@@ -1,8 +1,9 @@
 import AppTypes from "AppTypes";
 
 export const buildSettings: AppTypes.Injected.BuildSettings = {
-  devMode: true,
+  url: "xoxoxo.xoxoxo.xoxoxo",
+  targets: { node: "", browsers: [] },
   enableDebugger: false,
-  enableDevTools: true,
+  enableDevtools: true,
   enableSourcemaps: true
 };

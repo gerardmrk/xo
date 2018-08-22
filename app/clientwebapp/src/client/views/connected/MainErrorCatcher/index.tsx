@@ -47,9 +47,6 @@ export class MainErrorCatcher extends React.PureComponent<Props, State> {
   }
 
   public render(): React.ReactNode | null {
-    const {
-      settings: { buildSettings }
-    } = this.props;
     if (this.state.error === undefined) {
       return this.props.children;
     }
@@ -57,7 +54,7 @@ export class MainErrorCatcher extends React.PureComponent<Props, State> {
     // if we've reached here, it means an error was caught
 
     // if development mode, display everything
-    if (buildSettings.devMode) {
+    if (DEV_MODE) {
       return <DevErrorDisplay error={this.state.error} errorInfo={this.state.errorInfo} />;
     }
 

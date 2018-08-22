@@ -77,38 +77,31 @@ declare module "AppTypes" {
   }
 
   export namespace Injected {
-    export interface AuthServiceConf {
-      [k: string]: string;
-    }
-
-    export interface UserServiceConf {
-      [k: string]: string;
-    }
-
-    export interface AppSettings {
+    interface AppSettings {
       name: string;
       description: string;
-      supportedBrowsers: string[];
-      appURL: {
-        development: string;
-        staging: string;
-        production: string;
-      };
-      sitemap: {
-        [category: string]: { label: string; link: string }[];
-      };
+      intl: { defaultLanguage: string; supportedLanguages: string[] };
     }
 
-    export interface I18nSettings {
-      defaultLanguage: string;
-      supportedLanguages: string[];
-    }
-
-    export interface BuildSettings {
-      devMode: boolean;
-      enableDevTools: boolean;
+    interface BuildSettings {
+      url: string;
+      enableDevtools: boolean;
       enableDebugger: boolean;
       enableSourcemaps: boolean;
+      targets: { node: string; browsers: string[] };
+    }
+
+    interface ServicesSettings {
+      auth: { [k: string]: string };
+      identity: { [k: string]: string };
+      geolocation: { [k: string]: string };
+      incidents: { [k: string]: string };
+    }
+
+    export interface Settings {
+      app: AppSettings;
+      build: BuildSettings;
+      services: ServicesSettings;
     }
   }
 }

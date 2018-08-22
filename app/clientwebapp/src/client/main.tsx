@@ -31,8 +31,8 @@ import { TranslationsEtAlProvider, IntlProvider } from "@client/views/contexts/I
     // Initialize the app store with the API instance.
     const store = initStore(await API.BUILD({
       stub: true,
-      authConf: AUTH_SVC_CONF,
-      userConf: USER_SVC_CONF
+      authConf: INJECTED_SETTINGS.services.auth,
+      userConf: INJECTED_SETTINGS.services.identity
     }))(initialState);
 
     if (isBrowser) {
@@ -49,18 +49,18 @@ import { TranslationsEtAlProvider, IntlProvider } from "@client/views/contexts/I
     }
 
     let render: ReactDOM.Renderer = ReactDOM.render;
-    if (isBrowser && !INJECTED_BUILD_SETTINGS.devMode) {
+    if (isBrowser && !DEV_MODE) {
       // Set renderer fn as hydrate for isomorphism
       render = ReactDOM.hydrate;
     }
 
     render(
       <SettingsProvider
-        appSettings={INJECTED_APP_SETTINGS}
-        buildSettings={INJECTED_BUILD_SETTINGS}
+        appSettings={INJECTED_SETTINGS.app}
+        buildSettings={INJECTED_SETTINGS.build}
       >
         <MainErrorCatcher errorServiceDSN={""}>
-          <TranslationsEtAlProvider settings={INJECTED_I18N_SETTINGS}>
+          <TranslationsEtAlProvider settings={INJECTED_SETTINGS.app.intl}>
             <IntlProvider>
               <StoreProvider store={store}>
                 <Router>

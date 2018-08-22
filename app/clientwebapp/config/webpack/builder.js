@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-const fs = require("fs");
-const toml = require("toml");
 const dotenv = require("dotenv");
 
 const Logger = require("./logger");
@@ -9,8 +7,6 @@ const loadPaths = require("../_helpers_/load-paths");
 const loadSettings = require("../_helpers_/load-settings");
 
 const paths = loadPaths();
-
-const projectSettings = toml.parse(fs.readFileSync(paths.projectSettings, "utf8"));
 
 // prettier-ignore
 class ConfigBuilder {
@@ -97,7 +93,7 @@ class ConfigBuilder {
     ));
   }
 
-  async build(buildSettings) {
+  async build(options) {
     // load environment variables
     dotenv.config({ path: `${paths.rootDir}/.env` });
 
@@ -107,43 +103,43 @@ class ConfigBuilder {
       process.exit(1);
     }
 
-    ConfigBuilder.ParseAndValidateBuildFlags(buildSettings);
+    ConfigBuilder.ParseAndValidateBuildFlags(options);
 
     const settings = await loadSettings();
 
     const accessibles = {
       paths,
       settings,
-      projectSettings,
-      buildSettings,
       appStage: process.env.APP_STAGE,
-      // set convenience flags
-      devMode: buildSettings.mode === ConfigBuilder.Modes.DEV,
-      clientBuild: buildSettings.source === ConfigBuilder.Sources.CLIENT,
-      enableDevToolsInProd: buildSettings.prodDevTools === "enable",
-      enableDebuggerInProd: buildSettings.prodDebugger === "enable",
-      enableSourceMapsInProd: buildSettings.prodSourceMaps === "enable"
+      buildMode: options.mode,
+      buildSource: options.source,
+      isDevMode: options.mode === ConfigBuilder.Modes.DEV,
+      isClientBuild: options.source === ConfigBuilder.Sources.CLIENT
     };
 
-    this._logger = new Logger(buildSettings.mode, buildSettings.source);
-    this._logger.logSettings(buildSettings);
+    this._logger = new Logger(options.mode, options.source);
+    this._logger.logSettings(options);
 
     const config = baseConfig(accessibles);
 
-    // prettier-ignore
     this._moduleRules.forEach(([targetMode, targetSource, getRule]) => {
       const rule = getRule(accessibles);
       this._logger.logModuleRule(targetMode, targetSource, rule);
-      if ((targetMode === buildSettings.mode || !targetMode) && (targetSource === buildSettings.source || !targetSource) && rule !== undefined) {// eslint-disable-line
+      if (
+        (targetMode === options.mode || !targetMode) &&
+        (targetSource === options.source || !targetSource)
+      ) {
         config.module.rules.push(rule);
       }
     });
 
-    // prettier-ignore
     this._plugins.forEach(([targetMode, targetSource, getPlugin]) => {
       const plugin = getPlugin(accessibles);
       this._logger.logPlugin(targetMode, targetSource, plugin);
-      if ((targetMode === buildSettings.mode || !targetMode) && (targetSource === buildSettings.source || !targetSource) && plugin !== undefined) {// eslint-disable-line
+      if (
+        (targetMode === options.mode || !targetMode) &&
+        (targetSource === options.source || !targetSource)
+      ) {
         config.plugins.push(plugin);
       }
     });
@@ -162,14 +158,9 @@ ConfigBuilder.Sources = {
   RENDERER: "renderer"
 };
 
-// Allowed settings and their respective options for the build.
-// convention: first value in the array will be used as if none is specified.
 ConfigBuilder.ValidOptions = {
   mode: [ConfigBuilder.Modes.DEV, ConfigBuilder.Modes.PRO],
-  source: [ConfigBuilder.Sources.CLIENT, ConfigBuilder.Sources.RENDERER],
-  prodDevTools: ["disable", "enable"],
-  prodDebugger: ["disable", "enable"],
-  prodSourceMaps: ["disable", "enable"]
+  source: [ConfigBuilder.Sources.CLIENT, ConfigBuilder.Sources.RENDERER]
 };
 
 // Parses and validate settings for the build config.

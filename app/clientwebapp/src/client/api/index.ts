@@ -4,7 +4,6 @@
  * - this is meant to be used as a singleton.
  * - only async store actions are allowed to call the API.
  */
-import AppTypes from "AppTypes";
 import AuthAPI from "@client/api/auth";
 import UserAPI from "@client/api/user";
 import { AbstractAuthAPI } from "@client/api/auth/type";
@@ -12,8 +11,8 @@ import { AbstractUserAPI } from "@client/api/user/type";
 
 export interface APIConfig {
   stub: boolean;
-  authConf: AppTypes.Injected.AuthServiceConf;
-  userConf: AppTypes.Injected.UserServiceConf;
+  authConf: { [k: string]: string };
+  userConf: { [k: string]: string };
 }
 
 export class API {

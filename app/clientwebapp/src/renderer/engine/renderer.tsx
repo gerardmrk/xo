@@ -43,7 +43,11 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
   try {
     // Initialize store
     const store: AppTypes.Store.Store = initStore(
-      await API.BUILD({ stub: true, authConf: AUTH_SVC_CONF, userConf: USER_SVC_CONF })
+      await API.BUILD({
+        stub: true,
+        authConf: INJECTED_SETTINGS.services.auth,
+        userConf: INJECTED_SETTINGS.services.identity
+      })
     )({} as AppTypes.Store.State); // tslint:disable-line
 
     const renderedModules: string[] = [];
@@ -56,10 +60,10 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
     resp.renderedBody = ReactDOMServer.renderToString(
       <AsyncModuleLoader.Capture report={captureModules}>
         <SettingsProvider
-          appSettings={INJECTED_APP_SETTINGS}
-          buildSettings={INJECTED_BUILD_SETTINGS}
+          appSettings={INJECTED_SETTINGS.app}
+          buildSettings={INJECTED_SETTINGS.build}
         >
-          <TranslationsEtAlProvider settings={INJECTED_I18N_SETTINGS}>
+          <TranslationsEtAlProvider settings={INJECTED_SETTINGS.app.intl}>
             <MainErrorCatcher errorServiceDSN={""}>
               <IntlProvider>
                 <StoreProvider store={store}>

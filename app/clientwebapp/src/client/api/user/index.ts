@@ -9,7 +9,7 @@ import { AbstractUserAPI } from "@client/api/user/type";
 import userSettings from "@client/utils/test-helpers/mocks/user-settings";
 
 class UserAPI implements AbstractUserAPI {
-  public constructor(config: AppTypes.Injected.UserServiceConf) {}
+  public constructor(config: { [k: string]: string }) {}
 
   // *******************************************************************************************************************
   //    UNAUTHENTICATED ENDPOINTS

@@ -1,30 +1,30 @@
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const webpackNodeExternals = require("webpack-node-externals");
 
-const baseConfig = ({ paths, buildSettings, devMode, clientBuild, enableSourceMapsInProd }) => ({
+const baseConfig = ({ paths, settings, buildMode, isDevMode, isClientBuild }) => ({
   context: paths.rootDir,
 
-  mode: buildSettings.mode,
+  mode: buildMode,
 
-  target: clientBuild ? "web" : "node",
+  target: isClientBuild ? "web" : "node",
 
-  devtool: devMode
+  devtool: isDevMode
     ? "cheap-module-eval-source-map"
-    : enableSourceMapsInProd
+    : settings.build.enableSourcemaps
       ? "source-map"
-      : !clientBuild
+      : !isClientBuild
         ? "source-map"
         : false,
 
-  entry: clientBuild
+  entry: isClientBuild
     ? { app: [`${paths.clientSource}/main.tsx`] }
     : { renderer: [`${paths.rendererSource}/index.ts`] },
 
-  output: clientBuild
+  output: isClientBuild
     ? {
         path: `${paths.outputDir}/client`,
-        filename: devMode ? "scripts/[name].js" : "scripts/[name].[chunkhash].js",
-        publicPath: devMode ? "/" : "/assets/",
+        filename: isDevMode ? "scripts/[name].js" : "scripts/[name].[chunkhash].js",
+        publicPath: isDevMode ? "/" : "/assets/",
         crossOriginLoading: "anonymous"
       }
     : {
@@ -33,7 +33,7 @@ const baseConfig = ({ paths, buildSettings, devMode, clientBuild, enableSourceMa
         libraryTarget: "commonjs"
       },
 
-  externals: clientBuild
+  externals: isClientBuild
     ? undefined
     : [
         webpackNodeExternals({
@@ -43,22 +43,22 @@ const baseConfig = ({ paths, buildSettings, devMode, clientBuild, enableSourceMa
 
   optimization: {
     minimizer: [
-      clientBuild &&
+      isClientBuild &&
         new UglifyJsPlugin({
           parallel: true,
           exclude: [/dist/],
-          sourceMap: devMode || enableSourceMapsInProd
+          sourceMap: isDevMode || settings.build.enableSourcemaps
         })
     ].filter(x => !!x),
-    runtimeChunk: clientBuild ? "single" : undefined,
-    splitChunks: clientBuild
+    runtimeChunk: isClientBuild ? "single" : undefined,
+    splitChunks: isClientBuild
       ? {
           cacheGroups: {
             vendors: {
               test: /[\\/]node_modules[\\/]/,
               name: "vendors",
               chunks: "all"
-              // ,maxSize: devMode ? undefined : 80000
+              // ,maxSize: isDevMode ? undefined : 80000
             }
           }
         }

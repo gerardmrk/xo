@@ -7,7 +7,7 @@ import { AbstractAuthAPI } from "@client/api/auth/type";
 import { isBrowserEnv } from "@client/utils/is-browser-env";
 
 class AuthAPI implements AbstractAuthAPI {
-  public constructor(config: AppTypes.Injected.AuthServiceConf) {}
+  public constructor(config: { [k: string]: string }) {}
 
   public async authenticate(
     username: string,

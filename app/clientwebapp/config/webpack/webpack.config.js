@@ -19,8 +19,8 @@ const RemoveServiceWorkerPlugin = require("webpack-remove-serviceworker-plugin")
 const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 
 const ConfigBuilder = require("./builder");
-const { DEV, PRO } = ConfigBuilder.Modes;
-const { CLIENT, RENDERER } = ConfigBuilder.Sources;
+const { DEV: DEV_ONLY, PRO: PROD_ONLY } = ConfigBuilder.Modes;
+const { CLIENT: CLIENT_ONLY, RENDERER: RENDERER_ONLY } = ConfigBuilder.Sources;
 
 const conf = new ConfigBuilder();
 
@@ -45,7 +45,7 @@ const conf = new ConfigBuilder();
 // [MODULES] *.ts, *.tsx
 // [LOADERS] ts-loader
 // prettier-ignore
-conf.addModuleRule(({ paths, devMode, clientBuild, projectSettings }) => ({
+conf.addModuleRule(({ paths, isDevMode, isClientBuild, settings: { build: { targets } } }) => ({
   test: /\.tsx?$/,
   exclude: [/node_modules/],
   use: [
@@ -60,10 +60,10 @@ conf.addModuleRule(({ paths, devMode, clientBuild, projectSettings }) => ({
         cacheDirectory: `${paths.rootDir}/.cache`,
         presets: [
           ["@babel/preset-env", {
-              modules: false,
-              loose: true,
-              useBuiltIns: "usage",
-              targets: clientBuild ? { browsers: projectSettings.app.supportedBrowsers } : { node: "current" }
+            modules: false,
+            loose: true,
+            useBuiltIns: "usage",
+            targets: isClientBuild ? { browsers: targets.browsers } : { node: targets.node }
           }],
           "@babel/preset-react",
           "@babel/preset-typescript"
@@ -71,19 +71,13 @@ conf.addModuleRule(({ paths, devMode, clientBuild, projectSettings }) => ({
         plugins: [
           ["lodash", { id: "lodash-compat" }],
           ["transform-imports", {
-            lodash: {
-              transform: "lodash/${member}",
-              preventFullImport: true
-            },
-            "react-router": {
-              transform: "react-router/${member}",
-              preventFullImport: true
-            }
+            "lodash": { transform: "lodash/${member}", preventFullImport: true },
+            "react-router": { transform: "react-router/${member}", preventFullImport: true }
           }],
           "@babel/plugin-syntax-dynamic-import",
           "@babel/plugin-transform-runtime",
-          !devMode && "transform-react-remove-prop-types",
-          clientBuild && "react-hot-loader/babel",
+          !isDevMode && "transform-react-remove-prop-types",
+          isClientBuild && "react-hot-loader/babel",
           "react-loadable/babel"
         ].filter(x => !!x),
       }
@@ -93,16 +87,16 @@ conf.addModuleRule(({ paths, devMode, clientBuild, projectSettings }) => ({
 
 // [MODULES] *.less
 // [LOADERS] less-loader -> css-loader -> (style-loader | MiniCssExtractPlugin.loader)
-conf.addModuleRule(({ devMode, clientBuild, enableSourceMapsInProd }) => ({
+conf.addModuleRule(({ isDevMode, isClientBuild, settings: { build } }) => ({
   test: /\.less$/,
   exclude: [/node_modules/],
   use: [
-    !devMode && clientBuild && MiniCssExtractPlugin.loader,
-    devMode &&
-      clientBuild && {
+    !isDevMode && isClientBuild && MiniCssExtractPlugin.loader,
+    isDevMode &&
+      isClientBuild && {
         loader: "style-loader",
         options: {
-          sourceMap: devMode || enableSourceMapsInProd,
+          sourceMap: isDevMode || build.enableSourcemaps,
           hmr: true,
           insertInto: "head",
           insertAt: "bottom"
@@ -111,17 +105,17 @@ conf.addModuleRule(({ devMode, clientBuild, enableSourceMapsInProd }) => ({
     {
       loader: "css-loader",
       options: {
-        sourceMap: devMode || enableSourceMapsInProd,
+        sourceMap: isDevMode || build.enableSourcemaps,
         modules: true,
         importLoaders: 1,
         camelCase: true,
-        localIdentName: devMode ? "[name]_[local]_[hash:base64:7]" : "[hash:base64:7]"
+        localIdentName: isDevMode ? "[name]_[local]_[hash:base64:7]" : "[hash:base64:7]"
       }
     },
     {
       loader: "postcss-loader",
       options: {
-        sourceMap: devMode || enableSourceMapsInProd,
+        sourceMap: isDevMode || build.enableSourcemaps,
         plugins: () => [require("autoprefixer")()]
       }
     },
@@ -130,8 +124,8 @@ conf.addModuleRule(({ devMode, clientBuild, enableSourceMapsInProd }) => ({
       options: {
         strictMath: false,
         noIeCompat: true,
-        sourceMap: devMode || enableSourceMapsInProd,
-        plugins: [!devMode && new CleanCSSPlugin({ advanced: true })].filter(x => !!x)
+        sourceMap: isDevMode || build.enableSourcemaps,
+        plugins: [!isDevMode && new CleanCSSPlugin({ advanced: true })].filter(x => !!x)
       }
     }
   ].filter(x => !!x)
@@ -140,7 +134,7 @@ conf.addModuleRule(({ devMode, clientBuild, enableSourceMapsInProd }) => ({
 // [MODULES] *.png, *.jpg, *.jpeg, *.gif, *.ico, *.svg
 // [LOADERS] (url-loader | file-loader)
 // prettier-ignore
-conf.addModuleRule(({ devMode, clientBuild }) => ({
+conf.addModuleRule(({ isDevMode, isClientBuild }) => ({
   test: /\.jpe?g$|\.gif$|\.ico$|\.png$|\.svg$/,
   exclude: [/node_modules/],
   oneOf: [
@@ -149,23 +143,23 @@ conf.addModuleRule(({ devMode, clientBuild }) => ({
       use: [{
           loader: "file-loader",
           options: {
-            emitFile: clientBuild,
-            name: devMode ? "images/[name].[ext]" : "images/[name].[ext]?[hash]"
+            emitFile: isClientBuild,
+            name: isDevMode ? "images/[name].[ext]" : "images/[name].[ext]?[hash]"
           }
       }]
     },
     {
       use: [
-        devMode && {
+        isDevMode && {
           loader: "file-loader",
-          options: { name: "images/[name].[ext]", emitFile: clientBuild }
+          options: { name: "images/[name].[ext]", emitFile: isClientBuild }
         },
-        !devMode && {
+        !isDevMode && {
           loader: "url-loader",
           options: {
             name: "images/[name].[ext]?[hash]",
             limit: 10000,
-            emitFile: clientBuild
+            emitFile: isClientBuild
           }
         }
       ].filter(x => !!x)
@@ -175,21 +169,21 @@ conf.addModuleRule(({ devMode, clientBuild }) => ({
 
 // [MODULES] *.woff, *.woff2
 // [LOADERS] (url-loader | file-loader)
-conf.addModuleRule(({ devMode, clientBuild }) => ({
+conf.addModuleRule(({ isDevMode, isClientBuild }) => ({
   test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
   exclude: [/node_modules/],
   use: [
-    devMode && {
+    isDevMode && {
       loader: "file-loader",
-      options: { name: "fonts/[name].[ext]", emitFile: clientBuild }
+      options: { name: "fonts/[name].[ext]", emitFile: isClientBuild }
     },
-    !devMode && {
+    !isDevMode && {
       loader: "url-loader",
       options: {
         name: "fonts/[name].[ext]",
         limit: 10000,
         mimetype: "application/font-woff",
-        emitFile: clientBuild
+        emitFile: isClientBuild
       }
     }
   ].filter(x => !!x)
@@ -198,19 +192,19 @@ conf.addModuleRule(({ devMode, clientBuild }) => ({
 // [MODULES] *.ttf*, *.eot*
 // [LOADERS] file-loader
 // prettier-ignore
-conf.addModuleRule(({ clientBuild }) => ({
+conf.addModuleRule(({ isClientBuild }) => ({
   test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
   exclude: [/node_modules/],
   use: [{
     loader: "file-loader",
-    options: { name: "fonts/[name].[ext]", emitFile: clientBuild }
+    options: { name: "fonts/[name].[ext]", emitFile: isClientBuild }
   }]
 }));
 
 // [MODULES] *.otf*
 // [LOADERS] file-loader
 // prettier-ignore
-conf.addModuleRule(({ clientBuild }) => ({
+conf.addModuleRule(({ isClientBuild }) => ({
   test: /\.otf(\?.*)?$/,
   exclude: [/node_modules/],
   use: [{
@@ -218,7 +212,7 @@ conf.addModuleRule(({ clientBuild }) => ({
     options: {
       name: "fonts/[name].[ext]",
       mimetype: "application/font-otf",
-      emitFile: clientBuild
+      emitFile: isClientBuild
     }
   }]
 }));
@@ -241,19 +235,11 @@ conf.addModuleRule(({ clientBuild }) => ({
 // This plugin injects global variables (constants) as defined below into your app
 // which is then accessible in your code. E.G. for entry `ISOMORPHIC: true`, the
 // constant can be referenced like so: `if (ISOMORPHIC === "true") { do something.. }`
-conf.addPlugin(({ devMode, projectSettings, ...other }) => {
-  const injectedBuildSettings = {
-    devMode,
-    enableDebugger: devMode || other.enableDebuggerInProd,
-    enableDevTools: devMode || other.enableDevToolsInProd,
-    enableSourceMaps: devMode || other.enableSourceMapsInProd
-  };
+conf.addPlugin(({ isDevMode, appStage, settings }) => {
   return new webpack.DefinePlugin({
-    INJECTED_APP_SETTINGS: JSON.stringify(projectSettings.app),
-    INJECTED_I18N_SETTINGS: JSON.stringify(projectSettings.intl),
-    INJECTED_BUILD_SETTINGS: JSON.stringify(injectedBuildSettings),
-    AUTH_SVC_CONF: JSON.stringify(projectSettings.services.auth),
-    USER_SVC_CONF: JSON.stringify(projectSettings.services.user)
+    DEV_MODE: isDevMode,
+    APP_STAGE: appStage,
+    INJECTED_SETTINGS: JSON.stringify(settings)
   });
 });
 
@@ -262,9 +248,9 @@ conf.addPlugin(({ devMode, projectSettings, ...other }) => {
 // This plugin provides similar functionality to the plugin above: it maps actual
 // environment variables from your system which is then accessible from your code,
 // e.g. for entry `DEBUG`, the env can be accessed like so: `process.env.DEBUG`
-conf.addPlugin(({ appStage }) => {
+conf.addPlugin(() => {
   return new webpack.EnvironmentPlugin({
-    APP_STAGE: appStage
+    // APP_STAGE: appStage
   });
 });
 
@@ -273,9 +259,13 @@ conf.addPlugin(({ appStage }) => {
 // This plugin is responsible for purging the dist/build directory before every new
 // production build; the old files won't simply get overwritten with the new files like in
 // normal cases, as they all have unique hashes in their filenames for cache-busting purposes.
-conf.addPlugin(PRO, ({ paths, buildSettings: { source } }) => {
+conf.addPlugin(PROD_ONLY, ({ paths, buildSource }) => {
   return new CleanWebpackPlugin(
-    [`dist/${source}/scripts/*`, `dist/${source}/styles/*`, `dist/${source}/images/*`],
+    [
+      `dist/${buildSource}/scripts/*`,
+      `dist/${buildSource}/styles/*`,
+      `dist/${buildSource}/images/*`
+    ],
     {
       root: paths.rootDir,
       exclude: ["index.html", "sw.js", "report.html"]
@@ -287,7 +277,7 @@ conf.addPlugin(PRO, ({ paths, buildSettings: { source } }) => {
 // -- https://webpack.js.org/plugins/banner-plugin/
 // This plugin adds a top-level import statement to the compiled renderer bundle
 // and the subsequent install() invocation to enable sourcemaps on the server side.
-conf.addPlugin(PRO, RENDERER, () => {
+conf.addPlugin(PROD_ONLY, RENDERER_ONLY, () => {
   return new webpack.BannerPlugin({
     raw: true,
     entryOnly: false,
@@ -317,10 +307,10 @@ conf.addPlugin(() => {
 // -- https://webpack.js.org/plugins/context-replacement-plugin/
 // This plugin is used to prevent the entirety of react-intl lib's locales from
 // being included into the client bundle as it would dramatically increase the size.
-conf.addPlugin(({ projectSettings }) => {
+conf.addPlugin(({ settings }) => {
   return new webpack.ContextReplacementPlugin(
     /react-intl[/\\]locale-data$/,
-    new RegExp(projectSettings.intl.supportedLanguages.join("|"))
+    new RegExp(settings.app.intl.supportedLanguages.join("|"))
   );
 });
 
@@ -328,7 +318,7 @@ conf.addPlugin(({ projectSettings }) => {
 // -- https://webpack.js.org/plugins/hot-module-replacement-plugin
 // This plugin enables hot-module reloading for development efficiency. HMR means you can
 // make changes to your frontend code and changes are immediate without needing a hard refresh.
-conf.addPlugin(DEV, CLIENT, () => {
+conf.addPlugin(DEV_ONLY, CLIENT_ONLY, () => {
   return new webpack.HotModuleReplacementPlugin();
 });
 
@@ -336,7 +326,7 @@ conf.addPlugin(DEV, CLIENT, () => {
 // -- https://github.com/jamiebuilds/react-loadable#webpack-plugin
 // This plugin instructs Webpack to output a list of asynchronously-loadable
 // React components into a JSON file, which can then be consumed server side.
-conf.addPlugin(PRO, CLIENT, ({ paths }) => {
+conf.addPlugin(PROD_ONLY, CLIENT_ONLY, ({ paths }) => {
   return new ReactLoadablePlugin({
     filename: paths.asyncModuleStats
   });
@@ -363,7 +353,7 @@ conf.addPlugin(() => {
 // -- https://webpack.js.org/plugins/hashed-module-ids-plugin/
 // This plugin prevents hash changes on the vendor bundle if code changes only occurred
 // in the main app bundle.
-conf.addPlugin(PRO, () => {
+conf.addPlugin(PROD_ONLY, () => {
   return new webpack.HashedModuleIdsPlugin();
 });
 
@@ -371,7 +361,7 @@ conf.addPlugin(PRO, () => {
 // --
 // This plugin copies over normalize.css into our build directory, then subsequently
 // referenced from the root HTML file via HtmlWebpackIncludeAssetsPlugin.
-conf.addPlugin(CLIENT, ({ paths }) => {
+conf.addPlugin(CLIENT_ONLY, ({ paths }) => {
   return new CopyWebpackPlugin([
     {
       from: "node_modules/normalize.css/normalize.css",
@@ -384,7 +374,7 @@ conf.addPlugin(CLIENT, ({ paths }) => {
 // -- https://github.com/webpack-contrib/mini-css-extract-plugin
 // This plugin is responsible for extracting all processed CSS rules into a separate
 // CSS file and referenced from the root HTML file via link tag(s).
-conf.addPlugin(PRO, CLIENT, () => {
+conf.addPlugin(PROD_ONLY, CLIENT_ONLY, () => {
   return new MiniCssExtractPlugin({
     filename: "styles/[name].[chunkhash].css",
     chunkFilename: "styles/[id].[chunkhash].css"
@@ -396,7 +386,7 @@ conf.addPlugin(PRO, CLIENT, () => {
 // This plugin is used to generate the final root index.html with the resulting compiled
 // filenames included in script and style tags; as with CleanWebpackPlugin, this can't
 // be manually written due to the file hashes which is only determined after compilation.
-conf.addPlugin(CLIENT, ({ paths }) => {
+conf.addPlugin(CLIENT_ONLY, ({ paths }) => {
   return new HtmlWebpackPlugin({
     filename: "index.html",
     template: paths.rootHTMLTemplate,
@@ -409,7 +399,7 @@ conf.addPlugin(CLIENT, ({ paths }) => {
     }
   });
 });
-conf.addPlugin(PRO, CLIENT, ({ paths }) => {
+conf.addPlugin(PROD_ONLY, CLIENT_ONLY, ({ paths }) => {
   return new HtmlWebpackPlugin({
     filename: "index.gohtml",
     template: paths.rootHTMLTemplate,
@@ -427,7 +417,7 @@ conf.addPlugin(PRO, CLIENT, ({ paths }) => {
 // -- https://github.com/jantimon/favicons-webpack-plugin
 // This plugin generates 30+ different icons for different devices from a default logo.png.
 // For optimal results, its recommended to use 500x500 PNG image for the logo.
-conf.addPlugin(PRO, CLIENT, ({ paths, projectSettings }) => {
+conf.addPlugin(PROD_ONLY, CLIENT_ONLY, ({ paths, settings }) => {
   return new FaviconsWebpackPlugin({
     logo: `${paths.clientSource}/logo.png`,
     prefix: `icons-[hash]/`,
@@ -436,7 +426,7 @@ conf.addPlugin(PRO, CLIENT, ({ paths, projectSettings }) => {
     persistentCache: true,
     inject: true,
     background: "#fff",
-    title: projectSettings.app.name,
+    title: settings.app.name,
     icons: {
       android: true,
       appleIcon: true,
@@ -456,7 +446,7 @@ conf.addPlugin(PRO, CLIENT, ({ paths, projectSettings }) => {
 // -- https://github.com/jharris4/html-webpack-include-assets-plugin
 // This plugin works in conjunction with HtmlWebpackPlugin and includes references
 // to resources not under webpack control, but included with CopyWebpackPlugin
-conf.addPlugin(CLIENT, () => {
+conf.addPlugin(CLIENT_ONLY, () => {
   return new HtmlWebpackIncludeAssetsPlugin({
     append: false,
     assets: []
@@ -467,7 +457,7 @@ conf.addPlugin(CLIENT, () => {
 // -- https://github.com/waysact/webpack-subresource-integrity
 // This plugin works in conjunction with HtmlWebpackPlugin and utilizes browser's
 // SRI features, which ensures assets aren't tempered with inflight.
-conf.addPlugin(PRO, CLIENT, () => {
+conf.addPlugin(PROD_ONLY, CLIENT_ONLY, () => {
   return new SubresourceIntegrityPlugin({
     enabled: true,
     hashFuncNames: ["sha256", "sha512"]
@@ -477,7 +467,7 @@ conf.addPlugin(PRO, CLIENT, () => {
 // -- CompressionWebpackPlugin (production only)
 // -- https://github.com/webpack-contrib/compression-webpack-plugin
 // This plugin compresses all outputs matching the regex with gzip.
-conf.addPlugin(PRO, CLIENT, () => {
+conf.addPlugin(PROD_ONLY, CLIENT_ONLY, () => {
   return new CompressionWebpackPlugin({
     asset: "[path].gz[query]",
     algorithm: "gzip",
@@ -489,18 +479,18 @@ conf.addPlugin(PRO, CLIENT, () => {
 // -- RemoveServiceWorkerPlugin
 // -- https://github.com/NekR/self-destroying-sw/tree/master/packages/webpack-remove-serviceworker-plugin
 // This plugin essentially invalidates service worker caches during development
-conf.addPlugin(CLIENT, () => {
+conf.addPlugin(CLIENT_ONLY, () => {
   return new RemoveServiceWorkerPlugin();
 });
 
 // -- OfflinePlugin
 // -- https://github.com/NekR/offline-plugin
 // This plugin creates a service worker script specifically for SPAs.
-conf.addPlugin(CLIENT, ({ devMode }) => {
+conf.addPlugin(CLIENT_ONLY, ({ isDevMode }) => {
   return new OfflinePlugin({
     caches: "all",
     appShell: "/",
-    responseStrategy: devMode ? "network-first" : "cache-first",
+    responseStrategy: isDevMode ? "network-first" : "cache-first",
     excludes: ["**/*.map", "index.gohtml"],
     autoUpdate: 1000 * 60 * 3,
     AppCache: false,
@@ -516,13 +506,13 @@ conf.addPlugin(CLIENT, ({ devMode }) => {
 // -- https://github.com/webpack-contrib/webpack-bundle-analyzer
 // This plugin will output a HTML file containing stats of the build output
 // the information is useful for analysing bundle sizes and bloat culprits
-conf.addPlugin(PRO, ({ paths, buildSettings }) => {
+conf.addPlugin(PROD_ONLY, ({ paths, buildSource }) => {
   return new BundleAnalyzerPlugin({
     analyzerMode: "static",
     openAnalyzer: !!!process.env.CI,
     generateStatsFile: true,
-    statsFilename: `${paths.outputDir}/${buildSettings.source}/bundlestats.json`,
-    reportFilename: `${paths.outputDir}/${buildSettings.source}/bundlestats.html`
+    statsFilename: `${paths.outputDir}/${buildSource}/bundlestats.json`,
+    reportFilename: `${paths.outputDir}/${buildSource}/bundlestats.html`
   });
 });
 

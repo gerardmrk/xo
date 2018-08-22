@@ -11,13 +11,15 @@ export const SettingsContext: React.Context<Settings> = React.createContext<Sett
   appSettings: {
     name: "",
     description: "",
-    supportedBrowsers: [],
-    appURL: { development: "", staging: "", production: "" },
-    sitemap: {}
+    intl: {
+      defaultLanguage: "en",
+      supportedLanguages: []
+    }
   },
   buildSettings: {
-    devMode: false,
-    enableDevTools: false,
+    url: "",
+    targets: { node: "current", browsers: [""] },
+    enableDevtools: false,
     enableDebugger: false,
     enableSourcemaps: false
   }
@@ -25,8 +27,8 @@ export const SettingsContext: React.Context<Settings> = React.createContext<Sett
 
 // prettier-ignore
 export class SettingsProvider extends React.PureComponent<{
-  appSettings: typeof INJECTED_APP_SETTINGS;
-  buildSettings: typeof INJECTED_BUILD_SETTINGS;
+  appSettings: typeof INJECTED_SETTINGS.app;
+  buildSettings: typeof INJECTED_SETTINGS.build;
 }> {
   public render(): React.ReactNode {
     return (
