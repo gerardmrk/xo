@@ -27,13 +27,11 @@ export class SeoElements extends React.PureComponent<Props, State> {
 
     const {
       routePath,
-      settings: { appSettings }
+      settings: { app, build }
     } = props;
 
-    this.titleTemplate = `${appSettings.name} | %s`;
-    this.pageLink = routePath
-      ? `${appSettings[process.env.APP_STAGE as string]}${routePath}`
-      : undefined;
+    this.titleTemplate = `${app.name} | %s`;
+    this.pageLink = routePath ? `${build.url}${routePath}` : undefined;
   }
 
   public render(): React.ReactNode {
@@ -41,13 +39,13 @@ export class SeoElements extends React.PureComponent<Props, State> {
       routeType = "website",
       imageAlt = "website logo",
       twitterCardType = "summary",
-      settings: { appSettings }
+      settings: { app }
     } = this.props;
 
     // not exactly sane defaults, but with a bundle size this big it's never
     // going to be fully SEO optimized anyways.
-    const pageOrAppTitle: string = this.props.title || appSettings.name;
-    const pageOrAppDescription: string = this.props.description || appSettings.description;
+    const pageOrAppTitle: string = this.props.title || app.name;
+    const pageOrAppDescription: string = this.props.description || app.description;
     const pageImageOrAppLogo: string = this.props.imageURL || appLogo;
 
     return (
@@ -57,7 +55,7 @@ export class SeoElements extends React.PureComponent<Props, State> {
         <title>{pageOrAppTitle}</title>
         <meta name="description" content={pageOrAppDescription} />
         {/* opengraph */}
-        <meta name="og:site_name" content={appSettings.name} />
+        <meta name="og:site_name" content={app.name} />
         {!!this.pageLink && <meta name="og:url" content={this.pageLink} />}
         <meta name="og:type" content={routeType} />
         <meta name="og:title" content={pageOrAppTitle} />

@@ -31,7 +31,7 @@ export class RootFooter extends React.PureComponent<Props, State> {
     const {
       intlSettings: { locale },
       settings: {
-        appSettings: { name }
+        app: { name }
       }
     } = this.props;
 

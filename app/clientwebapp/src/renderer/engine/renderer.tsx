@@ -14,7 +14,7 @@ import App from "@client/views/App";
 import initStore from "@client/store";
 import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 import { SettingsProvider } from "@client/views/contexts/SettingsContext";
-import { TranslationsEtAlProvider, IntlProvider } from "@client/views/contexts/I18nContext";
+import { I18nProvider } from "@client/views/contexts/I18nContext";
 
 // REQUEST PARAMS
 export type Params = {
@@ -45,8 +45,8 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
     const store: AppTypes.Store.Store = initStore(
       await API.BUILD({
         stub: true,
-        authConf: INJECTED_SETTINGS.services.auth,
-        userConf: INJECTED_SETTINGS.services.identity
+        authConf: { ...INJECTED_SETTINGS.services.auth },
+        userConf: { ...INJECTED_SETTINGS.services.identity }
       })
     )({} as AppTypes.Store.State); // tslint:disable-line
 
@@ -59,22 +59,17 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
 
     resp.renderedBody = ReactDOMServer.renderToString(
       <AsyncModuleLoader.Capture report={captureModules}>
-        <SettingsProvider
-          appSettings={INJECTED_SETTINGS.app}
-          buildSettings={INJECTED_SETTINGS.build}
-        >
-          <TranslationsEtAlProvider settings={INJECTED_SETTINGS.app.intl}>
-            <MainErrorCatcher errorServiceDSN={""}>
-              <IntlProvider>
-                <StoreProvider store={store}>
-                  <Router location={url} context={routerContext}>
-                    <App />
-                  </Router>
-                </StoreProvider>
-              </IntlProvider>
-            </MainErrorCatcher>
-          </TranslationsEtAlProvider>
-        </SettingsProvider>
+        <MainErrorCatcher errorServiceDSN={""}>
+          <SettingsProvider settings={INJECTED_SETTINGS}>
+            <I18nProvider intl={INJECTED_SETTINGS.app.intl}>
+              <StoreProvider store={store}>
+                <Router location={url} context={routerContext}>
+                  <App />
+                </Router>
+              </StoreProvider>
+            </I18nProvider>
+          </SettingsProvider>
+        </MainErrorCatcher>
       </AsyncModuleLoader.Capture>
     );
 

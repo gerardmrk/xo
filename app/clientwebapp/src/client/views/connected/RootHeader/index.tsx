@@ -29,7 +29,7 @@ export class RootHeader extends React.Component<Props, State> {
 
   // prettier-ignore
   public render(): React.ReactNode {
-    const { intl: { messages }, settings: { appSettings: { name } } } = this.props;
+    const { intl: { messages }, settings: { app: { name } } } = this.props;
 
     return (
       <header className={styles.main}>

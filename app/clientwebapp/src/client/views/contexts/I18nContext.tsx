@@ -37,16 +37,30 @@ export const I18nContext: React.Context<I18n> = React.createContext<I18n>({
   setLocale: async (locale: string): Promise<void> => {}
 });
 
-export type ProviderProps = {
-  settings: typeof INJECTED_SETTINGS.app.intl;
+export class IntlProvider extends React.Component {
+  private renderBaseIntlProvider = ({ locale, messages }: I18n): JSX.Element => (
+    <BaseIntlProvider key={locale} locale={locale} messages={messages}>
+      {this.props.children}
+    </BaseIntlProvider>
+  );
+
+  public render(): React.ReactNode {
+    return <I18nContext.Consumer>{this.renderBaseIntlProvider}</I18nContext.Consumer>;
+  }
+}
+
+// ----
+
+export type I18nProviderProps = {
+  intl: typeof INJECTED_SETTINGS.app.intl;
 };
 
-export class TranslationsEtAlProvider extends React.Component<ProviderProps, I18n> {
-  public constructor(props: ProviderProps) {
+export class I18nProvider extends React.Component<I18nProviderProps, I18n> {
+  public constructor(props: I18nProviderProps) {
     super(props);
     this.state = {
-      ...this.props.settings,
-      locale: this.props.settings.defaultLanguage,
+      ...this.props.intl,
+      locale: this.props.intl.defaultLanguage,
       messages: defaultMessages,
       setLocale: this.onLocaleChange
     };
@@ -67,19 +81,11 @@ export class TranslationsEtAlProvider extends React.Component<ProviderProps, I18
   };
 
   public render(): React.ReactNode {
-    return <I18nContext.Provider value={this.state}>{this.props.children}</I18nContext.Provider>;
-  }
-}
-
-export class IntlProvider extends React.Component {
-  private renderBaseIntlProvider = ({ locale, messages }: I18n): JSX.Element => (
-    <BaseIntlProvider key={locale} locale={locale} messages={messages}>
-      {this.props.children}
-    </BaseIntlProvider>
-  );
-
-  public render(): React.ReactNode {
-    return <I18nContext.Consumer>{this.renderBaseIntlProvider}</I18nContext.Consumer>;
+    return (
+      <I18nContext.Provider value={this.state}>
+        <IntlProvider>{this.props.children}</IntlProvider>
+      </I18nContext.Provider>
+    );
   }
 }
 

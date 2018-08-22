@@ -1,38 +1,32 @@
 import * as React from "react";
 
-import AppTypes from "AppTypes";
-
-export interface Settings {
-  appSettings: AppTypes.Injected.AppSettings;
-  buildSettings: AppTypes.Injected.BuildSettings;
-}
-
-export const SettingsContext: React.Context<Settings> = React.createContext<Settings>({
-  appSettings: {
+export const SettingsContext: React.Context<typeof INJECTED_SETTINGS> = React.createContext({
+  app: {
     name: "",
     description: "",
     intl: {
       defaultLanguage: "en",
-      supportedLanguages: []
+      supportedLanguages: ["en"]
     }
   },
-  buildSettings: {
+  build: {
     url: "",
     targets: { node: "current", browsers: [""] },
     enableDevtools: false,
     enableDebugger: false,
     enableSourcemaps: false
-  }
+  },
+  services: { auth: {}, identity: {}, geolocation: {}, incidents: {} }
 });
 
-// prettier-ignore
-export class SettingsProvider extends React.PureComponent<{
-  appSettings: typeof INJECTED_SETTINGS.app;
-  buildSettings: typeof INJECTED_SETTINGS.build;
-}> {
+export type I18nProviderProps = {
+  settings: typeof INJECTED_SETTINGS;
+};
+
+export class SettingsProvider extends React.PureComponent<I18nProviderProps> {
   public render(): React.ReactNode {
     return (
-      <SettingsContext.Provider value={this.props}>
+      <SettingsContext.Provider value={this.props.settings}>
         {this.props.children}
       </SettingsContext.Provider>
     );
