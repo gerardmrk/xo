@@ -12,10 +12,11 @@
  */
 // tslint:disable:no-unsafe-any
 import * as React from "react";
+import * as defaultLocaleData from "react-intl/locale-data/en";
 import { addLocaleData, Locale, IntlProvider as BaseIntlProvider } from "react-intl";
 
-import * as defaultLocaleData from "react-intl/locale-data/en";
 import defaultTranslations from "@translations/en.json";
+import withSettings from "@client/views/wrappers/withSettings";
 import flattenTranslations from "@client/utils/flatten-translations";
 import deriveLangFromLocale from "@client/utils/derive-lang-from-locale";
 
@@ -37,7 +38,7 @@ export const I18nContext: React.Context<I18n> = React.createContext<I18n>({
   setLocale: async (locale: string): Promise<void> => {}
 });
 
-export class IntlProvider extends React.Component {
+class IntlProvider extends React.Component {
   private renderBaseIntlProvider = ({ locale, messages }: I18n): JSX.Element => (
     <BaseIntlProvider key={locale} locale={locale} messages={messages}>
       {this.props.children}
@@ -50,17 +51,17 @@ export class IntlProvider extends React.Component {
 }
 
 // ----
-
-export type I18nProviderProps = {
-  intl: typeof INJECTED_SETTINGS.app.intl;
-};
+export type I18nProviderProps = { settings: typeof INJECTED_SETTINGS } & {};
 
 export class I18nProvider extends React.Component<I18nProviderProps, I18n> {
+  // prettier-ignore
   public constructor(props: I18nProviderProps) {
     super(props);
+
+    const { settings: { app: { intl } } } = props;
     this.state = {
-      ...this.props.intl,
-      locale: this.props.intl.defaultLanguage,
+      ...intl,
+      locale: intl.defaultLanguage,
       messages: defaultMessages,
       setLocale: this.onLocaleChange
     };
@@ -73,7 +74,9 @@ export class I18nProvider extends React.Component<I18nProviderProps, I18n> {
     const lang: string = deriveLangFromLocale(locale);
     const rawTranslations: object = (await import(/* webpackChunkName: "i18n/messages-" */ `@translations/${lang}.json`)) as object;
     const localeData: Locale = (await import(/* webpackChunkName: "i18n/locale-data-" */ `react-intl/locale-data/${lang}`)).default;
+
     addLocaleData(localeData);
+
     this.setState({
       messages: flattenTranslations(rawTranslations),
       locale
@@ -89,4 +92,4 @@ export class I18nProvider extends React.Component<I18nProviderProps, I18n> {
   }
 }
 
-export default I18nContext;
+export default withSettings(I18nProvider);

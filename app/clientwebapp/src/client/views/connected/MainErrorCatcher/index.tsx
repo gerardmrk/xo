@@ -12,9 +12,7 @@ import withSettings, { InjectedSettingsProps } from "@client/views/wrappers/with
 import DevErrorDisplay from "@client/views/connected/MainErrorCatcher/DevErrorDisplay";
 import UserFriendlyErrorMessage from "@client/views/connected/MainErrorCatcher/UserFriendlyErrorMessage";
 
-export type Props = InjectedSettingsProps & {
-  errorServiceDSN: string;
-};
+export type Props = InjectedSettingsProps & {};
 
 export type State = {
   error?: Error;
@@ -26,9 +24,9 @@ export class MainErrorCatcher extends React.PureComponent<Props, State> {
     super(props);
 
     // -> configure and install Raven (Sentry client)
-    // the DSN should not change for the lifetime of the app so it makes sense
-    // to access it via `props` rather than `this.props`.
-    Raven.config(props.errorServiceDSN).install();
+    Raven.config(
+      (props.settings.services.incidents.config as { [k: string]: string }).dsn
+    ).install();
 
     this.state = {
       error: undefined,
@@ -36,14 +34,14 @@ export class MainErrorCatcher extends React.PureComponent<Props, State> {
     };
   }
 
+  // prettier-ignore
   public componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     // any uncaught exceptions will bubble up the tree and end up here
-    this.setState(
-      (prevState: State) => ({ ...prevState, error, errorInfo }),
-      () => {
-        Raven.captureException(error, { extra: errorInfo });
-      }
-    );
+    this.setState((prevState: State) => ({
+      ...prevState,
+      error,
+      errorInfo
+    }), () => { Raven.captureException(error, { extra: errorInfo }); });
   }
 
   public render(): React.ReactNode | null {

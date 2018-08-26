@@ -1,8 +1,7 @@
-// tslint:disable:typedef
 import * as React from "react";
 import { Subtract } from "utility-types";
 
-import IntlContext, { I18n } from "@client/views/contexts/I18nContext";
+import { I18nContext, I18n } from "@client/views/contexts/I18nContext";
 
 export interface InjectedIntlSettingsProps {
   intlSettings: I18n;
@@ -16,6 +15,7 @@ export const withIntlSettings = <WrappedProps extends InjectedIntlSettingsProps>
 
   return class WithIntlSettings extends React.Component<HocProps, HocState> {
     public static displayName = `withIntlSettings(${WrappedComponent.name})`;
+
     public static readonly WrappedComponent = WrappedComponent;
 
     public renderWithIntlSettings = (settings: I18n): JSX.Element => (
@@ -24,9 +24,9 @@ export const withIntlSettings = <WrappedProps extends InjectedIntlSettingsProps>
 
     public render(): JSX.Element {
       return (
-        <IntlContext.Consumer>
+        <I18nContext.Consumer>
           {this.renderWithIntlSettings}
-        </IntlContext.Consumer>
+        </I18nContext.Consumer>
       );
     }
   };

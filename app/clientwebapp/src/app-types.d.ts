@@ -91,11 +91,11 @@ declare module "AppTypes" {
       targets: { node: string; browsers: string[] };
     }
 
-    interface ServicesSettings {
+    export interface ServicesSettings {
       auth: { [k: string]: string };
       identity: { [k: string]: string };
       geolocation: { [k: string]: string };
-      incidents: { [k: string]: string };
+      incidents: { [k: string]: any };
     }
 
     export interface Settings {

@@ -15,7 +15,7 @@ import { isBrowserEnv } from "@client/utils/is-browser-env";
 import { initStore, appStatusesActions } from "@client/store";
 import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 import { SettingsProvider } from "@client/views/contexts/SettingsContext";
-import { I18nProvider } from "@client/views/contexts/I18nContext";
+import I18nProvider from "@client/views/contexts/I18nContext";
 // include the semantic-ui theme files and configs
 // import "@client/views/theme/semantic.less";
 
@@ -29,23 +29,13 @@ import { I18nProvider } from "@client/views/contexts/I18nContext";
     window._INITIAL_STATE_ = undefined;
 
     // Initialize the app store with the API instance.
-    const store = initStore(await API.BUILD({
-      stub: true,
-      authConf: { ...INJECTED_SETTINGS.services.auth },
-      userConf: { ...INJECTED_SETTINGS.services.identity }
-    }))(initialState);
+    const store = initStore(
+      await API.BUILD({ stub: true, settings: { ...INJECTED_SETTINGS.services } })
+    )(initialState);
 
     if (isBrowser) {
       // Ensure all required components that are marked async are already preloaded.
       await AsyncLoader.preloadReady();
-    }
-
-    if (isBrowser) {
-      // Configure app for offline-usage. we don't want to await this.
-      configureServiceWorker((error: Error | null) => {
-        if (!!error) throw error;
-        store.dispatch(appStatusesActions.updatesAvailable());
-      });
     }
 
     let render: ReactDOM.Renderer = ReactDOM.render;
@@ -55,19 +45,27 @@ import { I18nProvider } from "@client/views/contexts/I18nContext";
     }
 
     render(
-      <MainErrorCatcher errorServiceDSN={""}>
-        <SettingsProvider settings={INJECTED_SETTINGS}>
-          <I18nProvider intl={INJECTED_SETTINGS.app.intl}>
+      <SettingsProvider settings={INJECTED_SETTINGS}>
+        <MainErrorCatcher>
+          <I18nProvider>
             <StoreProvider store={store}>
               <Router>
                 <App />
               </Router>
             </StoreProvider>
           </I18nProvider>
-        </SettingsProvider>
-      </MainErrorCatcher>,
+        </MainErrorCatcher>
+      </SettingsProvider>,
       document.getElementById("app-mount-point")
     );
+
+    if (isBrowser) {
+      // Configure app for offline-usage. we don't want to await this.
+      configureServiceWorker((error: Error | null) => {
+        if (!!error) throw error;
+        store.dispatch(appStatusesActions.updatesAvailable());
+      });
+    }
   } catch (err) {
     // tslint:disable-next-line
     console.error(err);

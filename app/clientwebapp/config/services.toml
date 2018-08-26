@@ -28,7 +28,6 @@ internal = false
 provider = "ipstack"
     [geolocation.config]
 
-
 [incidents]
 internal = false
 provider = "sentry"

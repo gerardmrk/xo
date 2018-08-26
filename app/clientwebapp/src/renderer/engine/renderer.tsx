@@ -14,7 +14,7 @@ import App from "@client/views/App";
 import initStore from "@client/store";
 import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 import { SettingsProvider } from "@client/views/contexts/SettingsContext";
-import { I18nProvider } from "@client/views/contexts/I18nContext";
+import I18nProvider from "@client/views/contexts/I18nContext";
 
 // REQUEST PARAMS
 export type Params = {
@@ -30,7 +30,6 @@ export type Response = {
 };
 
 // RENDERER
-// tslint:disable-next-line
 export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => async ({
   url
 }: Params): Promise<Response> => {
@@ -43,11 +42,7 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
   try {
     // Initialize store
     const store: AppTypes.Store.Store = initStore(
-      await API.BUILD({
-        stub: true,
-        authConf: { ...INJECTED_SETTINGS.services.auth },
-        userConf: { ...INJECTED_SETTINGS.services.identity }
-      })
+      await API.BUILD({ stub: true, settings: { ...INJECTED_SETTINGS.services } })
     )({} as AppTypes.Store.State); // tslint:disable-line
 
     const renderedModules: string[] = [];
@@ -59,17 +54,17 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
 
     resp.renderedBody = ReactDOMServer.renderToString(
       <AsyncModuleLoader.Capture report={captureModules}>
-        <MainErrorCatcher errorServiceDSN={""}>
-          <SettingsProvider settings={INJECTED_SETTINGS}>
-            <I18nProvider intl={INJECTED_SETTINGS.app.intl}>
+        <SettingsProvider settings={INJECTED_SETTINGS}>
+          <MainErrorCatcher>
+            <I18nProvider>
               <StoreProvider store={store}>
                 <Router location={url} context={routerContext}>
                   <App />
                 </Router>
               </StoreProvider>
             </I18nProvider>
-          </SettingsProvider>
-        </MainErrorCatcher>
+          </MainErrorCatcher>
+        </SettingsProvider>
       </AsyncModuleLoader.Capture>
     );
 
