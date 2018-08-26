@@ -28,9 +28,9 @@ module.exports = async ({ applyAppStage = true } = {}) => {
   if (applyAppStage) {
     settings.build = {
       ...settings.build,
-      ...settings.build.envs[process.env.APP_STAGE]
+      ...settings.build.stages[process.env.APP_STAGE]
     }
-    delete settings.build["envs"];
+    delete settings.build["stages"];
   }
 
   return settings;

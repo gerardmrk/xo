@@ -10,19 +10,19 @@ browsers = [
   "not ie < 11"
 ]
 
-[envs.development]
+[stages.development]
+url = "http://localhost:4200"
+enableDevtools = false
+enableDebugger = false
+enableSourcemaps = false
+
+[stages.staging]
 url = "http://localhost:4200"
 enableDevtools = true
 enableDebugger = true
 enableSourcemaps = true
 
-[envs.staging]
-url = "http://localhost:4200"
-enableDevtools = true
-enableDebugger = true
-enableSourcemaps = true
-
-[envs.production]
+[stages.production]
 url = "http://localhost:4200"
 enableDevtools = false
 enableDebugger = false

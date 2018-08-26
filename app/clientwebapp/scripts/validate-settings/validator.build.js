@@ -4,7 +4,7 @@ const validURLProtocolRegex = /^https?:\/\/\S+/;
 const validEnvs = ["development", "staging", "production"];
 
 // prettier-ignore
-const validate = ({ targets = {}, envs = {} }) => {
+const validate = ({ targets = {}, stages = {} }) => {
   const invalidations = [];
 
   // targets.node
@@ -36,17 +36,17 @@ const validate = ({ targets = {}, envs = {} }) => {
   }
 
   // envs.(development|staging|production)
-  for (const [env, { url, ...enabledFlags }] of Object.entries(envs)) {
-    if (!validEnvs.includes(env)) {
-      invalidations.push(`[build.envs] Unrecognized env "${env}".`);
+  for (const [stage, { url, ...enabledFlags }] of Object.entries(stages)) {
+    if (!validEnvs.includes(stage)) {
+      invalidations.push(`[build.envs] Unrecognized env "${stage}".`);
     } else {
       // we're not testing for a fully valid URL, just the protocol; this will be used in canonical link tags
       if (!validURLProtocolRegex.test(url)) {
-        invalidations.push(`[build.envs.${env}] URL has invalid protocol.`);
+        invalidations.push(`[build.envs.${stage}] URL has invalid protocol.`);
       }
       
       if (Object.values(enabledFlags).some(v => typeof v !== 'boolean')) {
-        invalidations.push(`[build.envs.${env}] All 'enable...' flags must be a boolean value.`);
+        invalidations.push(`[build.envs.${stage}] All 'enable...' flags must be a boolean value.`);
       }
     }
   }
