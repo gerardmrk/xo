@@ -54,7 +54,7 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
 
     resp.renderedBody = ReactDOMServer.renderToString(
       <AsyncModuleLoader.Capture report={captureModules}>
-        <SettingsProvider settings={INJECTED_SETTINGS}>
+        <SettingsProvider settings={{ ...INJECTED_SETTINGS }}>
           <MainErrorCatcher>
             <I18nProvider>
               <StoreProvider store={store}>

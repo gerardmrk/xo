@@ -29,13 +29,13 @@ const main = async (settings: parseargs.ParsedArgs) => {
       debugSrv("unlinking previous socket file..", socketfile);
       await unlinkAsync(socketfile);
     } catch (error) {
-      if ((<NodeJS.ErrnoException>error).code !== "ENOENT") {
-        throw error;
-      }
+      if ((<NodeJS.ErrnoException>error).code !== "ENOENT") throw error;
+
       debugSrv("socket file does not exist, will be created by server");
     }
 
     const server = createServer(connections);
+
     server.listen(socketfile);
 
     debugSrv("server listening on %s", socketfile);
@@ -49,6 +49,7 @@ const main = async (settings: parseargs.ParsedArgs) => {
       }
 
       server.close();
+
       debugSrv("server closed");
       process.exit(0);
     });
