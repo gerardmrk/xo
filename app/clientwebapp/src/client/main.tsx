@@ -17,22 +17,21 @@ import { SettingsProvider } from "@client/views/contexts/SettingsContext";
 // include the semantic-ui theme files and configs
 // import "@client/views/theme/semantic.less";
 
-// prettier-ignore
 (async (): Promise<void> => {
   try {
     // Ensure all required components that are marked async are already preloaded.
     await AsyncLoader.preloadReady();
 
-    const store = initStore(await API.BUILD({
-      stub: true,
-      settings: { ...INJECTED_SETTINGS.services }
-    }))({ ...(window._INITIAL_STATE_ || {}) });
+    const store = initStore(
+      await API.BUILD({
+        stub: true,
+        settings: { ...INJECTED_SETTINGS.services }
+      })
+    )({ ...(window._INITIAL_STATE_ || {}) });
 
     delete window._INITIAL_STATE_;
 
-    const render: ReactDOM.Renderer = DEV_MODE
-      ? ReactDOM.render
-      : ReactDOM.hydrate;
+    const render: ReactDOM.Renderer = DEV_MODE ? ReactDOM.render : ReactDOM.hydrate;
 
     render(
       <SettingsProvider settings={{ ...INJECTED_SETTINGS }}>
