@@ -1,6 +1,10 @@
 import * as net from "net";
 import debug from "debug";
 import uuidv4 from "uuid/v4";
+import Loadable from "react-loadable";
+
+import renderer, { Params, Response, Manifest } from "@renderer/engine/renderer";
+import asyncModuleStats from "../../dist/client/async-modules.json";
 
 const debugConn = debug("server:conn");
 
@@ -8,16 +12,20 @@ export type ConnectionsCache = {
   [connID: string]: net.Socket;
 };
 
-const connectionHandler = (conns: ConnectionsCache) => (conn: net.Socket): void => {
+const connectionHandler = (renderComponent: (p: Params) => Promise<Response>) => (
+  conns: ConnectionsCache
+) => (conn: net.Socket): void => {
   const connID: string = uuidv4();
 
   debugConn("[%s] connection established", connID);
   conns[connID] = conn;
 
-  conn.on("data", (data: Buffer) => {
+  conn.on("data", async (data: Buffer) => {
     debugConn("[%s] 'data' event", connID);
-    const msg: string = data.toString();
-    conn.write(`[RESP] ${msg}`);
+    const url = data.toString();
+    const resp = await renderComponent({ url });
+
+    conn.write(JSON.stringify(resp, null, 2));
   });
 
   conn.on("end", () => {
@@ -26,8 +34,10 @@ const connectionHandler = (conns: ConnectionsCache) => (conn: net.Socket): void 
   });
 };
 
-export const createServer = (conns: ConnectionsCache): net.Server => {
-  const handleConnection = connectionHandler(conns);
+export const createServer = async (conns: ConnectionsCache): Promise<net.Server> => {
+  await Loadable.preloadAll();
+  const renderComponent = renderer(Loadable)(<Manifest>asyncModuleStats);
+  const handleConnection = connectionHandler(renderComponent)(conns);
 
   return net.createServer(handleConnection);
 };

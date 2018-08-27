@@ -1,12 +1,11 @@
-// https://stackoverflow.com/questions/49288130/webpack-4-react-loadable-is-not-spliting-vendor-base-on-chucking-point
-// https://github.com/jamiebuilds/react-loadable/pull/110
+import * as path from "path";
 import * as React from "react";
+import Loadable from "react-loadable";
 import { Helmet, HelmetDatum } from "react-helmet";
-import * as Loadable from "react-loadable";
 import * as ReactDOMServer from "react-dom/server";
 import { getBundles } from "react-loadable/webpack";
 import { Provider as StoreProvider } from "react-redux";
-import { StaticRouter as Router } from "react-router-dom";
+import { StaticRouter } from "react-router-dom";
 
 import API from "@client/api";
 import App from "@client/views/App";
@@ -22,10 +21,12 @@ export type Params = {
 
 // RESPONSE PAYLOAD
 export type Response = {
-  renderedHead: string;
-  renderedBody: string;
-  renderedTail: string;
-  error?: Error;
+  status_code: number;
+  redirect_to: string;
+  rendered_head: string;
+  rendered_body: string;
+  rendered_mods: string;
+  error: Error | undefined;
 };
 
 // RENDERER
@@ -33,9 +34,12 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
   url
 }: Params): Promise<Response> => {
   const resp: Response = {
-    renderedHead: "",
-    renderedBody: "",
-    renderedTail: ""
+    status_code: 200,
+    redirect_to: "",
+    rendered_head: "",
+    rendered_body: "",
+    rendered_mods: "",
+    error: undefined
   };
 
   try {
@@ -44,9 +48,7 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
         stub: true,
         settings: { ...INJECTED_SETTINGS.services }
       })
-    )({ ...(window._INITIAL_STATE_ || {}) });
-
-    delete window._INITIAL_STATE_;
+    )({});
 
     const renderedModules: string[] = [];
 
@@ -54,17 +56,17 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
       renderedModules.push(moduleName);
     };
 
-    const routerContext = {};
+    const routerContext: RouterContext = {};
 
-    resp.renderedBody = ReactDOMServer.renderToString(
+    resp.rendered_body = ReactDOMServer.renderToString(
       <AsyncModuleLoader.Capture report={captureModules}>
         <SettingsProvider settings={{ ...INJECTED_SETTINGS }}>
           <MainErrorCatcher>
             <I18nProvider>
               <StoreProvider store={store}>
-                <Router location={url} context={routerContext}>
+                <StaticRouter location={url} context={routerContext}>
                   <App />
-                </Router>
+                </StaticRouter>
               </StoreProvider>
             </I18nProvider>
           </MainErrorCatcher>
@@ -72,23 +74,28 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
       </AsyncModuleLoader.Capture>
     );
 
-    // extract all bundle URIs
-    resp.renderedTail = getBundles(manifest, renderedModules)
-      .map((bundle: Bundle) => {
-        return `<script src="${bundle ? bundle.file : ""}"></script>`;
-      })
-      .reduce((elmStrA: string, elmStrB: string) => {
-        return `${elmStrA}${elmStrB}`;
-      }, "");
+    if (routerContext.url) {
+      resp.status_code = 302;
+      resp.redirect_to = routerContext.url;
+    } else {
+      // extract the route's rendered elements for <Head />
+      resp.rendered_head = Object.values(Helmet.renderStatic())
+        .map((elm: HelmetDatum) => elm.toString())
+        .reduce((elms: string, elm: string) => `${elm}${elms}`, "");
 
-    // extract the route's rendered elements for <Head />
-    resp.renderedHead = Object.values(Helmet.renderStatic())
-      .map((elm: HelmetDatum) => {
-        return elm.toString();
-      })
-      .reduce((elmStrA: string, elmStrB: string) => {
-        return `${elmStrA}${elmStrB}`;
-      }, "");
+      for (let bb = getBundles(manifest, renderedModules), i = bb.length - 1; i >= 0; i--) {
+        const { file } = bb[i];
+        switch (path.extname(file)) {
+          case ".css":
+            resp.rendered_head += `<link href="${file}" rel="stylesheet">`;
+            break;
+          case ".js":
+            resp.rendered_mods += `<script src="${file}"></script>`;
+            break;
+          default:
+        }
+      }
+    }
   } catch (error) {
     resp.error = error as Error;
   }
@@ -102,6 +109,11 @@ interface Bundle {
   file: string;
 }
 
-interface Manifest {
+export interface Manifest {
   [moduleId: string]: Bundle[];
+}
+
+interface RouterContext {
+  url?: string;
+  status?: number;
 }

@@ -4,7 +4,8 @@
  */
 import * as React from "react";
 import { hot } from "react-hot-loader";
-import { Switch as RouteSwitcher, RouteComponentProps, withRouter } from "react-router-dom";
+import { Switch, RouteComponentProps, withRouter } from "react-router-dom";
+
 import styles from "@client/views/App.less";
 import routes, { RouteProps } from "@client/views/routes";
 import RootHeader from "@client/views/connected/RootHeader";
@@ -40,11 +41,11 @@ export class App extends React.PureComponent<Props, State> {
 
         {/* This is where the routes go. Routes are defined in "@client/routes". */}
         <main className={styles.container}>
-          <RouteSwitcher>
+          <Switch>
             {routes.map((r: RouteProps, i: number) => (
               <EnhancedRoute key={i} {...r} />
             ))}
-          </RouteSwitcher>
+          </Switch>
         </main>
 
         {/* Main footer of the app. */}

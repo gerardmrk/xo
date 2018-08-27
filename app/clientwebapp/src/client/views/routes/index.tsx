@@ -6,6 +6,7 @@ import { SeoProps } from "@client/views/connected/EnhancedRoute/SeoElements";
 import RouteLoaderUI from "@client/views/components/RouteLoaderUI";
 
 export interface RouteProps extends BaseRouteProps {
+  readonly status?: number;
   readonly guarded: boolean;
   readonly seo?: SeoProps;
   readonly routes?: RouteProps[];
@@ -108,6 +109,7 @@ export const routes: RouteProps[] = [
   },
   {
     path: "/profile",
+    status: 200,
     exact: true,
     guarded: true,
     seo: { title: "Profile Settings" },
@@ -118,6 +120,7 @@ export const routes: RouteProps[] = [
   },
   {
     path: "/account",
+    status: 200,
     exact: true,
     guarded: true,
     seo: { title: "Account Settings" },
@@ -127,6 +130,7 @@ export const routes: RouteProps[] = [
     })
   },
   {
+    status: 404,
     guarded: false,
     seo: { title: "404" },
     component: Loadable({

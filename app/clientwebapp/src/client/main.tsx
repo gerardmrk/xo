@@ -5,7 +5,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as AsyncLoader from "react-loadable";
 import { Provider as StoreProvider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import API from "@client/api";
 import App from "@client/views/App";
@@ -38,9 +38,9 @@ import { SettingsProvider } from "@client/views/contexts/SettingsContext";
         <MainErrorCatcher>
           <I18nProvider>
             <StoreProvider store={store}>
-              <Router>
+              <BrowserRouter>
                 <App />
-              </Router>
+              </BrowserRouter>
             </StoreProvider>
           </I18nProvider>
         </MainErrorCatcher>

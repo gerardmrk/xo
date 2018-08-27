@@ -34,7 +34,7 @@ const main = async (settings: parseargs.ParsedArgs) => {
       debugSrv("socket file does not exist, will be created by server");
     }
 
-    const server = createServer(connections);
+    const server = await createServer(connections);
 
     server.listen(socketfile);
 

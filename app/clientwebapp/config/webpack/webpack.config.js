@@ -6,13 +6,13 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const LodashWebpackPlugin = require("lodash-webpack-plugin");
 // const ClosureWebpackPlugin = require("closure-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const { ReactLoadablePlugin } = require("react-loadable/webpack");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 // const PrepackWebpackPlugin = require("prepack-webpack-plugin").default;
 const SubresourceIntegrityPlugin = require("webpack-subresource-integrity");
+const ExtractCSSChunksPlugin = require("extract-css-chunks-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const RemoveServiceWorkerPlugin = require("webpack-remove-serviceworker-plugin");
@@ -86,12 +86,12 @@ conf.addModuleRule(({ paths, isDevMode, isClientBuild, settings: { build: { targ
 }));
 
 // [MODULES] *.less
-// [LOADERS] less-loader -> css-loader -> (style-loader | MiniCssExtractPlugin.loader)
+// [LOADERS] less-loader -> css-loader -> (style-loader | ExtractCSSChunksPlugin.loader)
 conf.addModuleRule(({ isDevMode, isClientBuild, settings: { build } }) => ({
   test: /\.less$/,
   exclude: [/node_modules/],
   use: [
-    !isDevMode && isClientBuild && MiniCssExtractPlugin.loader,
+    !isDevMode && isClientBuild && ExtractCSSChunksPlugin.loader,
     isDevMode &&
       isClientBuild && {
         loader: "style-loader",
@@ -370,12 +370,12 @@ conf.addPlugin(CLIENT_ONLY, ({ paths }) => {
   ]);
 });
 
-// -- MiniCssExtractPlugin (production only)
+// -- ExtractCSSChunksPlugin (production only)
 // -- https://github.com/webpack-contrib/mini-css-extract-plugin
 // This plugin is responsible for extracting all processed CSS rules into a separate
 // CSS file and referenced from the root HTML file via link tag(s).
 conf.addPlugin(PROD_ONLY, CLIENT_ONLY, () => {
-  return new MiniCssExtractPlugin({
+  return new ExtractCSSChunksPlugin({
     filename: "styles/[name].[chunkhash].css",
     chunkFilename: "styles/[id].[chunkhash].css"
   });
