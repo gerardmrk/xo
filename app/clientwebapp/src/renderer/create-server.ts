@@ -3,7 +3,7 @@ import debug from "debug";
 import uuidv4 from "uuid/v4";
 import Loadable from "react-loadable";
 
-import renderer, { Params, Response, Manifest } from "@renderer/engine/renderer";
+import renderer, { Manifest } from "@renderer/engine/renderer";
 import asyncModuleStats from "../../dist/client/async-modules.json";
 
 const debugConn = debug("server:conn");
@@ -12,7 +12,7 @@ export type ConnectionsCache = {
   [connID: string]: net.Socket;
 };
 
-const connectionHandler = (renderComponent: (p: Params) => Promise<Response>) => (
+const connectionHandler = (renderComponent: (p: Uint8Array) => Promise<Uint8Array>) => (
   conns: ConnectionsCache
 ) => (conn: net.Socket): void => {
   const connID: string = uuidv4();
@@ -22,10 +22,12 @@ const connectionHandler = (renderComponent: (p: Params) => Promise<Response>) =>
 
   conn.on("data", async (data: Buffer) => {
     debugConn("[%s] 'data' event", connID);
-    const url = data.toString().trim();
-    const resp = await renderComponent({ url });
+    const resp = await renderComponent(data);
+    conn.write(resp);
+  });
 
-    conn.write(JSON.stringify(resp, null, 2));
+  conn.on("error", error => {
+    conn.write(error);
   });
 
   conn.on("end", () => {

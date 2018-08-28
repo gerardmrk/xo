@@ -78,6 +78,10 @@ conf.addModuleRule(({ paths, isDevMode, isClientBuild, settings: { build: { targ
           "@babel/plugin-transform-runtime",
           !isDevMode && "transform-react-remove-prop-types",
           isClientBuild && "react-hot-loader/babel",
+          !isClientBuild && ["css-modules-transform", {
+            extensions: [".css", ".less"],
+            generateScopedName: "[hash:base64:7]"
+          }],
           "react-loadable/babel"
         ].filter(x => !!x),
       }

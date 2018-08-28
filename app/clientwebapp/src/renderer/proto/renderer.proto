@@ -2,11 +2,16 @@ syntax = "proto3";
 
 message RendererParams {
   string url = 1;
+  string lang = 2;
 }
 
 message RendererResponse {
-  string head_elements = 1;
-  string body_content = 2;
-  string critical_styles = 3;
-  string rendered_modules = 4;
+  int32 status_code = 1;
+  string error = 2;
+  string redirect_to = 3;
+  bytes rendered_head = 4;
+  bytes rendered_body = 5;
+  bytes rendered_styles = 6;
+  bytes rendered_scripts = 7;
+  int32 ttr = 8;
 }

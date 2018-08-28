@@ -1,46 +1,40 @@
 import * as path from "path";
+import * as util from "util";
 import * as React from "react";
 import Loadable from "react-loadable";
+import { StaticRouter } from "react-router-dom";
 import { Helmet, HelmetDatum } from "react-helmet";
 import * as ReactDOMServer from "react-dom/server";
 import { getBundles } from "react-loadable/webpack";
 import { Provider as StoreProvider } from "react-redux";
-import { StaticRouter } from "react-router-dom";
 
 import API from "@client/api";
 import App from "@client/views/App";
 import initStore from "@client/store";
+import proto from "@renderer/proto/js";
 import I18nProvider from "@client/views/contexts/I18nContext";
 import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 import { SettingsProvider } from "@client/views/contexts/SettingsContext";
 
-// REQUEST PARAMS
-export type Params = {
-  url: string;
-};
-
-// RESPONSE PAYLOAD
-export type Response = {
-  status_code: number;
-  redirect_to: string;
-  rendered_head: string;
-  rendered_body: string;
-  rendered_mods: string;
-  error: Error | undefined;
-};
-
 // RENDERER
-export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => async ({
-  url
-}: Params): Promise<Response> => {
-  const resp: Response = {
-    status_code: 200,
-    redirect_to: "",
-    rendered_head: "",
-    rendered_body: "",
-    rendered_mods: "",
-    error: undefined
-  };
+export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => async (
+  params: Uint8Array
+): Promise<Uint8Array> => {
+  const timer = process.hrtime();
+
+  // REQUEST
+  const request = proto.RendererParams.decode(params);
+  // RESPONSE
+  const response = proto.RendererResponse.create({
+    statusCode: 200,
+    redirectTo: "",
+    error: null,
+    ttr: 0,
+    renderedHead: null,
+    renderedBody: null,
+    renderedStyles: null,
+    renderedScripts: null
+  });
 
   try {
     const store = initStore(
@@ -58,49 +52,59 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
 
     const routerContext: RouterContext = {};
 
-    resp.rendered_body = ReactDOMServer.renderToString(
-      <AsyncModuleLoader.Capture report={captureModules}>
-        <SettingsProvider settings={{ ...INJECTED_SETTINGS }}>
-          <MainErrorCatcher>
-            <I18nProvider>
-              <StoreProvider store={store}>
-                <StaticRouter location={url} context={routerContext}>
-                  <App />
-                </StaticRouter>
-              </StoreProvider>
-            </I18nProvider>
-          </MainErrorCatcher>
-        </SettingsProvider>
-      </AsyncModuleLoader.Capture>
+    response.renderedBody = new util.TextEncoder().encode(
+      ReactDOMServer.renderToString(
+        <AsyncModuleLoader.Capture report={captureModules}>
+          <SettingsProvider settings={{ ...INJECTED_SETTINGS }}>
+            <MainErrorCatcher>
+              <I18nProvider>
+                <StoreProvider store={store}>
+                  <StaticRouter location={request.url} context={routerContext}>
+                    <App />
+                  </StaticRouter>
+                </StoreProvider>
+              </I18nProvider>
+            </MainErrorCatcher>
+          </SettingsProvider>
+        </AsyncModuleLoader.Capture>
+      )
     );
 
     if (routerContext.url) {
-      resp.status_code = 302;
-      resp.redirect_to = routerContext.url;
+      response.statusCode = 302;
+      response.redirectTo = routerContext.url;
     } else {
       // extract the route's rendered elements for <Head />
-      resp.rendered_head = Object.values(Helmet.renderStatic())
-        .map((elm: HelmetDatum) => elm.toString())
-        .reduce((elms: string, elm: string) => `${elm}${elms}`, "");
+      response.renderedHead = new util.TextEncoder().encode(
+        Object.values(Helmet.renderStatic())
+          .map((elm: HelmetDatum) => elm.toString())
+          .reduce((elms: string, elm: string) => `${elm}${elms}`, "")
+      );
 
+      let styles = "";
+      let scripts = "";
       for (let bb = getBundles(manifest, renderedModules), i = bb.length - 1; i >= 0; i--) {
         const { file } = bb[i];
         switch (path.extname(file)) {
           case ".css":
-            resp.rendered_head += `<link href="${file}" rel="stylesheet">`;
+            styles += `<link href="${file}" rel="stylesheet">`;
             break;
           case ".js":
-            resp.rendered_mods += `<script src="${file}"></script>`;
+            scripts += `<script src="${file}"></script>`;
             break;
           default:
         }
       }
+      response.renderedStyles = new util.TextEncoder().encode(styles);
+      response.renderedScripts = new util.TextEncoder().encode(scripts);
     }
   } catch (error) {
-    resp.error = error as Error;
+    response.error = (error as Error).message;
   }
 
-  return resp;
+  response.ttr = process.hrtime(timer)[1] / 1000000;
+
+  return proto.RendererResponse.encode(response).finish();
 };
 
 interface Bundle {
