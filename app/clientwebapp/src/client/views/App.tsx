@@ -36,17 +36,19 @@ export class App extends React.PureComponent<Props, State> {
         {/* Message overlay. Hidden by default (renders null). */}
         <GlobalMessageOverlay />
 
-        {/* Main header of the app. */}
-        <RootHeader />
+        <div className={styles.container}>
+          {/* Main header of the app. */}
+          <RootHeader />
 
-        {/* This is where the routes go. Routes are defined in "@client/routes". */}
-        <main className={styles.container}>
-          <Switch>
-            {routes.map((r: RouteProps, i: number) => (
-              <EnhancedRoute key={i} {...r} />
-            ))}
-          </Switch>
-        </main>
+          {/* This is where the routes go. Routes are defined in "@client/routes". */}
+          <main className={styles.content}>
+            <Switch>
+              {routes.map((r: RouteProps, i: number) => (
+                <EnhancedRoute key={i} {...r} />
+              ))}
+            </Switch>
+          </main>
+        </div>
 
         {/* Main footer of the app. */}
         <RootFooter />

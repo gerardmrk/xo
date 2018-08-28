@@ -22,7 +22,7 @@ const connectionHandler = (renderComponent: (p: Params) => Promise<Response>) =>
 
   conn.on("data", async (data: Buffer) => {
     debugConn("[%s] 'data' event", connID);
-    const url = data.toString();
+    const url = data.toString().trim();
     const resp = await renderComponent({ url });
 
     conn.write(JSON.stringify(resp, null, 2));
