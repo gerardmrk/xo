@@ -28,6 +28,7 @@
     "removeComments": true,
     "paths": {
       "@translations/*": ["config/i18n/translations/*"],
+      "@proto/js": ["src/proto/js/index.d.ts", "src/proto/js/index.js"],
       "@client/*": [
         "src/client/*",
         "src/client/*/index.ts",

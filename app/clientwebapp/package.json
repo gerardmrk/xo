@@ -14,7 +14,8 @@
     "build:renderer": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --config config/webpack/webpack.config.js --env.mode=production --env.source=renderer",
     "test:withcov": "cross-env NODE_ENV=test jest --config=./config/jest/jest.config.js --coverage",
     "i18n:sync": "node ./scripts/update-translations/index.js",
-    "proto:gen": "./node_modules/.bin/pbjs -t static-module -w commonjs -o ./src/renderer/proto/js/index.js ./src/renderer/proto/renderer.proto; ./node_modules/.bin/pbts -o ./src/renderer/proto/js/index.d.ts ./src/renderer/proto/js/index.js",
+    "proto:gen:js": "./node_modules/.bin/pbjs -t static-module -w commonjs -o ./src/proto/js/index.js ./src/proto/renderer.proto; ./node_modules/.bin/pbts -o ./src/proto/js/index.d.ts ./src/proto/js/index.js",
+    "proto:gen:go": "protoc --go_out=./src ./src/renderer.proto",
     "validate:settings": "node ./scripts/validate-settings/index.js",
     "tmp:rserver": "cross-env DEBUG=* node ./dist/renderer/renderer.js --mode uds --addr /tmp/server.sock",
     "tmp:rclient": "node ./tmp.rclient.js"

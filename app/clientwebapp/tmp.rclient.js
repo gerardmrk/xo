@@ -2,7 +2,7 @@
 const net = require("net");
 const util = require("util");
 
-const proto = require("./src/renderer/proto/js");
+const proto = require("./src/proto/js");
 
 const client = net.createConnection("/tmp/server.sock");
 

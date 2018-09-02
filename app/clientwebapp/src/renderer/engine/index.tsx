@@ -11,7 +11,7 @@ import { Provider as StoreProvider } from "react-redux";
 import API from "@client/api";
 import App from "@client/views/App";
 import initStore from "@client/store";
-import proto from "@renderer/proto/js";
+import proto from "@proto/js";
 import I18nProvider from "@client/views/contexts/I18nContext";
 import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 import { SettingsProvider } from "@client/views/contexts/SettingsContext";
