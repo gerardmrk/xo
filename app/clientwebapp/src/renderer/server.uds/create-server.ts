@@ -3,8 +3,8 @@ import debug from "debug";
 import uuidv4 from "uuid/v4";
 import Loadable from "react-loadable";
 
-import renderer, { Manifest } from "@renderer/engine/renderer";
-import asyncModuleStats from "../../dist/client/async-modules.json";
+import renderer, { Manifest } from "@renderer/engine";
+import asyncModuleStats from "../../../dist/client/async-modules.json";
 
 const debugConn = debug("server:conn");
 

@@ -1,11 +1,17 @@
 import { UnknownSettingError, InvalidOptionError, MissingSettingError } from "@renderer/errors";
 
+export interface Settings {
+  mode: string;
+  addr?: string;
+}
+
 export const settingOptions: { [k: string]: string[] } = {
   _: [],
-  socketfile: []
+  mode: ["uds", "http"],
+  addr: []
 };
 
-export const requiredSettings: string[] = ["socketfile"];
+export const requiredSettings: string[] = ["mode", "addr"];
 
 export const validateSettings = (settings: { [k: string]: string }) => {
   for (const [s, opt] of Object.entries(settings)) {

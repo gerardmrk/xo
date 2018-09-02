@@ -1,58 +1,26 @@
-import * as fs from "fs";
-import * as util from "util";
 import * as process from "process";
+
 import debug from "debug";
 import parseargs from "minimist";
 
-import { ServerSettingsError } from "./errors";
+import udsServer from "./server.uds";
 import { validateSettings } from "./settings";
-import { createServer, ConnectionsCache } from "./create-server";
-
-const statAsync = util.promisify(fs.stat);
-const unlinkAsync = util.promisify(fs.unlink);
+import { ServerSettingsError } from "./errors";
 
 const debugSrv = debug("server");
 
 const main = async (settings: parseargs.ParsedArgs) => {
-  const connections: ConnectionsCache = {};
-
   try {
     debugSrv("settings: %O", settings);
     validateSettings(settings);
 
-    const { socketfile }: { [k: string]: string } = settings;
-
-    try {
-      debugSrv("checking for pre-existing socket file..");
-      await statAsync(socketfile);
-
-      debugSrv("unlinking previous socket file..", socketfile);
-      await unlinkAsync(socketfile);
-    } catch (error) {
-      if ((<NodeJS.ErrnoException>error).code !== "ENOENT") throw error;
-
-      debugSrv("socket file does not exist, will be created by server");
+    switch (<string>settings.mode) {
+      case "uds":
+        await udsServer({ socketfile: <string>settings.addr });
+      case "http":
+        await udsServer({ socketfile: <string>settings.addr });
+      default:
     }
-
-    const server = await createServer(connections);
-
-    server.listen(socketfile);
-
-    debugSrv("server listening on %s", socketfile);
-
-    process.on("SIGINT", () => {
-      debugSrv("performing cleanup..");
-
-      for (const [id, conn] of Object.entries(connections)) {
-        debugSrv("draining connection for %s", id); // well not really.. will implement soon
-        conn.end();
-      }
-
-      server.close();
-
-      debugSrv("server closed");
-      process.exit(0);
-    });
   } catch (error) {
     if (error instanceof ServerSettingsError) {
       error.printUsage();
