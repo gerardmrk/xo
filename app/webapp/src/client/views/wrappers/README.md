@@ -1,3 +1,0 @@
-# Wrappers
-
-Higher Order Components

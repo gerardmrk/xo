@@ -12,7 +12,7 @@ This does not follow standard React-Redux-TypeScript conventions for various rea
 
 ```shell
 git clone git@github.com:gerardmrk/xo.git && \
-  cd xo/app/clientwebapp && \
+  cd xo/app/clientweb && \
   yarn install && \
   yarn start
 ```
