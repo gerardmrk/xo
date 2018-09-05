@@ -1,0 +1,21 @@
+configDir = "config"
+
+i18nDir = "config/i18n"
+
+outputDir = "dist"
+
+linterRulesDir = "config/syntax"
+
+clientSource = "src/client"
+
+rendererSource = "src/renderer"
+
+projectSettings = "config/project.toml"
+
+translationsDir = "config/i18n/translations"
+
+rootHTMLTemplate = "src/client/index.html"
+
+themeConfig = "src/client/views/theme/theme.config"
+
+asyncModuleStats = "dist/client/async-modules.json"

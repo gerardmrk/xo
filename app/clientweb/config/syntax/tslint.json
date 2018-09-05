@@ -1,0 +1,84 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-eslint-rules",
+    "tslint-microsoft-contrib",
+    "tslint-config-prettier"
+  ],
+  "rulesDirectory": "./custom-rules",
+  "linterOptions": {
+    "exclude": ["./custom-rules/**/*", "../../**/*.json"]
+  },
+  "rules": {
+    "arrow-parens": false,
+    "arrow-return-shorthand": [false],
+    "comment-format": [true, "check-space"],
+    "member-access": false,
+    "no-any": false,
+    "no-import-side-effect": [true],
+    "no-inferrable-types": [true, "ignore-params", "ignore-properties"],
+    "no-invalid-this": [true, "check-function-in-method"],
+    "no-null-keyword": false,
+    "no-this-assignment": [true, { "allow-destructuring": true }],
+    "object-literal-shorthand": false,
+    "only-arrow-functions": [true, "allow-declarations"],
+    "prefer-method-signature": false,
+    "prefer-template": [true, "allow-single-concat"],
+    "no-direct-store-import": true,
+    "ban-comma-operator": false,
+    "completed-docs": false,
+    "curly": false,
+    "export-name": false,
+    "import-name": false,
+    "interface-name": false,
+    "interface-over-type-literal": false,
+    "match-default-export-name": false,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "private-static-field",
+          "protected-static-field",
+          "public-static-field",
+          "private-instance-field",
+          "protected-instance-field",
+          "public-instance-field",
+          "private-constructor",
+          "protected-constructor",
+          "public-constructor"
+        ]
+      }
+    ],
+    "missing-jsdoc": false,
+    "mocha-no-side-effect-code": [true, { "ignore": "it\\.skip.*" }],
+    "newline-before-return": false,
+    "no-bitwise": false,
+    "no-console": { "severity": "warning" },
+    "no-default-export": false,
+    "no-empty": false,
+    "no-empty-interface": false,
+    "no-floating-promises": false,
+    "no-implicit-dependencies": false,
+    "no-increment-decrement": false,
+    "no-relative-imports": false,
+    "no-single-line-block-comment": false,
+    "no-submodule-imports": false,
+    "no-unnecessary-callback-wrapper": false,
+    "no-unsafe-any": { "severity": "warning" },
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "one-variable-per-declaration": false,
+    "prefer-for-of": false,
+    "strict-boolean-expressions": false,
+    "triple-equals": [true, "allow-null-check"],
+    "typedef": [true, "parameter", "property-declaration"],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case",
+      "allow-leading-underscore"
+    ]
+  }
+}

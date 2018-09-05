@@ -1,0 +1,36 @@
+# internal (boolean)
+#   - whether this service is a custom solution or a 3rd-party PaaS
+# provider (string)
+#   - the name of the provider if using a 3rd-party PaaS
+#   - will be used in error-reporting
+# config (object)
+#   - the service's client config for the app to inject into the source code
+#   - normally this is not sensitive data (or the provider would not instruct as such)
+
+[auth]
+internal = true
+provider = ""
+    [auth.config]
+    domain = ""
+    clientID = ""
+    redirectUri = ""
+    audience = ""
+    responseType = "token id_token"
+    scope = "openid"
+
+[identity]
+internal = true
+provider = ""
+    [identity.config]
+
+[geolocation]
+internal = false
+provider = "ipstack"
+    [geolocation.config]
+
+[incidents]
+internal = false
+provider = "sentry"
+    [incidents.config]
+    dsn = "https://41cafee025a94b98aca6b945f5b3070b@sentry.io/1253685"
+
