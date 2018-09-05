@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package internal;
+
 message RendererParams {
   string url = 1;
   string lang = 2;

@@ -11,7 +11,7 @@ import { Provider as StoreProvider } from "react-redux";
 import API from "@client/api";
 import App from "@client/views/App";
 import initStore from "@client/store";
-import proto from "@proto/js";
+import proto from "./proto";
 import I18nProvider from "@client/views/contexts/I18nContext";
 import MainErrorCatcher from "@client/views/connected/MainErrorCatcher";
 import { SettingsProvider } from "@client/views/contexts/SettingsContext";
@@ -23,9 +23,9 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
   const timer = process.hrtime();
 
   // REQUEST
-  const request = proto.RendererParams.decode(params);
+  const request = proto.internal.RendererParams.decode(params);
   // RESPONSE
-  const response = proto.RendererResponse.create({
+  const response = proto.internal.RendererResponse.create({
     statusCode: 200,
     redirectTo: "",
     error: null,
@@ -104,7 +104,7 @@ export default (AsyncModuleLoader: typeof Loadable) => (manifest: Manifest) => a
 
   response.ttr = process.hrtime(timer)[1] / 1000000;
 
-  return proto.RendererResponse.encode(response).finish();
+  return proto.internal.RendererResponse.encode(response).finish();
 };
 
 interface Bundle {

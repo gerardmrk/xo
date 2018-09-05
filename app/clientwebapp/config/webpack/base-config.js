@@ -86,7 +86,6 @@ const baseConfig = ({ paths, settings, buildMode, isDevMode, isClientBuild }) =>
   resolve: {
     alias: {
       "@translations": paths.translationsDir,
-      "@proto/js": paths.protoSpec,
       "@client": paths.clientSource,
       "@renderer": paths.rendererSource,
       "../../theme.config$": paths.themeConfig

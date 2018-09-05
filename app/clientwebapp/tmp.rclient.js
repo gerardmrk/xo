@@ -2,13 +2,13 @@
 const net = require("net");
 const util = require("util");
 
-const proto = require("./src/proto/js");
+const proto = require("./src/renderer/engine/proto");
 
 const client = net.createConnection("/tmp/server.sock");
 
 client.on("connect", () => {
   console.info("[CLIENT] connected");
-  client.write(proto.RendererParams.encode({ url: "/register", lang: "en" }).finish());
+  client.write(proto.internal.RendererParams.encode({ url: "/register", lang: "en" }).finish());
 });
 
 client.on("data", data => {
@@ -16,7 +16,7 @@ client.on("data", data => {
 
   console.log("[data:raw]    ", data);
 
-  const response = proto.RendererResponse.decode(data);
+  const response = proto.internal.RendererResponse.decode(data);
   console.log("[data:decoded]", response);
 
   response.renderedHead = new util.TextDecoder().decode(response.renderedHead);

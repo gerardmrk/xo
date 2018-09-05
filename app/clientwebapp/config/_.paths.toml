@@ -16,8 +16,6 @@ translationsDir = "config/i18n/translations"
 
 rootHTMLTemplate = "src/client/index.html"
 
-protoSpec = "src/proto/js"
-
 themeConfig = "src/client/views/theme/theme.config"
 
 asyncModuleStats = "dist/client/async-modules.json"

@@ -18,42 +18,38 @@ import { SettingsProvider } from "@client/views/contexts/SettingsContext";
 // import "@client/views/theme/semantic.less";
 
 (async (): Promise<void> => {
-  try {
-    // Ensure all required components that are marked async are already preloaded.
-    await AsyncLoader.preloadReady();
+  // Ensure all required components that are marked async are already preloaded.
+  await AsyncLoader.preloadReady();
 
-    const store = initStore(
-      await API.BUILD({
-        stub: true,
-        settings: { ...INJECTED_SETTINGS.services }
-      })
-    )({ ...(window._INITIAL_STATE_ || {}) });
+  const store = initStore(
+    await API.BUILD({
+      stub: true,
+      settings: { ...INJECTED_SETTINGS.services }
+    })
+  )({ ...(window._INITIAL_STATE_ || {}) });
 
-    delete window._INITIAL_STATE_;
+  delete window._INITIAL_STATE_;
 
-    const render: ReactDOM.Renderer = DEV_MODE ? ReactDOM.render : ReactDOM.hydrate;
+  const render: ReactDOM.Renderer = DEV_MODE ? ReactDOM.render : ReactDOM.hydrate;
 
-    render(
-      <SettingsProvider settings={{ ...INJECTED_SETTINGS }}>
-        <MainErrorCatcher>
-          <I18nProvider>
-            <StoreProvider store={store}>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </StoreProvider>
-          </I18nProvider>
-        </MainErrorCatcher>
-      </SettingsProvider>,
-      document.getElementById("app-mount-point")
-    );
+  render(
+    <SettingsProvider settings={{ ...INJECTED_SETTINGS }}>
+      <MainErrorCatcher>
+        <I18nProvider>
+          <StoreProvider store={store}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </StoreProvider>
+        </I18nProvider>
+      </MainErrorCatcher>
+    </SettingsProvider>,
+    document.getElementById("app-mount-point")
+  );
 
-    // Configure app for offline-usage. we don't want to await this.
-    configureServiceWorker((error: Error | null) => {
-      if (!!error) throw error;
-      else store.dispatch(appStatusesActions.updatesAvailable());
-    });
-  } catch (err) {
-    console.error(err); // tslint:disable-line
-  }
+  // Configure app for offline-usage. we don't want to await this.
+  configureServiceWorker((error: Error | null) => {
+    if (!!error) throw error;
+    else store.dispatch(appStatusesActions.updatesAvailable());
+  });
 })();
