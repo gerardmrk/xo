@@ -9,22 +9,5 @@
   "tslint.packageManager": "yarn",
   "tslint.configFile": "app/clientweb/config/syntax/tslint.json",
   "tslint.exclude": "${rootPath}/config/syntax/custom-rules",
-  "prettier.printWidth": 100,
-  "go.lintTool": "gometalinter",
-  "[go]": {
-    "editor.tabSize": 4
-  },
-  "[json]": {
-    "editor.tabSize": 2
-  },
-  "[javascript]": {
-    "editor.tabSize": 2
-  },
-  "[typescript]": {
-    "editor.tabSize": 2
-  },
-  "[html]": {
-    "editor.tabSize": 4,
-    "editor.formatOnSave": true
-  }
+  "go.lintTool": "gometalinter"
 }

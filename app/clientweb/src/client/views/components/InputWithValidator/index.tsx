@@ -12,11 +12,14 @@ import { Form, FormInputProps, InputOnChangeData } from "semantic-ui-react";
 
 import styles from "./styles.less";
 import { FieldValidationResult } from "@client/utils/local-validators";
-import withInputValidator, { InjectedValidatorProps } from "@client/views/wrappers/withInputValidator"; // prettier-ignore
+import withInputValidator, { InjectedProps as InjectedValidatorProps } from "@client/views/wrappers/withInputValidator"; // prettier-ignore
 
 type ProxiedInputProps = {
   error?: boolean;
-  onChange?(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData): void;
+  onChange?(
+    event: React.SyntheticEvent<HTMLInputElement>,
+    data: InputOnChangeData
+  ): void;
 };
 
 export type Props = InjectedIntlProps &
@@ -37,7 +40,10 @@ export type State = FieldValidationResult & {
 
 export class InputWithValidator extends React.Component<Props, State> {
   // tslint:disable-next-line:function-name
-  public static getDerivedStateFromProps(props: Props, state: State): State | null {
+  public static getDerivedStateFromProps(
+    props: Props,
+    state: State
+  ): State | null {
     if (props.externalInvalidationMessage !== undefined) {
       return {
         ...state,
@@ -63,7 +69,8 @@ export class InputWithValidator extends React.Component<Props, State> {
 
   public componentDidUpdate(prevProps: Props): void {
     if (prevProps.forceValidate !== this.props.forceValidate) {
-      const { valid, invalidReason } = this.props.validateInput(this.props.value as string);
+      const { valid, invalidReason } = this.props.validateInput(this.props
+        .value as string);
       this.setState({ valid, invalidReason });
     }
   }
@@ -71,6 +78,7 @@ export class InputWithValidator extends React.Component<Props, State> {
   public onInputChange = (e: React.SyntheticEvent<HTMLInputElement>): void => {
     const { value } = e.currentTarget;
     const { valid, invalidReason } = this.props.validateInput(value);
+
     this.setState({ valid, invalidReason }, () => {
       this.props.onChangeProxy(value, valid);
     });
@@ -84,6 +92,7 @@ export class InputWithValidator extends React.Component<Props, State> {
         }
       });
     }
+
     if (this.props.onBlur !== undefined) {
       this.props.onBlur(e); // tslint:disable-line:no-unsafe-any
     }
@@ -129,4 +138,6 @@ export class InputWithValidator extends React.Component<Props, State> {
   }
 }
 
+// TODO: fix type issue with PICK
+// @ts-ignore
 export default withInputValidator(injectIntl(InputWithValidator));

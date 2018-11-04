@@ -6,7 +6,7 @@
 [targets]
 node = "current"
 browsers = [
-  "> 10%",
+  "last 2 versions",
   "not ie < 11"
 ]
 

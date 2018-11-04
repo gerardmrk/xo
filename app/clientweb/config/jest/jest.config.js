@@ -1,6 +1,6 @@
 module.exports = {
   notify: !!!process.env.CI,
-  verbose: false,
+  verbose: true,
   rootDir: "./../../",
   roots: ["<rootDir>/src"],
   setupTestFrameworkScriptFile: "jest-enzyme",

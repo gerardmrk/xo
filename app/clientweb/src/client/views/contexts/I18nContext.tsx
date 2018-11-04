@@ -13,14 +13,18 @@
 // tslint:disable:no-unsafe-any
 import * as React from "react";
 import * as defaultLocaleData from "react-intl/locale-data/en";
-import { addLocaleData, Locale, IntlProvider as BaseIntlProvider } from "react-intl";
+import {
+  addLocaleData,
+  Locale,
+  IntlProvider as BaseIntlProvider
+} from "react-intl";
 
 import defaultTranslations from "@translations/en.json";
 import withSettings from "@client/views/wrappers/withSettings";
 import flattenTranslations from "@client/utils/flatten-translations";
 import deriveLangFromLocale from "@client/utils/derive-lang-from-locale";
 
-const defaultMessages = flattenTranslations(defaultTranslations as object);
+const defaultMessages = flattenTranslations(defaultTranslations);
 
 export interface I18n {
   readonly locale: string;
@@ -39,14 +43,19 @@ export const I18nContext: React.Context<I18n> = React.createContext<I18n>({
 });
 
 class IntlProvider extends React.Component {
-  private renderBaseIntlProvider = ({ locale, messages }: I18n): JSX.Element => (
+  private renderBaseIntlProvider = ({
+    locale,
+    messages
+  }: I18n): JSX.Element => (
     <BaseIntlProvider key={locale} locale={locale} messages={messages}>
       {this.props.children}
     </BaseIntlProvider>
   );
 
   public render(): React.ReactNode {
-    return <I18nContext.Consumer>{this.renderBaseIntlProvider}</I18nContext.Consumer>;
+    return (
+      <I18nContext.Consumer>{this.renderBaseIntlProvider}</I18nContext.Consumer>
+    );
   }
 }
 

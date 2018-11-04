@@ -50,10 +50,6 @@ conf.addModuleRule(({ paths, isDevMode, isClientBuild, settings: { build: { targ
   exclude: [/node_modules/],
   use: [
     {
-      loader: "ts-loader",
-      options: { transpileOnly: true }
-    },
-    {
       loader: "babel-loader",
       options: {
         babelrc: false,
@@ -75,6 +71,7 @@ conf.addModuleRule(({ paths, isDevMode, isClientBuild, settings: { build: { targ
             "react-router": { transform: "react-router/${member}", preventFullImport: true }
           }],
           "@babel/plugin-syntax-dynamic-import",
+          ["@babel/plugin-proposal-class-properties", { loose: true }],
           "@babel/plugin-transform-runtime",
           !isDevMode && "transform-react-remove-prop-types",
           isClientBuild && "react-hot-loader/babel",
@@ -113,7 +110,9 @@ conf.addModuleRule(({ isDevMode, isClientBuild, settings: { build } }) => ({
         modules: true,
         importLoaders: 1,
         camelCase: true,
-        localIdentName: isDevMode ? "[name]_[local]_[hash:base64:7]" : "[hash:base64:7]"
+        localIdentName: isDevMode
+          ? "[name]_[local]_[hash:base64:7]"
+          : "[hash:base64:7]"
       }
     },
     {
@@ -129,7 +128,9 @@ conf.addModuleRule(({ isDevMode, isClientBuild, settings: { build } }) => ({
         strictMath: false,
         noIeCompat: true,
         sourceMap: isDevMode || build.enableSourcemaps,
-        plugins: [!isDevMode && new CleanCSSPlugin({ advanced: true })].filter(x => !!x)
+        plugins: [!isDevMode && new CleanCSSPlugin({ advanced: true })].filter(
+          x => !!x
+        )
       }
     }
   ].filter(x => !!x)
@@ -473,7 +474,7 @@ conf.addPlugin(PROD_ONLY, CLIENT_ONLY, () => {
 // This plugin compresses all outputs matching the regex with gzip.
 conf.addPlugin(PROD_ONLY, CLIENT_ONLY, () => {
   return new CompressionWebpackPlugin({
-    asset: "[path].gz[query]",
+    filename: "[path].gz[query]",
     algorithm: "gzip",
     test: new RegExp("\\.(js|css)$"),
     minRatio: 0.8

@@ -1,7 +1,13 @@
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const webpackNodeExternals = require("webpack-node-externals");
 
-const baseConfig = ({ paths, settings, buildMode, isDevMode, isClientBuild }) => ({
+const baseConfig = ({
+  paths,
+  settings,
+  buildMode,
+  isDevMode,
+  isClientBuild
+}) => ({
   context: paths.rootDir,
 
   mode: buildMode,
@@ -23,7 +29,9 @@ const baseConfig = ({ paths, settings, buildMode, isDevMode, isClientBuild }) =>
   output: isClientBuild
     ? {
         path: `${paths.outputDir}/client`,
-        filename: isDevMode ? "scripts/[name].js" : "scripts/[name].[chunkhash].js",
+        filename: isDevMode
+          ? "scripts/[name].js"
+          : "scripts/[name].[chunkhash].js",
         publicPath: isDevMode ? "/" : "/assets/",
         crossOriginLoading: "anonymous"
       }
@@ -37,7 +45,11 @@ const baseConfig = ({ paths, settings, buildMode, isDevMode, isClientBuild }) =>
     ? undefined
     : [
         webpackNodeExternals({
-          whitelist: ["react-loadable", "is-webpack-bundle", "webpack-require-weak"]
+          whitelist: [
+            "react-loadable",
+            "is-webpack-bundle",
+            "webpack-require-weak"
+          ]
         })
       ],
 

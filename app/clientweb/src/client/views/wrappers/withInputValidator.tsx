@@ -15,14 +15,14 @@ import {
   FieldValidationResult
 } from "@client/utils/local-validators";
 
-export interface InjectedValidatorProps {
+export interface InjectedProps {
   validateInput(input: string): FieldValidationResult;
 }
 
-// prettier-ignore
-export const withInputValidator = <WrappedComponentProps extends InjectedValidatorProps>(WrappedComponent: React.ComponentType<WrappedComponentProps>) => {
-
-  type WrapperProps = Subtract<WrappedComponentProps, InjectedValidatorProps> & {
+export const withInputValidator = <WrappedProps extends InjectedProps>(
+  WrappedComponent: React.ComponentType<WrappedProps>
+) => {
+  type WrapperProps = Subtract<WrappedProps, InjectedProps> & {
     required?: boolean;
     validatorName: keyof Validators;
     compareWith?: string; // this is only relevant if validatorName == "equalityValidator"
@@ -30,7 +30,10 @@ export const withInputValidator = <WrappedComponentProps extends InjectedValidat
 
   type WrapperState = {};
 
-  return class WithInputValidator extends React.PureComponent<WrapperProps, WrapperState> {
+  return class WithInputValidator extends React.Component<
+    WrapperProps,
+    WrapperState
+  > {
     public static displayName = `withInputValidator(${WrappedComponent.name})`;
 
     public static readonly WrappedComponent = WrappedComponent;
@@ -45,20 +48,17 @@ export const withInputValidator = <WrappedComponentProps extends InjectedValidat
     }
 
     private validateInput = (value: string): FieldValidationResult => {
-      return this.validate(
-        value,
-        this.props.compareWith
-      );
-    }
+      return this.validate(value, this.props.compareWith);
+    };
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
       const {
         validatorName,
         compareWith,
         compareFieldName,
         ...other // ---------> see issue -> https://github.com/Microsoft/TypeScript/pull/13288
-      } = this.props as any // tslint:disable-line:no-any no-unsafe-any
-      
+      } = this.props as any; // tslint:disable-line:no-any no-unsafe-any
+
       return (
         <WrappedComponent
           {...other as WrapperProps}

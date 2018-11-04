@@ -71,7 +71,9 @@ export class GlobalMessageOverlay extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = ({ globalMessage: { message } }: AppTypes.Store.State) => ({
+const mapStateToProps = ({
+  globalMessage: { message }
+}: AppTypes.Store.State) => ({
   message
 });
 
@@ -84,4 +86,4 @@ const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(injectIntl(GlobalMessageOverlay));
+)(injectIntl(GlobalMessageOverlay as any));

@@ -1,5 +1,5 @@
 import { StateType } from "typesafe-actions";
-import { DeepReadonlyObject } from "utility-types";
+import { DeepReadonly } from "utility-types";
 import { SemanticCOLORS } from "semantic-ui-react";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { Dispatch, Middleware as _Middleware, Store as _Store } from "redux";
@@ -10,7 +10,7 @@ import { rootReducer, RootAction } from "@client/store";
 
 declare module "AppTypes" {
   export type GlobalMessage =
-    | DeepReadonlyObject<{
+    | DeepReadonly<{
         header: string;
         color: SemanticCOLORS;
         content: string | undefined;

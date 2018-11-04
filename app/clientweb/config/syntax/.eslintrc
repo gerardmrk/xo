@@ -14,7 +14,7 @@
     "node": true
   },
   "rules": {
-    "prettier/prettier": ["error", { "printWidth": 100 }],
+    "prettier/prettier": ["error", { "printWidth": 80 }],
     "no-console": "warn",
     "no-extra-boolean-cast": 0,
     "object-literal-sort-keys": false
