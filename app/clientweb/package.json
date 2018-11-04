@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --config=./config/jest/jest.config.js --logHeapUsage --noStackTrace",
-    "start": "yarn run start:dev",
+    "start": "cross-env APP_STAGE=local yarn run start:dev",
     "build": "yarn run build:client",
     "start:dev": "cross-env NODE_ENV=development ./node_modules/.bin/webpack-dev-server --config config/webpack/webpack.config.js  --env.mode=development --env.source=client",
     "build:client": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --config config/webpack/webpack.config.js --env.mode=production --env.source=client",
