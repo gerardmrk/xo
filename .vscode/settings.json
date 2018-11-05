@@ -9,5 +9,6 @@
   "tslint.packageManager": "yarn",
   "tslint.configFile": "app/clientweb/config/syntax/tslint.json",
   "tslint.exclude": "${rootPath}/config/syntax/custom-rules",
-  "go.lintTool": "gometalinter"
+  "go.lintTool": "gometalinter",
+  "go.inferGopath": false
 }
