@@ -31,7 +31,9 @@ export class GlobalLoader extends React.PureComponent<Props, State> {
       <div className={styles.main}>
         <div className={styles.container}>
           <Loader active={true} size={"massive"} inline={true} />
-          {!!loadingMessage && <p>{messages[loadingMessage] || loadingMessage}</p>}
+          {!!loadingMessage && (
+            <p>{messages[loadingMessage] || loadingMessage}</p>
+          )}
         </div>
       </div>
     );
@@ -43,7 +45,9 @@ const mapStateToProps = (state: AppTypes.Store.State): StoreProps => ({
   loadingMessage: state.globalLoader.message
 });
 
-const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps => ({});
+const mapDispatchToProps = (
+  dispatch: AppTypes.Store.Dispatcher
+): DispatchProps => ({});
 
 export default connect(
   mapStateToProps,

@@ -47,7 +47,9 @@ const mapStateToProps = (state: AppTypes.Store.State): StoreProps => ({
   updated: state.appStatuses.updated
 });
 
-const mapDispatchToProps = (dispatch: AppTypes.Store.Dispatcher): DispatchProps => ({
+const mapDispatchToProps = (
+  dispatch: AppTypes.Store.Dispatcher
+): DispatchProps => ({
   notifyUpdated: (): void => {
     dispatch(store.appStatusesActions.updatesApplied());
   }
