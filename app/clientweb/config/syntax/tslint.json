@@ -73,7 +73,7 @@
     "prefer-for-of": false,
     "strict-boolean-expressions": false,
     "triple-equals": [true, "allow-null-check"],
-    "typedef": [true, "parameter", "property-declaration"],
+    "typedef": [true, "property-declaration"],
     "variable-name": [
       true,
       "ban-keywords",

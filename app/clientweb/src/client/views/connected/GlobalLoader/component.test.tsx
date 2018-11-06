@@ -1,11 +1,12 @@
 import * as React from "react";
-import { shallow, ShallowWrapper } from "enzyme";
+import { ReactWrapper } from "enzyme";
 
-import Component, { Props } from "./component";
+import Component, { Props, State } from "./component";
+import { mountWithIntl } from "@client/utils/test-helpers/test-wrappers";
 
-describe(`<${Component.name} />`, () => {
+describe("<GlobalLoader />", () => {
   let props: Props;
-  let wrapper: ShallowWrapper;
+  let wrapper: ReactWrapper<Props, State>;
 
   beforeAll(() => {
     props = {
@@ -13,13 +14,12 @@ describe(`<${Component.name} />`, () => {
       loadingMessage: "notlikethis"
     };
 
-    wrapper = shallow(<Component {...props} />);
+    wrapper = mountWithIntl<Props, State>(<Component {...props} />);
   });
 
   it("renders ok", () => {
     expect(wrapper.exists()).toBe(true);
-    expect(wrapper).toHaveDisplayName("div");
-    expect(wrapper).toHaveClassName("main");
+    expect(wrapper.find(".main")).toExist();
   });
 
   it("renders <Loader/> from 'semantic-ui-react'", () => {
@@ -31,9 +31,9 @@ describe(`<${Component.name} />`, () => {
   });
 
   it("does not render if 'show' === false", () => {
-    const hiddenWrapper = shallow(
+    const hiddenWrapper = mountWithIntl<Props, State>(
       <Component loadingMessage={"xo"} show={false} />
     );
-    expect(hiddenWrapper).toBeEmptyRender();
+    expect(hiddenWrapper.html()).toEqual(null);
   });
 });

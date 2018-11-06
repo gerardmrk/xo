@@ -9,6 +9,7 @@ import { API as _API } from "@client/api";
 import { rootReducer, RootAction } from "@client/store";
 
 declare module "AppTypes" {
+  export type TranslationKey = string;
   export type GlobalMessage =
     | DeepReadonly<{
         header: string;
@@ -72,7 +73,8 @@ declare module "AppTypes" {
     export type State = StateType<typeof rootReducer>;
     export type Store = _Store<State, Action>;
     export type AsyncAction = ThunkAction<Promise<void>, State, API, Action>;
-    export type Dispatcher = Dispatch<Action> & ThunkDispatch<State, API, Action>;
+    export type Dispatcher = Dispatch<Action> &
+      ThunkDispatch<State, API, Action>;
     export type Middleware = _Middleware<void, State, Dispatcher>;
   }
 

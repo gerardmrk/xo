@@ -2,11 +2,12 @@ import * as React from "react";
 import { Loader } from "semantic-ui-react";
 
 import styles from "./styles.less";
+import AppTypes from "AppTypes";
 import { InjectedIntlProps, injectIntl } from "react-intl";
 
 export type Props = {
   show: boolean;
-  loadingMessage: string | undefined;
+  loadingMessage: AppTypes.TranslationKey | undefined;
 };
 
 export type State = {};
