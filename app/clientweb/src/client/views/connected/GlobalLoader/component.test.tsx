@@ -19,7 +19,7 @@ describe("<GlobalLoader />", () => {
 
   it("renders ok", () => {
     expect(wrapper.exists()).toBe(true);
-    expect(wrapper.find(".main")).toExist();
+    expect(wrapper.find("div.main")).toExist();
   });
 
   it("renders <Loader/> from 'semantic-ui-react'", () => {

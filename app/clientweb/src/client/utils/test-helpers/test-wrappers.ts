@@ -1,8 +1,8 @@
 import * as React from "react";
 import { intlShape, IntlProvider, InjectedIntl } from "react-intl";
 import {
-  mount,
-  shallow,
+  mount as _mount,
+  shallow as _shallow,
   MountRendererProps,
   ShallowRendererProps,
   ShallowWrapper,
@@ -24,7 +24,7 @@ export const shallowWithIntl = <P, S>(
   vnode: React.ReactElement<P>,
   { context, ...additionalOpts }: ShallowRendererProps = {}
 ): ShallowWrapper<P, S> => {
-  return shallow<P, S>(vnodeWithIntlProp<P>(vnode), {
+  return _shallow<P, S>(vnodeWithIntlProp<P>(vnode), {
     context: Object.assign({}, context, { intl }), // tslint:disable-line
     ...additionalOpts,
   });
@@ -35,9 +35,11 @@ export const mountWithIntl = <P, S>(
   vnode: React.ReactElement<P>,
   { context, childContextTypes, ...additionalOpts }: MountRendererProps = {}
 ): ReactWrapper<P, S> => {
-  return mount<P, S>(vnodeWithIntlProp<P>(vnode), {
+  return _mount<P, S>(vnodeWithIntlProp<P>(vnode), {
     context: Object.assign({}, context, { intl }), // tslint:disable-line
     childContextTypes: Object.assign({}, { intl: intlShape }, childContextTypes), // tslint:disable-line
     ...additionalOpts,
   });
 };
+
+export const mount = () => {};

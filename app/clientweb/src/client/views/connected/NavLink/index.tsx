@@ -28,8 +28,10 @@ export class NavLink extends React.Component<Props, State> {
 
       if (typeof this.props.to === "object") {
         const { key, state, ...validLocationProps } = this.props.to;
-
-        window.location = { ...window.location, ...validLocationProps };
+        window.location = {
+          ...window.location,
+          ...validLocationProps
+        };
       } else {
         window.location.pathname = this.props.to;
       }

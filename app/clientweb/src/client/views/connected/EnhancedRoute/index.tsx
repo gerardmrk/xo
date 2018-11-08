@@ -1,11 +1,19 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { LocationDescriptorObject } from "history";
-import { Route as BaseRoute, Redirect, RouteComponentProps } from "react-router-dom";
+import {
+  Route as BaseRoute,
+  Redirect,
+  RouteComponentProps
+} from "react-router-dom";
 
 import AppTypes from "AppTypes";
 import SeoElements from "@client/views/connected/EnhancedRoute/SeoElements";
-import { RouteProps, DEFAULT_PRIVATE_PATH, DEFAULT_AUTH_PATH } from "@client/views/routes";
+import {
+  RouteProps,
+  DEFAULT_PRIVATE_PATH,
+  DEFAULT_AUTH_PATH
+} from "@client/views/routes";
 
 export type StoreProps = {
   isLoggedIn: boolean;
@@ -51,7 +59,7 @@ export class Route extends React.Component<Props, State> {
   };
   // tslint:enable
 
-  public render(): JSX.Element | JSX.Element[] | null {
+  public render(): React.ReactNode {
     const { path, exact, strict, seo } = this.props;
 
     if (this.props.guarded && !this.props.isLoggedIn) {
@@ -60,7 +68,13 @@ export class Route extends React.Component<Props, State> {
 
     return [
       <SeoElements key={1} routePath={path} {...seo} />,
-      <BaseRoute key={2} path={path} exact={exact} strict={strict} render={this.renderRoute} />
+      <BaseRoute
+        key={2}
+        path={path}
+        exact={exact}
+        strict={strict}
+        render={this.renderRoute}
+      />
     ];
   }
 }
